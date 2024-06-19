@@ -1,13 +1,179 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { SidebarComponent } from '../../components'
+import { Card, Col, Container, Row } from 'react-bootstrap'
+import { ThemeContext } from '../../auth';
+import Icon from '@mdi/react';
+import { mdiCalendarToday, mdiDoorOpen, mdiMessageBadge, mdiOfficeBuilding } from '@mdi/js';
 
 function Dashboard ()
 {
-    return (
-        <div>
-            <SidebarComponent />
+    const { theme } = useContext( ThemeContext );
 
-        </div>
+    return (
+        <>
+            <SidebarComponent />
+            <Container
+                fluid
+                style={ { backgroundColor: theme === 'light' ? '#3D495F' : '#F1F1F1', minHeight: '90.4vh' } }
+            >
+                <div>
+                    {/* <h5 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>Hi, Selamat Datang</h5> */ }
+                    <div className='pt-4'>
+                        <Row>
+                            <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
+                                <Card
+                                    id={ theme === 'light' ? 'cardDashboard1-Dark' : 'cardDashboard1-Light' }
+                                    style={ { minHeight: '80px' } }
+                                >
+                                    <Row>
+                                        <Col >
+                                            <div
+                                                className='icon-box'
+                                                style={ {
+                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                } }
+                                            >
+                                                <span >
+                                                    <Icon path={ mdiMessageBadge } size={ 1 } color={ "white" } />
+                                                </span>
+                                            </div>
+                                        </Col>
+                                        <Col className='text-end'>
+                                            <div className='me-2 mt-2'>
+                                                <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
+                                                    Request Meeting
+                                                </p>
+                                                <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
+                                                    56
+                                                </h3>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
+                                    <div className='ms-2 my-auto'>
+                                        <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
+                                            Jumlah request untuk ruangan Meeting.
+                                        </p>
+                                    </div>
+                                </Card>
+                            </Col>
+                            <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
+                                <Card
+                                    id={ theme === 'light' ? 'cardDashboard2-Dark' : 'cardDashboard2-Light' }
+                                    style={ { minHeight: '80px' } }
+                                >
+                                    <Row>
+                                        <Col >
+                                            <div
+                                                className='icon-box'
+                                                style={ {
+                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                } }
+                                            >
+                                                <span >
+                                                    <Icon path={ mdiCalendarToday } size={ 1 } color={ "white" } />
+                                                </span>
+                                            </div>
+                                        </Col>
+                                        <Col className='text-end'>
+                                            <div className='me-2 mt-2'>
+                                                <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
+                                                    Meeting per Hari
+                                                </p>
+                                                <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
+                                                    12
+                                                </h3>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
+                                    <div className='ms-2 my-auto'>
+                                        <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
+                                            Jumlah Meeting hari ini.
+                                        </p>
+                                    </div>
+                                </Card>
+                            </Col>
+                            <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
+                                <Card
+                                    id={ theme === 'light' ? 'cardDashboard3-Dark' : 'cardDashboard3-Light' }
+                                    style={ { minHeight: '80px' } }
+                                >
+                                    <Row>
+                                        <Col >
+                                            <div
+                                                className='icon-box'
+                                                style={ {
+                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                } }
+                                            >
+                                                <span >
+                                                    <Icon path={ mdiOfficeBuilding } size={ 1 } color={ "white" } />
+                                                </span>
+                                            </div>
+                                        </Col>
+                                        <Col className='text-end'>
+                                            <div className='me-2 mt-2'>
+                                                <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
+                                                    Jumlah Gedung
+                                                </p>
+                                                <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
+                                                    3
+                                                </h3>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
+                                    <div className='ms-2 my-auto'>
+                                        <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
+                                            Keseluruhan jumlah Gedung.
+                                        </p>
+                                    </div>
+                                </Card>
+                            </Col>
+                            <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
+                                <Card
+                                    id={ theme === 'light' ? 'cardDashboard4-Dark' : 'cardDashboard4-Light' }
+                                    style={ { minHeight: '80px' } }
+                                >
+                                    <Row>
+                                        <Col >
+                                            <div
+                                                className='icon-box'
+                                                style={ {
+                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                } }
+                                            >
+                                                <span >
+                                                    <Icon path={ mdiDoorOpen } size={ 1 } color={ "white" } />
+                                                </span>
+                                            </div>
+                                        </Col>
+                                        <Col className='text-end'>
+                                            <div className='me-2 mt-2'>
+                                                <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
+                                                    Jumlah Ruangan
+                                                </p>
+                                                <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
+                                                    18
+                                                </h3>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
+                                    <div className='ms-2 my-auto'>
+                                        <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
+                                            Jumlah ruangan untuk Meeting.
+                                        </p>
+                                    </div>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+            </Container>
+
+        </>
     )
 }
 

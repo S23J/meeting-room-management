@@ -3,8 +3,8 @@ import { Container, Form, Image, Nav, Navbar, Offcanvas, OverlayTrigger, Tooltip
 import { LogoFlashklikMrm } from '../../assets'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '@mdi/react'
-import { mdiAccountCircle, mdiCalendarClock, mdiLogout, mdiOfficeBuildingCog, mdiThemeLightDark, mdiViewDashboard } from '@mdi/js'
-import { AuthContext } from '../../auth'
+import { mdiAccountCircle, mdiCalendarClock, mdiLogout, mdiOfficeBuildingCog, mdiViewDashboard, mdiWeatherNight } from '@mdi/js'
+import { AuthContext, ThemeContext } from '../../auth'
 import { useMediaQuery } from 'react-responsive'
 import Swal from 'sweetalert2'
 import axios from '../../api/axios'
@@ -13,35 +13,53 @@ function SidebarComponent ()
 {
 
     const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
+    const { theme, setTheme } = useContext( ThemeContext );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const location = useLocation();
 
+    const menuItemClass = theme === 'light' ? 'menu-item-dark' : 'menu-item-light';
+
     const activeClassDashboard =
         location.pathname === '/dashboard/'
-            ? 'active-menu'
-            : 'menu-item';
+            ? theme === 'light'
+                ? 'active-menu-item-dark'
+                : 'active-menu-item-light'
+            : '';
 
     const activeClassRuangan =
         location.pathname === '/ruangan/'
-            ? 'active-menu'
-            : 'menu-item';
+            ? theme === 'light'
+                ? 'active-menu-item-dark'
+                : 'active-menu-item-light'
+            : '';
+
 
     const activeClassJadwal =
         location.pathname === '/jadwal/'
-            ? 'active-menu'
-            : 'menu-item';
+            ? theme === 'light'
+                ? 'active-menu-item-dark'
+                : 'active-menu-item-light'
+            : '';
+
 
     const activeClassTest =
         location.pathname === '/test/'
-            ? 'active-menu'
-            : 'menu-item';
+            ? theme === 'light'
+                ? 'active-menu-item-light'
+                : 'active-menu-item-dark'
+            : '';
 
-    // const text = "Agustian Purnama Sebastian";
     const text = userInfo?.first_name + " " + userInfo?.last_name;
     const limit = 11;
     const truncatedText = text.length > limit ? text.substring( 0, limit ) + '...' : text;
 
     const navigate = useNavigate();
+
+    const handleToggle = () =>
+    {
+        setTheme( theme === 'light' ? 'dark' : 'light' );
+        // console.log( theme );
+    };
 
     const LogoutSession = async () =>
     {
@@ -93,28 +111,26 @@ function SidebarComponent ()
 
     return (
 
-        <Navbar expand={ false } className="mb-3" sticky="top" style={ { backgroundColor: '#000A2E', minHeight: '70px' } }>
+        <Navbar expand={ false } variant={ theme === 'light' ? 'light' : 'dark' } sticky="top" style={ { boxShadow: '0 2px 4px 0 rgba(0,0,0,.2)', backgroundColor: theme === 'light' ? '#000A2E' : '#FFFFFF' } }>
             <Container fluid>
                 <Navbar.Brand style={ { cursor: 'default' } }>
                     <Image
                         src={ LogoFlashklikMrm }
                         fluid
-                        width={ 200 }
+                        width={ 190 }
                     />
                 </Navbar.Brand>
-                <Navbar.Toggle style={ { backgroundColor: 'white' } } />
+                <Navbar.Toggle style={ { backgroundColor: theme === 'light' ? '#FFFFFF' : '#000A2E' } } />
                 <Navbar.Offcanvas
-                    id={ `offcanvasNavbar-expand-${false}` }
-                    aria-labelledby={ `offcanvasNavbarLabel-expand-${false}` }
+                    id='offCanvasNav'
                     placement="end"
-                    data-bs-theme="dark"
-                    className='bg-dark'
-                    style={ { maxWidth: isMobile ? '220px' : '300px', backgroundColor: '#1E1E1E', color: 'white' } }
+                    data-bs-theme={ theme === 'light' ? 'dark' : 'light' }
+                    style={ { maxWidth: isMobile ? '220px' : '250px', color: '#22222', backgroundColor: theme === 'light' ? '#070E25' : '#F0F0F0' } }
                 >
                     <Offcanvas.Header closeButton style={ {
                         fontFamily: 'Poppins-Medium',
                         textDecoration: 'none',
-                        color: 'white',
+                        color: theme === 'light' ? '#FFFFFF' : '#222222',
                         display: 'flex',
                         alignItems: 'center',
                     } }>
@@ -123,7 +139,7 @@ function SidebarComponent ()
                                 placement="bottom"
                                 overlay={ <Tooltip id="tooltip">{ text }</Tooltip> }
                             >
-                                <span className="truncated-text" style={ { paddingTop: '10px' } }>
+                                <span className="truncated-text ms-3" style={ { paddingTop: '10px', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                                     <Icon className='me-1' path={ mdiAccountCircle } size={ 1.5 } /> { truncatedText }
                                 </span>
                             </OverlayTrigger>
@@ -134,24 +150,23 @@ function SidebarComponent ()
                         <Nav className='mt-2'>
                             <NavLink
                                 to='/dashboard/'
-                                className={ `${activeClassDashboard} my-2` }
+                                className={ `${menuItemClass} ${activeClassDashboard} my-2` }
                                 style={ {
                                     textDecoration: 'none',
-                                    color: 'white',
                                     fontSize: '18px',
                                     display: 'flex',
                                     alignItems: 'center'
                                 } }
                             >
+
                                 <Icon className='me-2' path={ mdiViewDashboard } size={ 1.3 } />
                                 Dashboard
                             </NavLink>
                             <NavLink
                                 to='/ruangan/'
-                                className={ `${activeClassRuangan} my-2` }
+                                className={ `${menuItemClass} ${activeClassRuangan} my-2` }
                                 style={ {
                                     textDecoration: 'none',
-                                    color: 'white',
                                     fontSize: '18px',
                                     display: 'flex',
                                     alignItems: 'center'
@@ -162,10 +177,9 @@ function SidebarComponent ()
                             </NavLink>
                             <NavLink
                                 to='/jadwal/'
-                                className={ `${activeClassJadwal} my-2` }
+                                className={ `${menuItemClass} ${activeClassJadwal} my-2` }
                                 style={ {
                                     textDecoration: 'none',
-                                    color: 'white',
                                     fontSize: '18px',
                                     display: 'flex',
                                     alignItems: 'center'
@@ -180,25 +194,23 @@ function SidebarComponent ()
                                 className={ `darkmode-button my-2` }
                                 style={ {
                                     textDecoration: 'none',
-                                    color: 'white',
                                     fontSize: '18px',
                                     display: 'flex',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
                                 } }
                             >
-                                <Icon className='me-3' path={ mdiThemeLightDark } size={ 1.3 } />
+                                <Icon className='me-3' path={ mdiWeatherNight } size={ 1.3 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                                 <Form.Check
                                     type='switch'
                                     className='custom-switch'
-                                // checked={ theme === 'dark' }
-                                // onChange={ handleToggle }
+                                    checked={ theme === 'light' }
+                                    onChange={ handleToggle }
                                 />
                             </div>
                             <NavLink
-                                className={ `${activeClassTest} my-2` }
+                                className={ `${menuItemClass} ${activeClassTest} my-2` }
                                 style={ {
                                     textDecoration: 'none',
-                                    color: 'white',
                                     fontSize: '18px',
                                     display: 'flex',
                                     alignItems: 'center'
@@ -212,7 +224,6 @@ function SidebarComponent ()
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>
-            {/* <NavLink className='my-2' onClick={ LogoutSession } style={ { textDecoration: 'none', color: 'white' } }>Keluar</NavLink> */ }
         </Navbar>
     )
 }

@@ -74,36 +74,65 @@ code {
 
 /* Sidebar */
 
-.menu-item {
+.active-menu-item-light {
+  background-color: #000A2E;
+  color: #FFFFFF !important;
   padding: 18px;
   border-radius: 10px;
+}
+
+.active-menu-item-dark {
+  background-color: #3D495F;
+  color: #FFFFFF !important;
+  padding: 18px;
+  border-radius: 10px;
+}
+
+
+.menu-item-light {
+  padding: 18px;
+  border-radius: 10px;
+  color: #222222;
 
   &:hover {
-    background-color: #12B3ED;
+    background-color: #000A2E;
+      color: #FFFFFF !important;
     border-radius: 10px;
+
   }
 }
 
+.menu-item-dark {
+  padding: 18px;
+  border-radius: 10px;
+  color: #FFFFFF;
+
+  &:hover {
+    background-color: #3D495F;
+    color: #FFFFFF !important;
+    border-radius: 10px;
+
+  }
+}
 /* customSwitch.css */
 .custom-switch .form-check-input {
   width: 55px !important;
   height: 24px !important;
+  cursor: pointer;
 }
 
-.custom-switch .form-check-input:checked {
-  background-color: #12B3ED !important;
-  /* Bootstrap primary color */
-}
 
 .custom-switch .form-check-input::before {
   width: 26px !important;
   height: 26px !important;
   top: 4px !important;
   left: 4px !important;
+  cursor: pointer;
 }
 
 .custom-switch .form-check-input:checked::before {
   transform: translateX(26px);
+  cursor: pointer;
 }
 
 .darkmode-button {
@@ -111,11 +140,6 @@ code {
   border-radius: 10px;
 }
 
-.active-menu {
-  background-color: #12B3ED;
-  padding: 18px;
-  border-radius: 10px;
-}
 
 .truncated-text {
   display: inline-block;
@@ -178,6 +202,106 @@ code {
 
 /* Login Pages */
 
+/* Dashboard Page */
+
+#cardDashboard1-Light {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+  min-height: 160px !important;
+  max-height: 160px !important;
+}
+
+#cardDashboard1-Dark {
+  background-color: #5b6d8e;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard2-Light {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard2-Dark {
+  background-color: #5b6d8e;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard3-Light {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard3-Dark {
+  background-color: #5b6d8e;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard4-Light {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+  min-height: 160px !important;
+  max-height: 160px !important;
+
+}
+
+#cardDashboard4-Dark {
+  background-color: #5b6d8e;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  min-height: 160px !important;
+  max-height: 160px !important;
+}
+
+.icon-box {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-top: -20px;
+  margin-left: 13px;
+  opacity: 1;
+  border-radius: 0.75rem;
+  box-shadow: rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem, rgba(64, 64, 64, 0.4) 0rem 0.437
+}
+
+/* Dashboard Page */
 /* Reset Password Page */
 
 #cardResetPassword {
