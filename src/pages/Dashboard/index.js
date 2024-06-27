@@ -1,25 +1,34 @@
 import React, { useContext } from 'react'
-import { SidebarComponent } from '../../components'
-import { Card, Col, Container, Row } from 'react-bootstrap'
-import { ThemeContext } from '../../auth';
-import Icon from '@mdi/react';
-import { mdiCalendarToday, mdiDoorOpen, mdiMessageBadge, mdiOfficeBuilding } from '@mdi/js';
+import { Header, SidebarComponent } from '../../components'
+import { Card, Col, Container,  Row } from 'react-bootstrap'
+import { AuthContext, ThemeContext } from '../../auth';
+import { useMediaQuery } from 'react-responsive';
 
 function Dashboard ()
 {
     const { theme } = useContext( ThemeContext );
+    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const { showSidebar, userInfo } = useContext( AuthContext );
 
     return (
-        <>
-            <SidebarComponent />
-            <Container
-                fluid
-                style={ { backgroundColor: theme === 'light' ? '#3D495F' : '#F1F1F1', minHeight: '90.4vh' } }
-            >
-                <div>
-                    {/* <h5 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>Hi, Selamat Datang</h5> */ }
+        <div style={ { overflowX: 'hidden', maxWidth : '100vw' } }>
+                <SidebarComponent />
+            <Container fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
+                   <div>
+                    <Row style={ { maxWidth: showSidebar ? '93vw' : '84vw' }}>
+                        <Col xs={ 6 } lg={ 6 } className='text-start'>
+                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
+                                Dashboard
+                            </h3>
+                        </Col>
+                        <Col xs={ 6 } lg={ 6 } className='text-end my-auto'>
+                        <Header/>
+                        </Col>
+                    </Row>
+                   </div>
+                <hr className='text-end' style={ { maxWidth: showSidebar ? '93vw' : '84vw', border: '1px solid', borderColor: '#000A2E', marginTop : '5px' } } />
                     <div className='pt-4'>
-                        <Row>
+                        {/* <Row>
                             <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
                                 <Card
                                     id={ theme === 'light' ? 'cardDashboard1-Dark' : 'cardDashboard1-Light' }
@@ -168,12 +177,21 @@ function Dashboard ()
                                     </div>
                                 </Card>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </div>
-                </div>
-            </Container>
+                </Container>
+        </div>
+        //         <>
+        //    <Container
+        //                 fluid
+        //                 style={ { backgroundColor: theme === 'light' ? '#3D495F' : '#F1F1F1', minHeight: '90.4vh' } }
+        //             >
+        //                 <div>
+                            
+         //               </div>
+        //             </Container>
+        //       </>
 
-        </>
     )
 }
 
