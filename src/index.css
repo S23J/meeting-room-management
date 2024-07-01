@@ -103,6 +103,7 @@ code {
   opacity: 1;
   transform: scale(1);
 }
+
 .active-menu-item-light {
   background-color: #000A2E;
   color: #FFFFFF !important;
@@ -123,12 +124,12 @@ code {
 .menu-item-light {
   border-radius: 10px;
   color: #707070;
-    max-width: 185px;
+  max-width: 185px;
+
   &:hover {
-  background-color: #000A2E;
+    background-color: #000A2E;
       color: #FFFFFF !important;
     border-radius: 10px;
-
   }
 }
 
@@ -144,6 +145,7 @@ code {
 
   }
 }
+
 .ps-collapsed .active-menu-item-light {
   max-width: 65px;
 }
@@ -151,6 +153,7 @@ code {
 .ps-collapsed .menu-item-light {
   max-width: 65px;
 }
+
 /* customSwitch.css */
 .theme-toggle-container {
   display: flex;
@@ -162,6 +165,7 @@ code {
   margin: 0 10px;
   /* Adjust this margin to get the desired spacing */
 }
+
 .custom-switch .form-check-input {
   width: 55px !important;
   height: 24px !important;
@@ -181,6 +185,7 @@ code {
   background-color: #000A2E;
   border: none !important;
 }
+
 .custom-switch .form-check-input:checked::before {
   transform: translateX(26px);
   cursor: pointer;
@@ -225,6 +230,7 @@ code {
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
 /* Sidebar */
 
 /* Header */
@@ -325,6 +331,7 @@ code {
   align-items: center;
   justify-content: end;
 }
+
 #cardDashboard1-Light {
   background-color: #FFFFFF;
   border-radius: 10px;

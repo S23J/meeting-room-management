@@ -5,7 +5,8 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { AuthContext, ThemeContext } from '../../auth'
 import { useMediaQuery } from 'react-responsive'
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
-import { CiCalendarDate, CiDark, CiGrid41, CiHome, CiLight, CiSquareChevLeft, CiSquareChevRight } from 'react-icons/ci'
+import { CiCalendarDate, CiDark, CiGrid41, CiLight, CiViewList } from 'react-icons/ci'
+import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc'
 
 function SidebarComponent ()
 {
@@ -73,16 +74,16 @@ function SidebarComponent ()
                             style={ { position: showSidebar ? 'relative' : 'absolute', top: 0, left: 0 } }
                         />
                     </Container>
-                    <div style={ { minHeight: '15vh' } }></div>
+                    <div style={ { minHeight: '9vh' } }></div>
                     <div className='icon-box-sidebar'
                         onClick={ toggleSidebar }
                         style={ { left: showSidebar ? '60px' : '190px', cursor: 'pointer' } }
                     >
                         {
                             showSidebar ?
-                                <CiSquareChevRight size={ 35 } color='#707070' style={ { backgroundColor: 'white', borderRadius: '5px' } } />
+                                <VscChevronRight size={ 25 } className='ms-2' color='#707070' style={ { backgroundColor: 'white', borderRadius: '25px' } } />
                                 :
-                                <CiSquareChevLeft size={ 35 } color='#707070' style={ { backgroundColor: 'white', borderRadius: '5px' } } />
+                                <VscChevronLeft size={ 25 } className='ms-2' color='#707070' style={ { backgroundColor: 'white', borderRadius: '25px' } } />
                         }
                     </div>
                     {
@@ -98,7 +99,7 @@ function SidebarComponent ()
                                     className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
                                     component={ <NavLink to="/ruangan/" /> }
                                 >
-                                    <CiHome size={ 25 } />
+                                    <CiViewList size={ 25 } />
                                 </MenuItem>
                                 <MenuItem
                                     className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
@@ -121,7 +122,7 @@ function SidebarComponent ()
                                 <MenuItem
                                     className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
                                     component={ <NavLink to="/ruangan/" /> }
-                                    icon={ <CiHome size={ 25 } /> }
+                                    icon={ <CiViewList size={ 25 } /> }
                                     style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                                 >
                                     Ruangan
