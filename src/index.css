@@ -70,8 +70,72 @@ code {
   font-family: 'Poppins-Regular';
 }
 
+.swal2-cancel {
+  font-family: 'Poppins-Regular';
+}
 /* Sweetalert Styling */
 
+/* Button Action Modal*/
+
+#actionButtonModal {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  background-color: #FFFFFF;
+  color: #000A2E;
+  border: #000A2E 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: #000A2E;
+    color: #FFFFFF;
+  }
+}
+
+/* Button Action Modal*/
+
+/* Button Table */
+
+#buttonDetailTableLight {
+  background-color: #FFFFFF;
+  color: #000000;
+  border: #000000 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: #007bff;
+    color: #000000;
+  }
+}
+
+#buttonEditTableLight {
+  background-color: #FFFFFF;
+  color: #000000;
+  border: #000000 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: #FFFF00;
+    color: #000000;
+  }
+}
+
+#buttonDeleteTableLight {
+  background-color: #FFFFFF;
+  color: #000000;
+  border: #000000 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: #FF0000;
+    color: #000000;
+  }
+}
+
+/* Button Table */
 /* Sidebar */
 
 #mySidebar-light {
@@ -90,6 +154,15 @@ code {
   transition: 0.8s;
 }
 
+.icon-toggle-mobile {
+  color: #FFFFFF;
+  background-color: #000A2E;
+  opacity: 40%;
+
+  &:hover {
+    opacity: 100%;
+  }
+}
 #sidebarHeader img {
   transition: opacity 0.4s, transform 0.4s;
 }
@@ -326,10 +399,17 @@ code {
 
 /* Dashboard Page */
 
-.container-logout {
+.container-logout-web {
   display: flex;
   align-items: center;
   justify-content: end;
+}
+
+.container-logout-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  min-width: 190px;
 }
 
 #cardDashboard1-Light {
@@ -442,3 +522,22 @@ code {
 }
 
 /* Reset Password Page */
+/* Ruangan */
+#tableButtonLight {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  background-color: #FFFFFF;
+  color: #000A2E;
+  border: #000A2E 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: #000A2E;
+    color: #FFFFFF;
+  }
+}
+
+
+
+/* Ruangan */

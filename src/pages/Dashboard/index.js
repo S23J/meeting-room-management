@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Header, SidebarComponent } from '../../components'
+import { HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
 import { Card, Col, Container,  Row } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
@@ -15,18 +15,22 @@ function Dashboard ()
                 <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                    <div>
-                    <Row style={ { maxWidth: showSidebar ? '93vw' : '84vw' }}>
+                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
                                 Dashboard
                             </h3>
                         </Col>
-                        <Col xs={ 6 } lg={ 6 } className='text-end my-auto'>
-                        <Header/>
+                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'mt-auto' }>
+                            { isMobile === false ? (
+                                <HeaderWeb />
+                            ) : (
+                                <HeaderMobile />
+                            ) }
                         </Col>
                     </Row>
                    </div>
-                <hr className='text-end' style={ { maxWidth: showSidebar ? '93vw' : '84vw', border: '1px solid', borderColor: '#000A2E', marginTop : '5px' } } />
+                <hr className='text-end' style={ { maxWidth: showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
                     <div className='pt-4'>
                         {/* <Row>
                             <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
