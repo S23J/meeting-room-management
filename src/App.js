@@ -2,7 +2,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Jadwal, Login, Perlengkapan, ResetPasswordPage, Ruangan, RuanganDetail } from "./pages";
+import { Dashboard, Login, Meeting, MeetingDetail, Perlengkapan, ResetPasswordPage, Ruangan, RuanganDetail } from "./pages";
 import { PrivateRouteComp } from "./auth";
 
 
@@ -18,7 +18,8 @@ function App ()
         <Route path="/ruangan/" element={ <Ruangan /> } />
         <Route path="/detail-ruangan/:ruangid" element={ <RuanganDetail /> } />
         <Route path="/perlengkapan/" element={ <Perlengkapan /> } />
-        <Route path="/jadwal/" element={ <Jadwal /> } />
+        <Route path="/meeting/" element={ <Meeting /> } />
+        <Route path="/detail-meeting/:meetingid" element={ <MeetingDetail /> } />
         <Route path="/reset-password/:userId/:token" element={ <ResetPasswordPage /> } />
       </Routes>
     </BrowserRouter>

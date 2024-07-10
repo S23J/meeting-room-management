@@ -42,7 +42,8 @@ function SidebarComponent ()
 
 
     const activeClassJadwal =
-        location.pathname === '/jadwal/'
+        location.pathname === '/meeting/' ||
+            location.pathname.startsWith( '/detail-meeting/' )
             ? theme === 'light'
                 ? 'active-menu-item-dark'
                 : 'active-menu-item-light'
@@ -118,7 +119,7 @@ function SidebarComponent ()
                                     </MenuItem>
                                     <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
-                                        component={ <NavLink to="/jadwal/" /> }
+                                        component={ <NavLink to="/meeting/" /> }
                                     >
                                         <CiCalendarDate size={ 25 } />
                                     </MenuItem>
@@ -152,11 +153,11 @@ function SidebarComponent ()
                                     </MenuItem>
                                     <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
-                                        component={ <NavLink to="/jadwal/" /> }
+                                        component={ <NavLink to="/meeting/" /> }
                                         icon={ <CiCalendarDate size={ 25 } /> }
                                         style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                                     >
-                                        Jadwal
+                                        Meeting
                                     </MenuItem>
                                 </>
 
@@ -234,11 +235,11 @@ function SidebarComponent ()
                             </MenuItem>
                             <MenuItem
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
-                                component={ <NavLink to="/jadwal/" /> }
+                                    component={ <NavLink to="/meeting/" /> }
                                 icon={ <CiCalendarDate size={ 25 } /> }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
-                                Jadwal
+                                    Meeting
                             </MenuItem>
                         </Menu>
                         <div className='mt-auto text-center' style={ { fontFamily: 'Poppins-Medium', fontSize: '13px' } }>

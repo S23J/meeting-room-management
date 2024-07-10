@@ -1,4 +1,15 @@
-import { ModalLupaPassword, ModalAddRuangan, ModalEditRuangan, ModalAddPerlengkapan, ModalEditPerlengkapan } from "./Modal"
+import
+    {
+        ModalLupaPassword,
+        ModalAddRuangan,
+        ModalEditRuangan,
+        ModalAddPerlengkapan,
+        ModalEditPerlengkapan,
+        ModalTambahPin,
+        ModalEditPin,
+        ModalTambahLink,
+        ModalEditLink
+    } from "./Modal"
 import SidebarComponent from "./Sidebar"
 import { HeaderWeb, HeaderMobile } from "./Header"
 
@@ -10,6 +21,10 @@ export
     ModalEditRuangan,
     ModalAddPerlengkapan,
     ModalEditPerlengkapan,
+    ModalTambahPin,
+    ModalEditPin,
+    ModalTambahLink,
+    ModalEditLink,
     HeaderWeb,
     HeaderMobile
 }

@@ -106,6 +106,35 @@ code {
     color: #FFFFFF;
   }
 }
+#actionButtonApprove {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  background-color: #FFFFFF;
+  color: green;
+  border: green 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: green;
+    color: #FFFFFF;
+  }
+}
+
+#actionButtonDenied {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  background-color: #FFFFFF;
+  color: red;
+  border: red 1px solid;
+  border-radius: 8px;
+
+  /* Hover styles */
+  &:hover {
+    background-color: red;
+    color: #FFFFFF;
+  }
+}
 /* Button Action Modal*/
 
 /* Button Table */
@@ -583,5 +612,18 @@ code {
 
 }
 
+#cardDetailMeeting {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: none !important;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+
+}
 
 /* Ruangan */
+/* Mantine Table */
+.mantine-gxgfw {
+  max-width: none;
+}
+
+/* Mantine Table */

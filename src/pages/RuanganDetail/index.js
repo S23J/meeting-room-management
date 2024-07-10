@@ -149,7 +149,6 @@ function RuanganDetail ()
     } );
 
 
-
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />

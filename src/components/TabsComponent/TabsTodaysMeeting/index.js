@@ -1,22 +1,24 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { AuthContext, ThemeContext } from '../../auth';
-import { HeaderMobile, HeaderWeb, SidebarComponent } from '../../components';
-import { Col, Container, Row } from 'react-bootstrap';
-import { useMediaQuery } from 'react-responsive';
-import { useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import axios from '../../../api/axios';
 import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
+import { AuthContext } from '../../../auth';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { CiRead } from 'react-icons/ci';
 
-function Jadwal ()
+
+function TabsTodaysMeeting ()
 {
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
-    const { showSidebar, tokens } = useContext( AuthContext );
-    const { theme } = useContext( ThemeContext );
+    const { tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ listUser, setListUser ] = useState( [] );
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
+    const detailMeeting = ( row ) =>
+    {
+        navigate( "/detail-meeting/" + row )
+    }
 
     const retrieveMeeting = () =>
     {
@@ -34,7 +36,7 @@ function Jadwal ()
             .then( res =>
             {
 
-                const filterData = res.data.filter( item => item.status === "processing" );
+                const filterData = res.data.filter( item => item.status === "approved" && item.finished === null );
                 setListMeeting( filterData );
                 // console.log( res.data )
             } ).catch( err =>
@@ -121,18 +123,33 @@ function Jadwal ()
         );
     }, [ listMeeting, listUser ] );
 
-    // console.log( dataTable );
-
     const columns = useMemo(
         () => [
             {
-                header: 'Request by',
-                accessorKey: 'user_name',
+                header: 'Detail',
+                accessorFn: row => (
+                    <div >
+                        <Button variant='btn' id='buttonDetailTableLight' onClick={ () => detailMeeting( row.id ) }>
+                            &nbsp;<CiRead size={ 28 } />&nbsp;
+                        </Button>
+                    </div>
+                ),
+                size: 50,
                 mantineTableHeadCellProps: {
                     align: 'left',
                 },
                 mantineTableBodyCellProps: {
                     align: 'left',
+                },
+            },
+            {
+                header: 'Request by',
+                accessorKey: 'user_name',
+                mantineTableHeadCellProps: {
+                    align: 'center',
+                },
+                mantineTableBodyCellProps: {
+                    align: 'center',
                 },
             },
             {
@@ -158,6 +175,30 @@ function Jadwal ()
                     const year = date.getFullYear();
                     return `${day}/${month}/${year}`;
                 },
+                mantineTableHeadCellProps: {
+                    align: 'center',
+                },
+                mantineTableBodyCellProps: {
+                    align: 'center',
+                },
+            },
+            {
+                header: 'Tipe Meeting',
+                accessorFn: row => (
+                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
+                        { ( () =>
+                        {
+                            switch ( row?.online ) {
+                                case false:
+                                    return <span >Offline</span>;
+                                case true:
+                                    return <span >Online</span>;
+                                default:
+                                    return null;
+                            }
+                        } )() }
+                    </div>
+                ),
                 mantineTableHeadCellProps: {
                     align: 'center',
                 },
@@ -197,7 +238,7 @@ function Jadwal ()
         [],
     );
 
-    const table = useMantineReactTable( {
+    const tableTodayMeeting = useMantineReactTable( {
         columns,
         enableDensityToggle: false,
         enableFullScreenToggle: false,
@@ -217,35 +258,15 @@ function Jadwal ()
         mantineTableProps: { striped: true, highlightOnHover: false },
     } );
 
+    // console.log( dataTable )
+
     return (
-        <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
-            <SidebarComponent />
-            <Container fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
-                        <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
-                                Jadwal Meeting
-                            </h3>
-                        </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'mt-auto' }>
-                            { isMobile === false ? (
-                                <HeaderWeb />
-                            ) : (
-                                <HeaderMobile />
-                            ) }
-                        </Col>
-                    </Row>
-                </div>
-                <hr className='text-end' style={ { maxWidth: showSidebar ? '93vw' : '84vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
-                    <MantineReactTable
-                        table={ table }
-                    />
-                </div>
-            </Container>
-        </div>
+        <>
+            <MantineReactTable
+                table={ tableTodayMeeting }
+            />
+        </>
     )
 }
 
-export default Jadwal
+export default TabsTodaysMeeting

@@ -9,7 +9,7 @@ import axios from 'axios';
 
 function HeaderWeb ()
 {
-    const { userInfo, tokens, setTokens, setUserInfo, showSidebar } = useContext( AuthContext );
+    const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
 
     const navigate = useNavigate();
