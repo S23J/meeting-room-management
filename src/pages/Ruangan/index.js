@@ -108,7 +108,7 @@ function Ruangan ()
             }
         } else {
 
-            Swal.fire( 'Dibatalkan', 'Data kamu tidak terhapus', 'info' );
+            Swal.fire( 'Dibatalkan', '', 'info' );
         }
     };
 
@@ -263,7 +263,7 @@ function Ruangan ()
                                 Daftar Ruangan
                             </h3>
                         </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'mt-auto' }>
+                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
                             { isMobile === false ? (
                                 <HeaderWeb />
                             ) : (
@@ -273,11 +273,16 @@ function Ruangan ()
                     </Row>
                 </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <MantineReactTable
                         table={ table }
                     />
                 </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
             </Container>
             <ModalAddRuangan
                 showAddRuangan={ showAddRuangan }

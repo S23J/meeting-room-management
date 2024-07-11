@@ -11,7 +11,7 @@ import
         ModalEditLink
     } from "./Modal"
 import SidebarComponent from "./Sidebar"
-import { HeaderWeb, HeaderMobile } from "./Header"
+import { HeaderWeb, HeaderMobile, HeaderDetailPage } from "./Header"
 
 export
 {
@@ -26,5 +26,6 @@ export
     ModalTambahLink,
     ModalEditLink,
     HeaderWeb,
-    HeaderMobile
+    HeaderMobile,
+    HeaderDetailPage
 }

@@ -1,18 +1,80 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../../auth';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from '../../../api/axios';
-import { Button, Dropdown } from 'react-bootstrap';
+import { Badge, Button, Dropdown } from 'react-bootstrap';
 import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
 
 function HeaderMobile ()
 {
-    const { userInfo, tokens, setTokens, setUserInfo, toggleSidebar, mobileSidebar, setMobileSidebar, toggleMobileSidebar } = useContext( AuthContext );
+    const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const { theme } = useContext( ThemeContext );
+    const tokenUser = tokens?.token;
+    const [ meetingList, setMeetingList ] = useState( [] );
+    const [ previousFilteredData, setPreviousFilteredData ] = useState( [] );
     const navigate = useNavigate();
+
+
+    const retrieveMeeting = () =>
+    {
+        axios.get( `/manage/requests/`,
+            {
+                headers:
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ` + tokenUser,
+                },
+
+            } )
+            .then( res =>
+            {
+
+                const filterData = res.data.filter( item => item.status === "processing" );
+                setMeetingList( filterData );
+
+            } ).catch( err =>
+            {
+                // console.log( err )
+            } );
+    };
+
+
+    useEffect( () =>
+    {
+        retrieveMeeting();
+        const interval = setInterval( retrieveMeeting, 60000 );
+        return () => clearInterval( interval );
+    }, [] );
+
+
+    useEffect( () =>
+    {
+        if ( tokenUser !== undefined ) retrieveMeeting()
+    }, [ tokenUser ] );
+
+
+    useEffect( () =>
+    {
+
+        if ( JSON.stringify( meetingList ) !== JSON.stringify( previousFilteredData ) ) {
+
+            Swal.fire( {
+                icon: 'info',
+                title: 'Ada request masuk!',
+                showConfirmButton: true,
+            } ).then( ( result ) =>
+            {
+                if ( result.isConfirmed ) {
+                    setPreviousFilteredData( meetingList.slice() );
+                }
+            } );
+        }
+    }, [ meetingList, previousFilteredData ] );
 
     const LogoutSession = async () =>
     {
@@ -64,8 +126,18 @@ function HeaderMobile ()
 
     return (
         <>
-            <div className='text-end' style={ { minWidth: '185px' } }>
+            {/* <div className='text-end' style={ { minWidth: '185px' } }>
                 <CiBellOn size={ 30 } />
+            </div> */}
+            <div >
+                <CiBellOn size={ 30 } style={ { borderRadius: '70px', fontFamily: 'Poppins-Regular', position: 'absolute', right: '170px', top: '27px' } } />
+                {
+                    meetingList?.length === 0 ? (
+                        <></>
+                    ) : (
+                        <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '160px', top: '16px' } }>{ meetingList?.length }</Badge>
+                    )
+                }
             </div>
             <span className="container-logout-mobile" style={ { fontFamily: 'Poppins-Regular' } }>
                 { userInfo?.first_name } { userInfo?.last_name }

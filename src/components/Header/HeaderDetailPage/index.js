@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
-import { Badge, Dropdown, Row } from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { CiLogout, CiUser } from 'react-icons/ci';
+import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext, ThemeContext } from '../../../auth';
@@ -8,74 +8,11 @@ import axios from '../../../api/axios';
 
 
 
-function HeaderWeb ()
+function HeaderDetailPage ()
 {
     const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
-    const tokenUser = tokens?.token;
-    const [ meetingList, setMeetingList ] = useState( [] );
-    const [ previousFilteredData, setPreviousFilteredData ] = useState( [] );
-
     const navigate = useNavigate();
-
-
-    const retrieveMeeting = () =>
-    {
-        axios.get( `/manage/requests/`,
-            {
-                headers:
-                {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    withCredentials: true,
-                    Authorization: `Token ` + tokenUser,
-                },
-
-            } )
-            .then( res =>
-            {
-
-                const filterData = res.data.filter( item => item.status === "processing" );
-                setMeetingList( filterData );
-
-            } ).catch( err =>
-            {
-                // console.log( err )
-            } );
-    };
-
-
-    useEffect( () =>
-    {
-        retrieveMeeting();
-        const interval = setInterval( retrieveMeeting, 60000 );
-        return () => clearInterval( interval );
-    }, [] );
-
-
-    useEffect( () =>
-    {
-        if ( tokenUser !== undefined ) retrieveMeeting()
-    }, [ tokenUser ] );
-
-
-    useEffect( () =>
-    {
-
-        if ( JSON.stringify( meetingList ) !== JSON.stringify( previousFilteredData ) ) {
-
-            Swal.fire( {
-                icon: 'info',
-                title: 'Ada request masuk!',
-                showConfirmButton: true,
-            } ).then( ( result ) =>
-            {
-                if ( result.isConfirmed ) {
-                    setPreviousFilteredData( meetingList.slice() );
-                }
-            } );
-        }
-    }, [ meetingList, previousFilteredData ] );
 
     const LogoutSession = async () =>
     {
@@ -128,16 +65,6 @@ function HeaderWeb ()
     return (
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
-                <div >
-                    <CiBellOn size={ 30 } style={ { borderRadius: '70px', fontFamily: 'Poppins-Regular', position: 'absolute', right: '210px', top: '20px' } } />
-                    {
-                        meetingList?.length === 0 ? (
-                            <></>
-                        ) : (
-                            <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '200px', top: '10px' } }>{ meetingList?.length }</Badge>
-                        )
-                    }
-                </div>
                 { userInfo?.first_name } { userInfo?.last_name }
                 <Dropdown className='ms-2'>
                     <Dropdown.Toggle variant="btn" >
@@ -160,4 +87,4 @@ function HeaderWeb ()
     )
 }
 
-export default HeaderWeb
+export default HeaderDetailPage

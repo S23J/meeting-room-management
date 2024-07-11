@@ -36,7 +36,13 @@ function TabsHistoryMeeting ()
             .then( res =>
             {
 
-                const filterData = res.data.filter( item => ( item.status === "approved" || item.status === "denied" ) && item.finished === true );
+                const filterData = res.data.filter( item =>
+                {
+                    // console.log( item.status, item.finished ); // Debugging line to check values
+                    return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
+                } );
+
+                // console.log( filterData ); // Debugging line to check the filtered result
                 setListMeeting( filterData );
                 // console.log( res.data )
             } ).catch( err =>

@@ -296,12 +296,14 @@ function Perlengkapan ()
                     </Row>
                 </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <MantineReactTable
                         table={ table }
                     />
                 </div>
             </Container>
+            <br />
+            <br />
             <ModalAddPerlengkapan
                 showAddAlat={ showAddAlat }
                 setShowAddAlat={ setShowAddAlat }

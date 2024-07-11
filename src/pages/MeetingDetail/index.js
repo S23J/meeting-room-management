@@ -3,7 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext, ThemeContext } from '../../auth';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
-import { HeaderMobile, HeaderWeb, ModalEditLink, ModalEditPin, ModalTambahLink, ModalTambahPin, SidebarComponent } from '../../components';
+import
+{
+    HeaderDetailPage,
+    HeaderMobile,
+    ModalEditLink,
+    ModalEditPin,
+    ModalTambahLink,
+    ModalTambahPin,
+    SidebarComponent
+}
+    from '../../components';
 import { Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { CiCirclePlus, CiEdit } from 'react-icons/ci';
@@ -297,13 +307,14 @@ function MeetingDetail ()
             title: 'Apakah anda yakin ingin menolak meeting?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Setuju',
+            confirmButtonText: 'Ya',
             cancelButtonText: 'Batal',
         } );
 
         event.preventDefault();
         const data = {
             status: "denied",
+            finished: true,
         };
 
         if ( !confirmDenied.isConfirmed ) {
@@ -377,17 +388,27 @@ function MeetingDetail ()
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
-            <Container className='mb-3' fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
+            <Container fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                 <div>
                     <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
-                                Detail Meeting { meeting?.nama_meeting }
-                            </h3>
+                            {
+                                isMobile === false ? (
+                                    <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
+                                        Detail Meeting { meeting?.nama_meeting }
+                                    </h3>
+                                )
+                                    :
+                                    (
+                                        <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
+                                            Detail Meeting
+                                        </h3>
+                                    )
+                            }
                         </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'mt-auto' }>
+                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
                             { isMobile === false ? (
-                                <HeaderWeb />
+                                <HeaderDetailPage />
                             ) : (
                                 <HeaderMobile />
                             ) }
@@ -395,12 +416,12 @@ function MeetingDetail ()
                     </Row>
                 </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
-                <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>
                             <Button variant='btn' id='actionButtonApprove' className='me-3' onClick={ handleApprove } disabled={ !meeting?.pincode }>Setuju</Button>
                             <Button variant='btn' id='actionButtonDenied' className='me-3' onClick={ handleDenied }>Tolak</Button>
-                            <Button variant='btn' id='actionButtonKembali' className='me-1' onClick={ buttonBack }>Kembali</Button>
+                            <Button variant='btn' id='actionButtonKembali' onClick={ buttonBack }>Kembali</Button>
                         </>
                     )
                         :
@@ -409,16 +430,39 @@ function MeetingDetail ()
                         )
                     }
                 </div>
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <Row>
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='mb-3'>
                             <Card id='cardDetailMeeting'>
                                 <Card.Body>
-                                    <p
-                                        className='head-content text-center'
-                                    >
-                                        Detail Meeting
-                                    </p>
+                                    <>
+                                        <Row>
+                                            <Col xs={ !meeting?.finished ? 12 : 6 } className='text-start'>
+                                                <p
+                                                    className='head-content'
+                                                >
+                                                    Detail Meeting
+                                                </p>
+                                            </Col>
+                                            <Col xs={ 6 } className='text-end my-auto'>
+                                                <p
+                                                    className='head-content'
+                                                >
+                                                    { ( () =>
+                                                    {
+                                                        switch ( meeting?.status ) {
+                                                            case 'approved':
+                                                                return <span style={ { color: 'green' } }>Approved</span>;
+                                                            case 'denied':
+                                                                return <span style={ { color: 'red' } }>Ditolak</span>;
+                                                            default:
+                                                                return null;
+                                                        }
+                                                    } )() }
+                                                </p>
+                                            </Col>
+                                        </Row>
+                                    </>
                                     <div>
                                         <Form>
                                             <Row>
@@ -633,6 +677,11 @@ function MeetingDetail ()
                             </Card>
                         </Col>
                     </Row>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
             </Container>
             <ModalTambahPin
