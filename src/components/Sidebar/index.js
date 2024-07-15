@@ -59,7 +59,7 @@ function SidebarComponent ()
         <>
             { isMobile === false ? (
                 <Sidebar
-                    id={ theme === 'light' ? 'mySidebar-dark' : 'mySidebar-light' }
+                    id={ theme === 'light' ? 'mySidebarDark' : 'mySidebarLight' }
                     backgroundColor='rgba(0, 0, 0, 0)'
                     width='210px'
                     collapsed={ showSidebar }
@@ -91,9 +91,9 @@ function SidebarComponent ()
                         >
                             {
                                 showSidebar ?
-                                    <VscChevronRight size={ 25 } className='ms-2' color='#707070' style={ { backgroundColor: 'white', borderRadius: '25px' } } />
+                                    <VscChevronRight size={ 25 } className='ms-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { backgroundColor: theme === 'light' ? '#000A2E' : '#FFFFFF', borderRadius: '25px' } } />
                                     :
-                                    <VscChevronLeft size={ 25 } className='ms-2' color='#707070' style={ { backgroundColor: 'white', borderRadius: '25px' } } />
+                                    <VscChevronLeft size={ 25 } className='ms-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { backgroundColor: theme === 'light' ? '#000A2E' : '#FFFFFF', borderRadius: '25px' } } />
                             }
                         </div>
                         {
@@ -166,14 +166,14 @@ function SidebarComponent ()
                     </Menu>
                     <div className='mt-auto text-center' style={ { fontFamily: 'Poppins-Medium', fontSize: '13px' } }>
                         <span className="theme-toggle-container">
-                            <CiLight size={ 30 } color='#707070' />
+                            <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                             <Form.Check
                                 type="switch"
                                 className="custom-switch"
                                 checked={ theme === 'light' }
                                 onChange={ handleToggle }
                             />
-                            <CiDark size={ 30 } color='#707070' />
+                            <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                         </span>
 
                     </div>
@@ -181,8 +181,8 @@ function SidebarComponent ()
             ) : (
                 <>
                     <Sidebar
-                        id={ theme === 'light' ? 'mySidebar-dark' : 'mySidebar-light' }
-                        backgroundColor={ theme === 'light' ? '#FFFFFF' : '#FFFFFF' }
+                            id={ theme === 'light' ? 'mySidebarDark' : 'mySidebarLight' }
+                            backgroundColor={ theme === 'light' ? '#000A2E' : '#FFFFFF' }
                         width='210px'
                         onBackdropClick={ toggleMobileSidebar }
                         toggled={ mobileSidebar }
@@ -213,6 +213,7 @@ function SidebarComponent ()
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassDashboard}` }
                                 component={ <NavLink to="/dashboard/" /> }
                                 icon={ <CiGrid41 size={ 25 } /> }
+                                    onClick={ toggleMobileSidebar }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
                                 Dashboard
@@ -221,6 +222,7 @@ function SidebarComponent ()
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
                                 component={ <NavLink to="/ruangan/" /> }
                                 icon={ <CiViewList size={ 25 } /> }
+                                    onClick={ toggleMobileSidebar }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
                                 Ruangan
@@ -229,6 +231,7 @@ function SidebarComponent ()
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassPerlengkapan}` }
                                 component={ <NavLink to="/perlengkapan/" /> }
                                 icon={ <CiBoxes size={ 25 } /> }
+                                    onClick={ toggleMobileSidebar }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
                                 Peralatan
@@ -237,6 +240,7 @@ function SidebarComponent ()
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
                                     component={ <NavLink to="/meeting/" /> }
                                 icon={ <CiCalendarDate size={ 25 } /> }
+                                    onClick={ toggleMobileSidebar }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
                                     Meeting
@@ -244,14 +248,14 @@ function SidebarComponent ()
                         </Menu>
                         <div className='mt-auto text-center' style={ { fontFamily: 'Poppins-Medium', fontSize: '13px' } }>
                             <span className="theme-toggle-container">
-                                <CiLight size={ 30 } color='#707070' />
+                                    <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                                 <Form.Check
                                     type="switch"
                                     className="custom-switch"
                                     checked={ theme === 'light' }
                                     onChange={ handleToggle }
                                 />
-                                <CiDark size={ 30 } color='#707070' />
+                                    <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                             </span>
 
                         </div>

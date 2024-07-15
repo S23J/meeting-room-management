@@ -129,7 +129,7 @@ function HeaderWeb ()
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
                 <div >
-                    <CiBellOn size={ 30 } style={ { borderRadius: '70px', fontFamily: 'Poppins-Regular', position: 'absolute', right: '210px', top: '20px' } } />
+                    <CiBellOn size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { borderRadius: '70px', fontFamily: 'Poppins-Regular', position: 'absolute', right: '210px', top: '20px' } } />
                     {
                         meetingList?.length === 0 ? (
                             <></>
@@ -141,16 +141,16 @@ function HeaderWeb ()
                 { userInfo?.first_name } { userInfo?.last_name }
                 <Dropdown className='ms-2'>
                     <Dropdown.Toggle variant="btn" >
-                        <CiUser size={ 30 } />
+                        <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                     </Dropdown.Toggle>
-                    <Dropdown.Menu id='dropdownMenu'>
+                    <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                         <Dropdown.Item
-                            id={ theme === 'light' ? 'dropdownItem1LDark' : 'dropdownItem1DLight' }
+                            id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
                             className="d-flex align-items-center justify-content-center my-3"
                             onClick={ LogoutSession }
                         >
-                            <CiLogout size={ 25 } className='me-2' />
-                            <span style={ { fontFamily: 'Poppins-Light' } }>Keluar</span>
+                            <CiLogout size={ 25 } className='me-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                            <span style={ { fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070' } }>Keluar</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

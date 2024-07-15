@@ -13,11 +13,11 @@ function Dashboard ()
     return (
         <div style={ { overflowX: 'hidden', maxWidth : '100vw' } }>
                 <SidebarComponent />
-            <Container fluid id={ theme === 'light' ? 'containerApp' : 'containerApp' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
+            <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                    <div>
                     <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular' } }>
+                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
                                 Dashboard
                             </h3>
                         </Col>
@@ -30,7 +30,7 @@ function Dashboard ()
                         </Col>
                     </Row>
                    </div>
-                <hr className='text-end' style={ { maxWidth: showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: '#000A2E', marginTop: '5px' } } />
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
                     <div className='pt-4'>
                         {/* <Row>
                             <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
