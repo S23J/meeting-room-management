@@ -65,7 +65,9 @@ function HeaderDetailPage ()
     return (
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
-                { userInfo?.first_name } { userInfo?.last_name }
+                <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
+                    { userInfo?.first_name } { userInfo?.last_name }
+                </span>
                 <Dropdown className='ms-2'>
                     <Dropdown.Toggle variant="btn" >
                         <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />

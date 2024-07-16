@@ -244,12 +244,12 @@ function TabsTodaysMeeting ()
         enableFullScreenToggle: false,
         initialState: {
             density: 'xs',
-            // sorting: [
-            //     {
-            //         id: 'username', //sort by age by default on page load
-            //         asc: true,
-            //     },
-            // ],
+            sorting: [
+                {
+                    id: 'tanggal',
+                    desc: true,
+                },
+            ],
         },
         data: dataTable,
         enableRowNumbers: true,

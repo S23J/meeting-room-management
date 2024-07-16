@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { HeaderMobile, HeaderWeb, ModalAddPerlengkapan, ModalEditPerlengkapan, SidebarComponent } from '../../components'
+import { HeaderDetailPage, HeaderMobile, ModalAddPerlengkapan, ModalEditPerlengkapan, SidebarComponent } from '../../components'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
@@ -13,7 +13,7 @@ import { Box } from '@mantine/core';
 function Perlengkapan ()
 {
     const isMobile = useMediaQuery( { maxWidth: 767 } );
-    const { showSidebar, userInfo, tokens } = useContext( AuthContext );
+    const { showSidebar, tokens } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const [ listAlat, setListAlat ] = useState( [] );
     const [ listRuangan, setListRuangan ] = useState( [] );
@@ -288,7 +288,7 @@ function Perlengkapan ()
                         </Col>
                         <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
                             { isMobile === false ? (
-                                <HeaderWeb />
+                                <HeaderDetailPage />
                             ) : (
                                 <HeaderMobile />
                             ) }

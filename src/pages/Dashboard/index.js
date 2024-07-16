@@ -1,14 +1,106 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
 import { Card, Col, Container,  Row } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
+import { CiCalendarDate, CiSliderVertical, CiViewList } from 'react-icons/ci';
+import { VscHistory } from 'react-icons/vsc';
+import axios from '../../api/axios';
+
 
 function Dashboard ()
 {
     const { theme } = useContext( ThemeContext );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
-    const { showSidebar, userInfo } = useContext( AuthContext );
+    const { showSidebar, tokens } = useContext( AuthContext );
+    const [ listMeeting, setListMeeting ] = useState( [] );
+    const [ meetingToday, setMeetingToday ] = useState( [] );
+    const [ historyMeeting, setHistoryMeeting ] = useState( [] );
+    const [ listRuangan, setListRuangan ] = useState( [] );
+    const tokenUser = tokens?.token;
+
+    const retrieveMeeting = () =>
+    {
+        axios.get( `/manage/requests/`,
+            {
+                headers:
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ` + tokenUser,
+                },
+
+            } )
+            .then( res =>
+            {
+
+                const filterData = res.data.filter( item => item.status === "processing" );
+                setListMeeting( filterData );
+
+                const onGoingMeeting = res.data.filter( item => item.status === "approved" && item.finished === null );
+                setMeetingToday( onGoingMeeting );
+
+                const historyFilter = res.data.filter( item =>
+                {
+                    // console.log( item.status, item.finished ); // Debugging line to check values
+                    return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
+                } );
+                setHistoryMeeting( historyFilter );
+                // console.log( res.data )
+            } ).catch( err =>
+            {
+                console.log( err )
+            } )
+    }
+
+    const retrieveRuangan = () =>
+    {
+        axios.get( `/manage/ruangan/`,
+            {
+                headers:
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ` + tokenUser,
+                },
+
+            } )
+            .then( res =>
+            {
+
+                setListRuangan( res.data );
+                // console.log( res.data )
+            } ).catch( err =>
+            {
+                console.log( err )
+            } )
+    }
+
+    useEffect( () =>
+    {
+        const interval = setInterval( () =>
+        {
+            if ( tokenUser !== undefined ) retrieveMeeting();
+            if ( tokenUser !== undefined ) retrieveRuangan()
+        }, 1000 ); // Interval set to 60 seconds
+        return () => clearInterval( interval );
+    }, [ tokenUser ] );
+
+
+    // const currentDate = new Date();
+    // const [ meetingToday, setMeetingToday ] = useState( {} );//filtering timeblock perhari ini atau diatas hari ini
+    // const fetchTimeblockFilter = () => //filtering timeblock perhari ini atau diatas hari ini
+    // {
+    //     const meetingFilter = listMeeting.filter( ( bigN ) => new Date( bigN.waktu_mulai ) > currentDate )
+    //     setMeetingToday( meetingFilter )
+    // }
+    // useEffect( () =>
+    // {
+    //     fetchTimeblockFilter()
+    // }, [ listMeeting ] )
+
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth : '100vw' } }>
@@ -31,8 +123,8 @@ function Dashboard ()
                     </Row>
                    </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                    <div className='pt-4'>
-                        {/* <Row>
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                    <Row>
                             <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
                                 <Card
                                     id={ theme === 'light' ? 'cardDashboard1-Dark' : 'cardDashboard1-Light' }
@@ -46,18 +138,18 @@ function Dashboard ()
                                                     background: theme === 'light' ? '#000A2E' : '#000A2E'
                                                 } }
                                             >
-                                                <span >
-                                                    <Icon path={ mdiMessageBadge } size={ 1 } color={ "white" } />
-                                                </span>
+                                            <span >
+                                                <CiSliderVertical size={ 30 } color='#FFFFFF' />
+                                            </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
                                             <div className='me-2 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
-                                                    Request Meeting
+                                                Request
                                                 </p>
                                                 <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
-                                                    56
+                                                { listMeeting?.length || '0' }
                                                 </h3>
                                             </div>
                                         </Col>
@@ -65,7 +157,7 @@ function Dashboard ()
                                     <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
                                     <div className='ms-2 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
-                                            Jumlah request untuk ruangan Meeting.
+                                        Jumlah request Meeting.
                                         </p>
                                     </div>
                                 </Card>
@@ -83,18 +175,18 @@ function Dashboard ()
                                                     background: theme === 'light' ? '#000A2E' : '#000A2E'
                                                 } }
                                             >
-                                                <span >
-                                                    <Icon path={ mdiCalendarToday } size={ 1 } color={ "white" } />
-                                                </span>
+                                            <span >
+                                                <CiCalendarDate size={ 35 } color='#FFFFFF' />
+                                            </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
                                             <div className='me-2 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
-                                                    Meeting per Hari
+                                                Meeting
                                                 </p>
                                                 <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
-                                                    12
+                                                { meetingToday?.length || '0' }
                                                 </h3>
                                             </div>
                                         </Col>
@@ -102,7 +194,7 @@ function Dashboard ()
                                     <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
                                     <div className='ms-2 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
-                                            Jumlah Meeting hari ini.
+                                        Jumlah Meeting berjalan.
                                         </p>
                                     </div>
                                 </Card>
@@ -120,18 +212,18 @@ function Dashboard ()
                                                     background: theme === 'light' ? '#000A2E' : '#000A2E'
                                                 } }
                                             >
-                                                <span >
-                                                    <Icon path={ mdiOfficeBuilding } size={ 1 } color={ "white" } />
-                                                </span>
+                                            <span >
+                                                <VscHistory size={ 30 } color='#FFFFFF' />
+                                            </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
                                             <div className='me-2 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
-                                                    Jumlah Gedung
+                                                History
                                                 </p>
                                                 <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
-                                                    3
+                                                { historyMeeting?.length || '0' }
                                                 </h3>
                                             </div>
                                         </Col>
@@ -139,7 +231,7 @@ function Dashboard ()
                                     <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
                                     <div className='ms-2 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
-                                            Keseluruhan jumlah Gedung.
+                                        Jumlah Meeting selesai.
                                         </p>
                                     </div>
                                 </Card>
@@ -157,18 +249,18 @@ function Dashboard ()
                                                     background: theme === 'light' ? '#000A2E' : '#000A2E'
                                                 } }
                                             >
-                                                <span >
-                                                    <Icon path={ mdiDoorOpen } size={ 1 } color={ "white" } />
-                                                </span>
+                                            <span >
+                                                <CiViewList size={ 30 } color='#FFFFFF' />
+                                            </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
                                             <div className='me-2 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
-                                                    Jumlah Ruangan
+                                                Ruangan
                                                 </p>
                                                 <h3 style={ { fontFamily: 'Poppins-SemiBold' } }>
-                                                    18
+                                                { listRuangan?.length || '0' }
                                                 </h3>
                                             </div>
                                         </Col>
@@ -176,12 +268,12 @@ function Dashboard ()
                                     <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
                                     <div className='ms-2 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
-                                            Jumlah ruangan untuk Meeting.
+                                        Jumlah keseluruhan Ruangan.
                                         </p>
                                     </div>
                                 </Card>
                             </Col>
-                        </Row> */}
+                    </Row>
                     </div>
                 </Container>
         </div>

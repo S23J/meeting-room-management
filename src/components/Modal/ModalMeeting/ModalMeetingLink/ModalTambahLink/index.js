@@ -42,7 +42,7 @@ function ModalTambahLink ( {
             handleClose();
             Swal.fire( {
                 icon: 'success',
-                title: 'Berhasil menambahkan kode pin',
+                title: 'Berhasil menambahkan link',
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
@@ -52,7 +52,7 @@ function ModalTambahLink ( {
             Swal.fire( {
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Terjadi kesalahan saat menambahkan kode pin',
+                text: 'Terjadi kesalahan saat menambahkan link',
             } )
         }
 

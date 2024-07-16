@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
-import { HeaderWeb, HeaderMobile, ModalAddRuangan, ModalEditRuangan, SidebarComponent } from '../../components';
+import { HeaderMobile, ModalAddRuangan, ModalEditRuangan, SidebarComponent, HeaderDetailPage } from '../../components';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../../api/axios';
@@ -265,7 +265,7 @@ function Ruangan ()
                         </Col>
                         <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
                             { isMobile === false ? (
-                                <HeaderWeb />
+                                <HeaderDetailPage />
                             ) : (
                                 <HeaderMobile />
                             ) }

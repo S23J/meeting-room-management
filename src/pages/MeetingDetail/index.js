@@ -437,7 +437,7 @@ function MeetingDetail ()
                                 <Card.Body>
                                     <>
                                         <Row>
-                                            <Col xs={ !meeting?.finished ? 12 : 6 } className='text-start'>
+                                            <Col xs={ !meeting?.finished ? 6 : 6 } className='text-start'>
                                                 <p
                                                     className='head-content'
                                                 >

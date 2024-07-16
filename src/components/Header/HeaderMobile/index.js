@@ -126,12 +126,10 @@ function HeaderMobile ()
 
     return (
         <>
-            {/* <div className='text-end' style={ { minWidth: '185px' } }>
-                <CiBellOn size={ 30 } />
-            </div> */}
-
             <span className="container-logout-mobile" style={ { fontFamily: 'Poppins-Regular' } }>
-                { userInfo?.first_name } { userInfo?.last_name }
+                <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
+                    { userInfo?.first_name } { userInfo?.last_name }
+                </span>
                 <Dropdown >
                     <Dropdown.Toggle variant="btn" >
                         <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
@@ -147,7 +145,7 @@ function HeaderMobile ()
                                 meetingList?.length === 0 ? (
                                     <></>
                                 ) : (
-                                    <Badge style={ { fontFamily: 'Poppins-Regular', } }>{ meetingList?.length }</Badge>
+                                        <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '98px', top: '10px' } }>{ meetingList?.length }</Badge>
                                 )
                             }
                         </Dropdown.Item>
@@ -159,7 +157,6 @@ function HeaderMobile ()
                             <CiLogout size={ 25 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } className='me-2' />
                             <span style={ { fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070' } }>Keluar</span>
                         </Dropdown.Item>
-
                     </Dropdown.Menu>
                 </Dropdown>
             </span>

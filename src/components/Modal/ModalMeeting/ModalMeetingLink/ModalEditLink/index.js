@@ -44,7 +44,7 @@ function ModalEditLink ( {
             handleClose();
             Swal.fire( {
                 icon: 'success',
-                title: 'Berhasil mengubah kode pin',
+                title: 'Berhasil mengubah link',
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
@@ -54,7 +54,7 @@ function ModalEditLink ( {
             Swal.fire( {
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Terjadi kesalahan saat mengubah kode pin',
+                text: 'Terjadi kesalahan saat mengubah link',
             } )
         }
 

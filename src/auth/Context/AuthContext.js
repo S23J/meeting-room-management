@@ -67,15 +67,14 @@ export const AuthProvider = ( { children } ) =>
         } )
             .then( response =>
             {
-                console.log( 'Patch response:', response );
+
             } )
             .catch( err =>
             {
-                console.log( 'Patch error:', err );
+                console.log( err );
             } );
     };
 
-    // Function to adjust date to local timezone
     const toLocalTime = ( date, offset ) =>
     {
         const localTime = new Date( date.getTime() + offset * 60 * 60 * 1000 );
@@ -99,22 +98,16 @@ export const AuthProvider = ( { children } ) =>
                     return item.status === "approved" && item.finished === null;
                 } );
 
-                // Get current time in UTC
                 var dt = new Date();
-                // console.log( 'Current UTC time (dt):', dt.toISOString() );
 
-                // Adjust current time to local timezone (+7 hours)
                 const localDt = toLocalTime( dt, 7 );
-                // console.log( 'Current local time (localDt):', localDt.toISOString() );
 
                 filterData.forEach( meeting =>
                 {
-                    const meetingTime = new Date( meeting.waktu_selesai ); // Ensure meeting time is correctly parsed as Date
-                // console.log( 'Meeting time (waktu_selesai):', meetingTime.toISOString() ); // Log in UTC format
+                    const meetingTime = new Date( meeting.waktu_selesai ); 
 
-                    // Check if meeting end time is less than or equal to current local time
                     if ( meetingTime <= localDt ) {
-                        // console.log(`Meeting ${meeting.id} has ended. Executing patch...`);
+
                         patchMeeting( meeting.id, tokenUser );
                         Swal.fire( {
                             icon: 'success',
@@ -123,11 +116,11 @@ export const AuthProvider = ( { children } ) =>
                         } ).then( ( result ) =>
                         {
                             if ( result.isConfirmed ) {
-                                window.location.reload(); // Reload the page when the confirm button is clicked
+                                window.location.reload();
                             }
                         } );
                     } else {
-                        // console.log('Belom waktunya');
+
                     }
                 } );
             } )
