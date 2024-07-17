@@ -95,7 +95,7 @@ export const AuthProvider = ( { children } ) =>
             {
                 const filterData = res.data.filter( item =>
                 {
-                    return item.status === "approved" && item.finished === null;
+                    return item.status === "approved" && item.finished === false;
                 } );
 
                 var dt = new Date();
@@ -126,7 +126,7 @@ export const AuthProvider = ( { children } ) =>
             } )
             .catch( err =>
             {
-                console.log( 'Error fetching meetings:', err );
+                // console.log( 'Error fetching meetings:', err );
             } );
     };
 
@@ -135,7 +135,7 @@ export const AuthProvider = ( { children } ) =>
         const interval = setInterval( () =>
         {
             if ( tokenUser !== undefined ) retrieveMeeting();
-        }, 60000 ); // Interval set to 60 seconds
+        }, 10000 ); // Interval set to 60 seconds
         return () => clearInterval( interval );
     }, [ tokenUser ] );
 

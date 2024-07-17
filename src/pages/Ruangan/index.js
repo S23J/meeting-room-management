@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
-import { HeaderMobile, ModalAddRuangan, ModalEditRuangan, SidebarComponent, HeaderDetailPage } from '../../components';
+import { ModalAddRuangan, ModalEditRuangan, SidebarComponent, HeaderDetailPage, HeaderMobile2 } from '../../components';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../../api/axios';
@@ -267,7 +267,7 @@ function Ruangan ()
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                <HeaderMobile />
+                                    <HeaderMobile2 />
                             ) }
                         </Col>
                     </Row>

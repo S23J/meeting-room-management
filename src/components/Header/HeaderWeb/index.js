@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
-import { Badge, Dropdown, Row } from 'react-bootstrap';
+import { Badge, Button, Dropdown, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext, ThemeContext } from '../../../auth';
@@ -18,6 +18,10 @@ function HeaderWeb ()
 
     const navigate = useNavigate();
 
+    const handleMeetingPage = () =>
+    {
+        navigate( '/meeting/' )
+    }
 
     const retrieveMeeting = () =>
     {
@@ -40,7 +44,7 @@ function HeaderWeb ()
 
             } ).catch( err =>
             {
-                // console.log( err )
+
             } );
     };
 
@@ -50,7 +54,7 @@ function HeaderWeb ()
         const interval = setInterval( () =>
         {
             if ( tokenUser !== undefined ) retrieveMeeting();
-        }, 60000 ); // Interval set to 60 seconds
+        }, 5000 );
         return () => clearInterval( interval );
     }, [] );
 
@@ -78,6 +82,8 @@ function HeaderWeb ()
             } );
         }
     }, [ meetingList, previousFilteredData ] );
+
+    // console.log( meetingList )
 
     const LogoutSession = async () =>
     {
@@ -130,16 +136,54 @@ function HeaderWeb ()
     return (
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
-                <div >
-                    <CiBellOn size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { borderRadius: '70px', fontFamily: 'Poppins-Regular', position: 'absolute', right: '210px', top: '20px' } } />
-                    {
-                        meetingList?.length === 0 ? (
-                            <></>
-                        ) : (
-                            <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '200px', top: '10px' } }>{ meetingList?.length }</Badge>
-                        )
-                    }
-                </div>
+                <Dropdown drop='start' style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '280px', top: '12px' } } >
+                    <Dropdown.Toggle variant="btn"  >
+                        <CiBellOn size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                        {
+                            meetingList?.length === 0 ? (
+                                <></>
+                            ) : (
+                                <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '10px', top: '0px' } }>{ meetingList?.length }</Badge>
+                            )
+                        }
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                        id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }
+                        style={ { overflowY: 'auto', maxHeight: '200px', } }
+                    >
+                        {
+                            meetingList.map( ( data, index ) =>
+                            {
+
+                                return (
+                                    <Dropdown.Item
+                                        id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
+                                        className="d-flex align-items-center justify-content-center my-3"
+                                        key={ index }
+                                        onClick={ handleMeetingPage }
+                                    >
+                                        <div style={ { color: theme === 'light' ? '#FFFFFF' : '#707070' } }>
+                                            <hr className='text-end' style={ { border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E' } } />
+                                            <p>
+                                                { data?.nama_meeting }
+                                            </p>
+                                            <div className="d-grid gap-2">
+                                                <Button variant="primary">
+                                                    Proses
+                                                </Button>
+                                            </div>
+                                            <hr className='text-end' style={ { border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E' } } />
+                                        </div>
+                                    </Dropdown.Item>
+                                )
+                            } )
+                        }
+                    </Dropdown.Menu>
+                </Dropdown>
+                {/* <div >
+                   
+                   
+                </div> */}
                 <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
                     { userInfo?.first_name } { userInfo?.last_name }
                 </span>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
-import { HeaderDetailPage, HeaderMobile, SidebarComponent } from '../../components';
+import { HeaderDetailPage, HeaderMobile2, SidebarComponent } from '../../components';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { TabsHistoryMeeting, TabsRequestMeeting, TabsTodaysMeeting } from '../../components/TabsComponent';
@@ -26,7 +26,7 @@ function Meeting ()
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                <HeaderMobile />
+                                    <HeaderMobile2 />
                             ) }
                         </Col>
                     </Row>

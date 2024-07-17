@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext, ThemeContext } from '../../auth';
 import axios from '../../api/axios';
@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import
 {
     HeaderDetailPage,
-    HeaderMobile,
+    HeaderMobile2,
     ModalEditLink,
     ModalEditPin,
     ModalTambahLink,
@@ -14,10 +14,9 @@ import
     SidebarComponent
 }
     from '../../components';
-import { Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { CiCirclePlus, CiEdit } from 'react-icons/ci';
-import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 
 function MeetingDetail ()
 {
@@ -28,6 +27,7 @@ function MeetingDetail ()
     const tokenUser = tokens?.token;
     const [ meeting, setMeeting ] = useState( null );
     const [ listUser, setListUser ] = useState( [] );
+    const [ detailPeserta, setDetailPeserta ] = useState( [] );
     const [ detailRuangan, setDetailRuangan ] = useState();
     const [ detailEquipment, setDetailEquipment ] = useState( [] );
     const [ date, setDate ] = useState();
@@ -124,20 +124,30 @@ function MeetingDetail ()
                 setListUser( res.data );
             } ).catch( err =>
             {
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
-                        confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
-                        }
-                    } );
+            } )
+    }
 
-                } else ( console.log( err ) )
+    const retrievePeserta = () =>
+    {
+        axios.get( `/manage/peserta/filter_by_request/?request_id=${meeting?.id}`,
+            {
+                headers:
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ` + tokenUser,
+                },
+
+            } )
+            .then( res =>
+            {
+
+                setDetailPeserta( res.data );
+
+            } ).catch( err =>
+            {
+            //    console.log( err )
             } )
     }
 
@@ -162,20 +172,7 @@ function MeetingDetail ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
-                        confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
-                        }
-                    } );
 
-                } else ( console.log( err ) )
             } )
     }
 
@@ -196,21 +193,7 @@ function MeetingDetail ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
-                        icon: 'error',
-                        title: 'Sesi telah habis',
-                        text: 'Sesi anda telah berakhir. Silahkan login kembali.',
-                        confirmButtonText: 'Log In',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
 
-                            navigate( '/' );
-                        }
-                    } );
-
-                } else ( console.log( err ) )
             } )
     }
 
@@ -219,16 +202,18 @@ function MeetingDetail ()
         const fetchData = async () =>
         {
             if ( tokenUser !== undefined ) {
-                // Memanggil retrieveDetailMeeting dan menunggu hasilnya
+
                 await retrieveDetailMeeting();
                 await retrieveUser();
 
-                // Setelah retrieveDetailMeeting selesai, ambil detail ruangan
                 if ( meeting?.ruangan !== undefined ) {
                     await retrieveRuangan();
                 }
 
-                // Setelah retrieveRuangan selesai, ambil detail equipment
+                if ( meeting?.id !== undefined ) {
+                    await retrievePeserta();
+                }
+
                 if ( detailRuangan?.id !== undefined ) {
                     await retrieveDetailEquipment();
                 }
@@ -237,6 +222,7 @@ function MeetingDetail ()
 
         fetchData();
     }, [ tokenUser, meeting?.ruangan, detailRuangan?.id ] );
+
 
     useEffect( () =>
     {
@@ -251,6 +237,25 @@ function MeetingDetail ()
         }
     }, [ meeting, listUser ] );
 
+    const [ dataPeserta, setDataPeserta ] = useState( [] );
+
+    useEffect( () =>
+    {
+        const dataPesertaFilter = detailPeserta.map( ( { ...rest } ) => rest );
+
+        setDataPeserta(
+            dataPesertaFilter.map( ( data ) =>
+            {
+                const userInfo = listUser.find( ( sales ) => sales.id === data.user );
+                const userName = userInfo ? userInfo.first_name + ' ' + userInfo.last_name : '';
+
+                return {
+                    ...data,
+                    user_name: userName,
+                };
+            } )
+        );
+    }, [ detailPeserta, listUser ] );
 
     const handleApprove = async ( event ) =>
     {
@@ -272,6 +277,7 @@ function MeetingDetail ()
 
             return;
         }
+        // console.log( data )
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, data,
                 {
@@ -349,41 +355,6 @@ function MeetingDetail ()
         }
     };
 
-    const columns = useMemo(
-        () => [
-            {
-                header: 'Nama Equipment',
-                accessorKey: 'nama_equipment',
-                mantineTableHeadCellProps: {
-                    align: 'center',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'center',
-                },
-            },
-        ],
-        [],
-    );
-
-
-    const table = useMantineReactTable( {
-        columns,
-        enableDensityToggle: false,
-        enableFullScreenToggle: false,
-        initialState: {
-            density: 'xs',
-            // sorting: [
-            //     {
-            //         id: 'username', //sort by age by default on page load
-            //         asc: true,
-            //     },
-            // ],
-        },
-        data: detailEquipment,
-        isMultiSortEvent: () => true,
-        mantineTableProps: { striped: true, highlightOnHover: false },
-    } );
-
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -395,7 +366,7 @@ function MeetingDetail ()
                             {
                                 isMobile === false ? (
                                     <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
-                                        Detail Meeting { meeting?.nama_meeting }
+                                        Detail Meeting
                                     </h3>
                                 )
                                     :
@@ -410,7 +381,7 @@ function MeetingDetail ()
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                <HeaderMobile />
+                                    <HeaderMobile2 />
                             ) }
                         </Col>
                     </Row>
@@ -434,7 +405,7 @@ function MeetingDetail ()
                     <Row>
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='mb-3'>
                             <Card id='cardDetailMeeting'>
-                                <Card.Body>
+                                <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
                                     <>
                                         <Row>
                                             <Col xs={ !meeting?.finished ? 6 : 6 } className='text-start'>
@@ -586,7 +557,7 @@ function MeetingDetail ()
                                                                             <Form.Control
                                                                                 id='link'
                                                                                 as="textarea"
-                                                                                rows={ 3 }
+                                                                                rows={ 4 }
                                                                                 type="text"
                                                                                 value={ meeting?.link_meeting || '' }
                                                                                 readOnly
@@ -618,7 +589,7 @@ function MeetingDetail ()
                                                                                 <Form.Control
                                                                                     id='link'
                                                                                     as="textarea"
-                                                                                    rows={ 3 }
+                                                                                    rows={ 4 }
                                                                                     type="text"
                                                                                     value={ meeting?.link_meeting || '' }
                                                                                     readOnly
@@ -646,7 +617,7 @@ function MeetingDetail ()
                         </Col>
                         <Col xs={ 12 } md={ 7 } lg={ 7 } className='mb-3'>
                             <Card id='cardDetailRuangan'>
-                                <Card.Body>
+                                <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
                                     <p
                                         className='head-content text-center'
                                     >
@@ -654,31 +625,99 @@ function MeetingDetail ()
                                     </p>
                                     <div>
                                         <Row>
-                                            <Col xs={ 12 } md={ 5 } lg={ 5 } >
+                                            <Col xs={ 12 } md={ 6 } lg={ 6 }  >
                                                 <p className='label'>Nama Gedung:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.gedung }</p>
                                                 <p className='label'>Nama Ruangan:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.nama_ruangan }</p>
                                                 <p className='label'>Nomor Ruangan:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.no_ruangan }</p>
+                                            </Col>
+                                            <Col xs={ 12 } md={ 6 } lg={ 6 } >
                                                 <p className='label'>Lantai:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.lantai }</p>
                                                 <p className='label'>Kapasitas Ruangan:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.kapasitas }</p>
                                             </Col>
-                                            <Col xs={ 12 } md={ 7 } lg={ 7 } >
-                                                <MantineReactTable
-                                                    table={ table }
-                                                />
+                                            <Col xs={ 12 }  >
+                                                <Table bordered responsive>
+                                                    <thead>
+                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                            <th>#</th>
+                                                            <th>Nama Equipment</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            detailEquipment.map( ( data, index ) =>
+                                                            {
+
+                                                                return (
+                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                        <td>{ data?.nama_equipment }</td>
+                                                                    </tr>
+                                                                )
+                                                            } )
+                                                        }
+                                                    </tbody>
+                                                </Table>
                                             </Col>
                                         </Row>
                                     </div>
                                 </Card.Body>
                             </Card>
                         </Col>
+                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='my-3'>
+                            <Card id='cardDetailRuangan'>
+                                <Card.Body>
+                                    <p
+                                        className='head-content text-center'
+                                    >
+                                        Detail Peserta
+                                    </p>
+                                    <div>
+                                        <Table bordered responsive>
+                                            <thead>
+                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                    <th>#</th>
+                                                    <th>Nama Peserta</th>
+                                                    <th>Status Kehadiran</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    dataPeserta.map( ( data, index ) =>
+                                                    {
+
+                                                        return (
+                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                <td>{ data?.user_name }</td>
+                                                                <td style={ { textAlign: 'center' } }>
+                                                                    { ( () =>
+                                                                    {
+                                                                        switch ( data?.hadir ) {
+                                                                            case true:
+                                                                                return <span>Hadir</span>;
+                                                                            case null:
+                                                                                return <span>Belum Konfirmasi</span>;
+                                                                            default:
+                                                                                return null;
+                                                                        }
+                                                                    } )() }
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    } )
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     </Row>
-                    <br />
-                    <br />
                     <br />
                     <br />
                     <br />

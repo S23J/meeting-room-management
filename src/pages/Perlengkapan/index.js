@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { HeaderDetailPage, HeaderMobile, ModalAddPerlengkapan, ModalEditPerlengkapan, SidebarComponent } from '../../components'
+import { HeaderDetailPage, HeaderMobile2, ModalAddPerlengkapan, ModalEditPerlengkapan, SidebarComponent } from '../../components'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
@@ -290,7 +290,7 @@ function Perlengkapan ()
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                <HeaderMobile />
+                                    <HeaderMobile2 />
                             ) }
                         </Col>
                     </Row>

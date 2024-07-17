@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { HeaderDetailPage, HeaderMobile, SidebarComponent } from '../../components';
+import { HeaderDetailPage, HeaderMobile2, SidebarComponent } from '../../components';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
@@ -164,7 +164,7 @@ function RuanganDetail ()
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                <HeaderMobile />
+                                    <HeaderMobile2 />
                             ) }
                         </Col>
                     </Row>

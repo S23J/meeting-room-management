@@ -38,12 +38,11 @@ function Dashboard ()
                 const filterData = res.data.filter( item => item.status === "processing" );
                 setListMeeting( filterData );
 
-                const onGoingMeeting = res.data.filter( item => item.status === "approved" && item.finished === null );
+                const onGoingMeeting = res.data.filter( item => item.status === "approved" && item.finished === false );
                 setMeetingToday( onGoingMeeting );
 
                 const historyFilter = res.data.filter( item =>
                 {
-                    // console.log( item.status, item.finished ); // Debugging line to check values
                     return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
                 } );
                 setHistoryMeeting( historyFilter );
@@ -74,7 +73,7 @@ function Dashboard ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-                console.log( err )
+                // console.log( err )
             } )
     }
 
@@ -84,22 +83,10 @@ function Dashboard ()
         {
             if ( tokenUser !== undefined ) retrieveMeeting();
             if ( tokenUser !== undefined ) retrieveRuangan()
-        }, 1000 ); // Interval set to 60 seconds
+        }, 5000 );
         return () => clearInterval( interval );
     }, [ tokenUser ] );
 
-
-    // const currentDate = new Date();
-    // const [ meetingToday, setMeetingToday ] = useState( {} );//filtering timeblock perhari ini atau diatas hari ini
-    // const fetchTimeblockFilter = () => //filtering timeblock perhari ini atau diatas hari ini
-    // {
-    //     const meetingFilter = listMeeting.filter( ( bigN ) => new Date( bigN.waktu_mulai ) > currentDate )
-    //     setMeetingToday( meetingFilter )
-    // }
-    // useEffect( () =>
-    // {
-    //     fetchTimeblockFilter()
-    // }, [ listMeeting ] )
 
 
     return (

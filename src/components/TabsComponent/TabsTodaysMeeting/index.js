@@ -36,7 +36,7 @@ function TabsTodaysMeeting ()
             .then( res =>
             {
 
-                const filterData = res.data.filter( item => item.status === "approved" && item.finished === null );
+                const filterData = res.data.filter( item => item.status === "approved" && item.finished === false );
                 setListMeeting( filterData );
                 // console.log( res.data )
             } ).catch( err =>
