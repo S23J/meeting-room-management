@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import axios from '../../../api/axios';
 import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
-import { AuthContext } from '../../../auth';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { CiRead } from 'react-icons/ci';
+import { CiPaperplane } from 'react-icons/ci';
+import { AuthContext } from '../../../../auth';
+import axios from '../../../../api/axios';
 
 
-function TabsTodaysMeeting ()
+function TabsRequestMeetingDark ()
 {
     const { tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
@@ -36,7 +36,7 @@ function TabsTodaysMeeting ()
             .then( res =>
             {
 
-                const filterData = res.data.filter( item => item.status === "approved" && item.finished === false );
+                const filterData = res.data.filter( item => item.status === "processing" );
                 setListMeeting( filterData );
                 // console.log( res.data )
             } ).catch( err =>
@@ -126,30 +126,13 @@ function TabsTodaysMeeting ()
     const columns = useMemo(
         () => [
             {
-                header: 'Detail',
-                accessorFn: row => (
-                    <div >
-                        <Button variant='btn' id='buttonDetailTableLight' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<CiRead size={ 28 } />&nbsp;
-                        </Button>
-                    </div>
-                ),
-                size: 50,
-                mantineTableHeadCellProps: {
-                    align: 'left',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'left',
-                },
-            },
-            {
                 header: 'Request by',
                 accessorKey: 'user_name',
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'left',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'left',
                 },
             },
             {
@@ -234,11 +217,28 @@ function TabsTodaysMeeting ()
                     align: 'center',
                 },
             },
+            {
+                header: 'Approval',
+                accessorFn: row => (
+                    <div >
+                        <Button variant='btn' id='buttonDetailTableDark' onClick={ () => detailMeeting( row.id ) }>
+                            &nbsp;<CiPaperplane size={ 28 } />&nbsp;
+                        </Button>
+                    </div>
+                ),
+                size: 50,
+                mantineTableHeadCellProps: {
+                    align: 'right',
+                },
+                mantineTableBodyCellProps: {
+                    align: 'right',
+                },
+            },
         ],
         [],
     );
 
-    const tableTodayMeeting = useMantineReactTable( {
+    const table = useMantineReactTable( {
         columns,
         enableDensityToggle: false,
         enableFullScreenToggle: false,
@@ -255,7 +255,7 @@ function TabsTodaysMeeting ()
         enableRowNumbers: true,
         rowNumberMode: 'static',
         isMultiSortEvent: () => true,
-        mantineTableProps: { striped: true, highlightOnHover: false },
+        mantineTableProps: { highlightOnHover: false },
     } );
 
     // console.log( dataTable )
@@ -263,10 +263,10 @@ function TabsTodaysMeeting ()
     return (
         <>
             <MantineReactTable
-                table={ tableTodayMeeting }
+                table={ table }
             />
         </>
     )
 }
 
-export default TabsTodaysMeeting
+export default TabsRequestMeetingDark

@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import axios from '../../../api/axios';
 import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
-import { AuthContext } from '../../../auth';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { CiPaperplane } from 'react-icons/ci';
-import { ModalDetailMeeting } from '../../Modal';
+import { AuthContext } from '../../../../auth';
+import axios from '../../../../api/axios';
 
 
-function TabsRequestMeeting ()
+function TabsRequestMeetingLight ()
 {
-    const { showSidebar, tokens } = useContext( AuthContext );
+    const { tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ listUser, setListUser ] = useState( [] );
     const tokenUser = tokens?.token;
@@ -256,10 +255,8 @@ function TabsRequestMeeting ()
         enableRowNumbers: true,
         rowNumberMode: 'static',
         isMultiSortEvent: () => true,
-        mantineTableProps: { striped: true, highlightOnHover: false },
+        mantineTableProps: { highlightOnHover: false },
     } );
-
-    // console.log( dataTable )
 
     return (
         <>
@@ -270,4 +267,4 @@ function TabsRequestMeeting ()
     )
 }
 
-export default TabsRequestMeeting
+export default TabsRequestMeetingLight

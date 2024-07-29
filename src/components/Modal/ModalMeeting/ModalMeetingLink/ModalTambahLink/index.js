@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
+import { ThemeContext } from '../../../../../auth';
 
 function ModalTambahLink ( {
     showAddLink,
@@ -11,6 +12,7 @@ function ModalTambahLink ( {
     tokenUser
 } )
 {
+    const { theme } = useContext( ThemeContext );
     const [ linkMeeting, setLinkMeeting ] = useState( '' );
 
     const handleClose = () =>
@@ -58,6 +60,20 @@ function ModalTambahLink ( {
 
     }
 
+    const formStyles = {
+        label: {
+            fontFamily: 'Poppins-Medium',
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+        },
+        input: {
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+        },
+    };
+
+
     return (
         <Modal
             show={ showAddLink }
@@ -65,9 +81,10 @@ function ModalTambahLink ( {
             backdrop="static"
             keyboard={ false }
             centered
+            data-bs-theme={ theme === 'light' ? 'dark' : '' }
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                     Tambah Link Meeting
                 </Modal.Title>
             </Modal.Header>
@@ -90,7 +107,7 @@ function ModalTambahLink ( {
                     <div className="d-grid gap-2 mt-4">
                         <Button
                             type="submit"
-                            id='actionButtonModal'
+                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
                         // disabled={ disabled }
                         >
@@ -105,17 +122,3 @@ function ModalTambahLink ( {
 }
 
 export default ModalTambahLink
-
-
-const formStyles = {
-    label: {
-        fontFamily: 'Poppins-Medium',
-        color: '#222',
-    },
-    input: {
-        color: '#222',
-        fontFamily: 'Poppins-Regular',
-        minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
-    },
-};

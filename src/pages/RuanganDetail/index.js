@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HeaderDetailPage, HeaderMobile2, SidebarComponent } from '../../components';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
-import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 
 function RuanganDetail ()
 {
     const { ruangid } = useParams();
-    // console.log( ruangid );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const { showSidebar, tokens } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
@@ -54,7 +52,7 @@ function RuanganDetail ()
             .then( res =>
             {
                 setDetailRuangan( res.data );
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 if ( err.response?.status === 401 ) {
@@ -89,7 +87,7 @@ function RuanganDetail ()
             .then( res =>
             {
                 setDetailEquipment( res.data );
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 if ( err.response?.status === 401 ) {
@@ -109,45 +107,6 @@ function RuanganDetail ()
                 } else ( console.log( err ) )
             } )
     }
-
-
-    const columns = useMemo(
-        () => [
-            {
-                header: 'Nama Equipment',
-                accessorKey: 'nama_equipment',
-                mantineTableHeadCellProps: {
-                    align: 'left',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'left',
-                },
-            },
-        ],
-        [],
-    );
-
-
-    const table = useMantineReactTable( {
-        columns,
-        enableDensityToggle: false,
-        enableFullScreenToggle: false,
-        initialState: {
-            density: 'xs',
-            // sorting: [
-            //     {
-            //         id: 'username', //sort by age by default on page load
-            //         asc: true,
-            //     },
-            // ],
-        },
-        data: detailEquipment,
-        enableRowNumbers: true,
-        rowNumberMode: 'static',
-        isMultiSortEvent: () => true,
-        mantineTableProps: { striped: true, highlightOnHover: false },
-    } );
-
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -171,12 +130,12 @@ function RuanganDetail ()
                 </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
                 <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
-                    <Button variant='btn' id='actionButtonKembali' onClick={ buttonBack }>Kembali</Button>
+                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
                 </div>
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
                     <Row>
                         <Col xs={ 12 } md={ 6 } lg={ 6 } className='mb-3'>
-                            <Card id='cardDetailRuangan'>
+                            <Card id={ theme === 'light' ? 'cardDetailRuanganDark' : 'cardDetailRuanganLight' }>
                                 <Card.Body>
                                     <p
                                         className='head-content text-center'
@@ -205,7 +164,7 @@ function RuanganDetail ()
                             </Card>
                         </Col>
                         <Col xs={ 12 } md={ 6 } lg={ 6 } className='mb-3'>
-                            <Card id='cardDetailEquipment'>
+                            <Card id={ theme === 'light' ? 'cardDetailEquipmentDark' : 'cardDetailEquipmentLight' }>
                                 <Card.Body>
                                     <p
                                         className='head-content text-center'
@@ -213,9 +172,19 @@ function RuanganDetail ()
                                         Detail Perlengkapan
                                     </p>
                                     <div>
-                                        <MantineReactTable
-                                            table={ table }
-                                        />
+                                        {
+                                            detailEquipment.map( ( data, index ) =>
+                                            {
+
+                                                return (
+                                                    <ListGroup key={ index } className="custom-list-group" style={ { fontFamily: 'Poppins-Light' } }>
+                                                        <ListGroupItem className="custom-list-group-item">
+                                                            { data?.nama_equipment }
+                                                        </ListGroupItem>
+                                                    </ListGroup>
+                                                )
+                                            } )
+                                        }
                                     </div>
                                 </Card.Body>
                             </Card>

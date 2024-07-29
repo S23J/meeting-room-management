@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
 import { CiBoxes, CiCalendarDate, CiDark, CiGrid41, CiLight, CiViewList } from 'react-icons/ci'
 import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc'
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 function SidebarComponent ()
 {
@@ -87,13 +88,13 @@ function SidebarComponent ()
                         <div style={ { minHeight: '9vh' } }></div>
                         <div className='icon-box-sidebar'
                             onClick={ toggleSidebar }
-                            style={ { left: showSidebar ? '60px' : '190px', cursor: 'pointer' } }
+                            style={ { left: showSidebar ? '70px' : '200px', cursor: 'pointer' } }
                         >
                             {
                                 showSidebar ?
-                                    <VscChevronRight size={ 25 } className='ms-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { backgroundColor: theme === 'light' ? '#000A2E' : '#FFFFFF', borderRadius: '25px' } } />
+                                    <IoIosArrowForward size={ 30 } className='icon-arrow-sidebar ms-1' color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                                     :
-                                    <VscChevronLeft size={ 25 } className='ms-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } style={ { backgroundColor: theme === 'light' ? '#000A2E' : '#FFFFFF', borderRadius: '25px' } } />
+                                    <IoIosArrowBack size={ 30 } className='icon-arrow-sidebar ms-1' color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                             }
                         </div>
                         {
@@ -166,14 +167,14 @@ function SidebarComponent ()
                     </Menu>
                     <div className='mt-auto text-center' style={ { fontFamily: 'Poppins-Medium', fontSize: '13px' } }>
                         <span className="theme-toggle-container">
-                            <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                            <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#FFFFFF' } />
                             <Form.Check
                                 type="switch"
                                 className="custom-switch"
                                 checked={ theme === 'light' }
                                 onChange={ handleToggle }
                             />
-                            <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                            <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#FFFFFF' } />
                         </span>
 
                     </div>
@@ -182,7 +183,7 @@ function SidebarComponent ()
                 <>
                     <Sidebar
                             id={ theme === 'light' ? 'mySidebarDark' : 'mySidebarLight' }
-                            backgroundColor={ theme === 'light' ? '#000A2E' : '#FFFFFF' }
+                            backgroundColor={ theme === 'light' ? '#222222' : '#000A2E' }
                         width='210px'
                         onBackdropClick={ toggleMobileSidebar }
                         toggled={ mobileSidebar }

@@ -12,6 +12,17 @@ import
     } from "./Modal"
 import SidebarComponent from "./Sidebar"
 import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header"
+import { TableRuanganDark, TableRuanganLight, TableEquipmentDark, TableEquipmentLight } from "./TableComponent"
+import
+{
+    TabsRequestMeetingDark,
+    TabsRequestMeetingLight,
+    TabsTodaysMeetingDark,
+    TabsTodaysMeetingLight,
+    TabsHistoryMeetingDark,
+    TabsHistoryMeetingLight
+} from "./TabsComponent"
+
 
 export
 {
@@ -28,5 +39,15 @@ export
     HeaderWeb,
     HeaderMobile,
     HeaderMobile2,
-    HeaderDetailPage
+    HeaderDetailPage,
+    TableRuanganDark,
+    TableRuanganLight,
+    TableEquipmentDark,
+    TableEquipmentLight,
+    TabsRequestMeetingDark,
+    TabsRequestMeetingLight,
+    TabsTodaysMeetingDark,
+    TabsTodaysMeetingLight,
+    TabsHistoryMeetingDark,
+    TabsHistoryMeetingLight
 }

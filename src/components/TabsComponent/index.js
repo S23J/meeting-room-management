@@ -1,11 +1,17 @@
-import TabsRequestMeeting from "./TabsRequestMeeting";
-import TabsTodaysMeeting from "./TabsTodaysMeeting";
-import TabsHistoryMeeting from "./TabsHistoryMeeting";
+import TabsRequestMeetingDark from "./TabsRequestMeeting/TabsRequestMeetingDark";
+import TabsRequestMeetingLight from "./TabsRequestMeeting/TabsRequestMeetingLight";
+import TabsTodaysMeetingDark from "./TabsTodaysMeeting/TabsTodayMeetingDark";
+import TabsTodaysMeetingLight from "./TabsTodaysMeeting/TabsTodayMeetingLight";
+import TabsHistoryMeetingDark from "./TabsHistoryMeeting/TabsHistoryMeetingDark";
+import TabsHistoryMeetingLight from "./TabsHistoryMeeting/TabsHistoryMeetingLight";
 
 
 export
 {
-    TabsRequestMeeting,
-    TabsTodaysMeeting,
-    TabsHistoryMeeting
+    TabsRequestMeetingDark,
+    TabsRequestMeetingLight,
+    TabsTodaysMeetingDark,
+    TabsTodaysMeetingLight,
+    TabsHistoryMeetingDark,
+    TabsHistoryMeetingLight
 }

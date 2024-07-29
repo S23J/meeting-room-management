@@ -137,7 +137,7 @@ function HeaderWeb ()
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
                 <Dropdown drop='start' style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '280px', top: '12px' } } >
-                    <Dropdown.Toggle variant="btn"  >
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } >
                         <CiBellOn size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                         {
                             meetingList?.length === 0 ? (
@@ -188,7 +188,7 @@ function HeaderWeb ()
                     { userInfo?.first_name } { userInfo?.last_name }
                 </span>
                 <Dropdown className='ms-2'>
-                    <Dropdown.Toggle variant="btn" >
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
                         <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>

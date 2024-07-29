@@ -13,7 +13,7 @@ function App ()
     <BrowserRouter>
       <Routes>
         <Route path="/" element={ <Login /> } />
-        <Route path="/dashboard/"
+        {/* <Route path="/dashboard/"
           element={
             <PrivateRouteComp >
               <Dashboard />
@@ -54,7 +54,33 @@ function App ()
             <PrivateRouteComp >
               <ResetPasswordPage />
             </PrivateRouteComp>
+          } /> */}
+
+
+
+        <Route path="/dashboard/"
+          element={ <Dashboard />
           } />
+        <Route path="/ruangan/"
+          element={ <Ruangan />
+          } />
+        <Route path="/detail-ruangan/:ruangid"
+          element={ <RuanganDetail />
+          } />
+        <Route path="/perlengkapan/"
+          element={ <Perlengkapan />
+          } />
+        <Route path="/meeting/"
+          element={ <Meeting />
+          } />
+        <Route path="/detail-meeting/:meetingid"
+          element={ <MeetingDetail />
+          } />
+        <Route path="/reset-password/:userId/:token"
+          element={ <ResetPasswordPage />
+          } />
+
+
       </Routes>
     </BrowserRouter>
   );

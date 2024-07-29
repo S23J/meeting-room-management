@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
+import { ThemeContext } from '../../../../auth';
 
 function ModalAddPerlengkapan ( {
     showAddAlat,
@@ -13,6 +14,7 @@ function ModalAddPerlengkapan ( {
     tokenUser
 } )
 {
+    const { theme } = useContext( ThemeContext );
     const [ alat, setAlat ] = useState( '' );
     const [ selectedRuangan, setSelectedRuangan ] = useState( null );
 
@@ -74,6 +76,41 @@ function ModalAddPerlengkapan ( {
 
     }
 
+    const formStyles = {
+        label: {
+            fontFamily: 'Poppins-Medium',
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+        },
+        input: {
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+        },
+    };
+
+    // Custom styles for react-select
+    const selectStyles = {
+        control: ( provided, state ) => ( {
+            ...provided,
+            minHeight: '50px', // Adjust the height as needed
+            border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
+            boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
+            '&:hover': {
+                borderColor: '#80bdff',
+            },
+            backgroundColor: theme === 'light' ? '#212529' : 'FFFFFF',
+            fontFamily: 'Poppins-Regular'
+        } ),
+        option: ( provided, state ) => ( {
+            ...provided,
+            color: state.isSelected ? '#fff' : '#333',
+            background: state.isSelected ? '#007bff' : '#fff',
+            fontFamily: 'Poppins-Regular'
+        } ),
+    };
+
+
     return (
         <Modal
             show={ showAddAlat }
@@ -81,9 +118,10 @@ function ModalAddPerlengkapan ( {
             backdrop="static"
             keyboard={ false }
             centered
+            data-bs-theme={ theme === 'light' ? 'dark' : '' }
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                     Tambah Peralatan
                 </Modal.Title>
             </Modal.Header>
@@ -115,7 +153,7 @@ function ModalAddPerlengkapan ( {
                     <div className="d-grid gap-2 mt-4">
                         <Button
                             type="submit"
-                            id='actionButtonModal'
+                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
                         // disabled={ disabled }
                         >
@@ -131,35 +169,3 @@ function ModalAddPerlengkapan ( {
 export default ModalAddPerlengkapan
 
 
-const formStyles = {
-    label: {
-        fontFamily: 'Poppins-Medium',
-        color: '#222',
-    },
-    input: {
-        color: '#222',
-        fontFamily: 'Poppins-Regular',
-        minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
-    },
-};
-
-// Custom styles for react-select
-const selectStyles = {
-    control: ( provided, state ) => ( {
-        ...provided,
-        minHeight: '50px', // Adjust the height as needed
-        border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
-        boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
-        '&:hover': {
-            borderColor: '#80bdff',
-        },
-        fontFamily: 'Poppins-Regular'
-    } ),
-    option: ( provided, state ) => ( {
-        ...provided,
-        color: state.isSelected ? '#fff' : '#333',
-        background: state.isSelected ? '#007bff' : '#fff',
-        fontFamily: 'Poppins-Regular'
-    } ),
-};

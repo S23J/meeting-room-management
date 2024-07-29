@@ -69,7 +69,7 @@ function HeaderMobile2 ()
                     { userInfo?.first_name } { userInfo?.last_name }
                 </span>
                 <Dropdown >
-                    <Dropdown.Toggle variant="btn" >
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
                         <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>

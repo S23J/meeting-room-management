@@ -122,7 +122,7 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                    background: theme === 'light' ? '#222222' : '#000A2E'
                                                 } }
                                             >
                                             <span >
@@ -159,7 +159,7 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                    background: theme === 'light' ? '#222222' : '#000A2E'
                                                 } }
                                             >
                                             <span >
@@ -196,7 +196,7 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                    background: theme === 'light' ? '#222222' : '#000A2E'
                                                 } }
                                             >
                                             <span >
@@ -233,7 +233,7 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#000A2E' : '#000A2E'
+                                                    background: theme === 'light' ? '#222222' : '#000A2E'
                                                 } }
                                             >
                                             <span >

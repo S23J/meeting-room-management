@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
+import { ThemeContext } from '../../../../../auth';
 
 function ModalTambahPin ( {
     showAddPin,
@@ -11,6 +12,8 @@ function ModalTambahPin ( {
     tokenUser
 } )
 {
+
+    const { theme } = useContext( ThemeContext );
     const [ pinCode, setPinCode ] = useState( '' );
 
     const handleClose = () =>
@@ -58,6 +61,19 @@ function ModalTambahPin ( {
 
     }
 
+    const formStyles = {
+        label: {
+            fontFamily: 'Poppins-Medium',
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+        },
+        input: {
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+        },
+    };
+
     return (
         <Modal
             show={ showAddPin }
@@ -65,9 +81,10 @@ function ModalTambahPin ( {
             backdrop="static"
             keyboard={ false }
             centered
+            data-bs-theme={ theme === 'light' ? 'dark' : '' }
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                     Tambah Pin
                 </Modal.Title>
             </Modal.Header>
@@ -89,7 +106,7 @@ function ModalTambahPin ( {
                     <div className="d-grid gap-2 mt-4">
                         <Button
                             type="submit"
-                            id='actionButtonModal'
+                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
                         // disabled={ disabled }
                         >
@@ -104,17 +121,3 @@ function ModalTambahPin ( {
 }
 
 export default ModalTambahPin
-
-
-const formStyles = {
-    label: {
-        fontFamily: 'Poppins-Medium',
-        color: '#222',
-    },
-    input: {
-        color: '#222',
-        fontFamily: 'Poppins-Regular',
-        minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
-    },
-};

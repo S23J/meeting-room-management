@@ -390,21 +390,21 @@ function MeetingDetail ()
                 <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>
-                            <Button variant='btn' id='actionButtonApprove' className='me-3' onClick={ handleApprove } disabled={ !meeting?.pincode }>Setuju</Button>
-                            <Button variant='btn' id='actionButtonDenied' className='me-3' onClick={ handleDenied }>Tolak</Button>
-                            <Button variant='btn' id='actionButtonKembali' onClick={ buttonBack }>Kembali</Button>
+                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting?.pincode }>Setuju</Button>
+                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
+                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
                         </>
                     )
                         :
                         (
-                            <Button variant='btn' id='actionButtonKembali' className='me-1' onClick={ buttonBack }>Kembali</Button>
+                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } className='me-1' onClick={ buttonBack }>Kembali</Button>
                         )
                     }
                 </div>
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <Row>
-                        <Col xs={ 12 } md={ 5 } lg={ 5 } className='mb-3'>
-                            <Card id='cardDetailMeeting'>
+                        <Col xs={ 12 } md={ 5 } lg={ 5 } className='my-2'>
+                            <Card id={ theme === 'light' ? 'cardDetailMeetingDark' : 'cardDetailMeetingLight' } >
                                 <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
                                     <>
                                         <Row>
@@ -615,8 +615,8 @@ function MeetingDetail ()
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col xs={ 12 } md={ 7 } lg={ 7 } className='mb-3'>
-                            <Card id='cardDetailRuangan'>
+                        <Col xs={ 12 } md={ 7 } lg={ 7 } className='my-2'>
+                            <Card id={ theme === 'light' ? 'cardDetailRuanganDark' : 'cardDetailRuanganLight' }>
                                 <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
                                     <p
                                         className='head-content text-center'
@@ -668,8 +668,8 @@ function MeetingDetail ()
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='my-3'>
-                            <Card id='cardDetailRuangan'>
+                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='mt-2 mb-2'>
+                            <Card id={ theme === 'light' ? 'cardDetailPesertaDark' : 'cardDetailPesertaLight' }>
                                 <Card.Body>
                                     <p
                                         className='head-content text-center'
@@ -763,10 +763,10 @@ export default MeetingDetail;
 const formStyles = {
     label: {
         fontFamily: 'Poppins-Medium',
-        color: '#222',
+
     },
     input: {
-        color: '#222',
+
         fontFamily: 'Poppins-Regular',
         minHeight: '50px',
         borderColor: '#ced4da', // Initial border color

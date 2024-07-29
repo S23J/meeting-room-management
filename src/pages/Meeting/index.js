@@ -3,7 +3,15 @@ import { AuthContext, ThemeContext } from '../../auth';
 import { HeaderDetailPage, HeaderMobile2, SidebarComponent } from '../../components';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
-import { TabsHistoryMeeting, TabsRequestMeeting, TabsTodaysMeeting } from '../../components/TabsComponent';
+import
+    {
+        TabsHistoryMeetingDark,
+        TabsHistoryMeetingLight,
+        TabsRequestMeetingDark,
+        TabsRequestMeetingLight,
+        TabsTodaysMeetingDark,
+        TabsTodaysMeetingLight
+    } from '../../components/TabsComponent';
 
 function Meeting ()
 {
@@ -41,13 +49,28 @@ function Meeting ()
                         style={ { fontFamily: 'Poppins-Regular' } }
                     >
                         <Tab eventKey="request" title="Request" >
-                            <TabsRequestMeeting />
+                            {
+                                theme === 'light' ?
+                                    <TabsRequestMeetingDark />
+                                    :
+                                    <TabsRequestMeetingLight />
+                            }
                         </Tab>
                         <Tab eventKey="meeting" title="Meeting">
-                            <TabsTodaysMeeting />
+                            {
+                                theme === 'light' ?
+                                    <TabsTodaysMeetingDark />
+                                    :
+                                    <TabsTodaysMeetingLight />
+                            }
                         </Tab>
                         <Tab eventKey="history" title="History">
-                            <TabsHistoryMeeting />
+                            {
+                                theme === 'light' ?
+                                    <TabsHistoryMeetingDark />
+                                    :
+                                    <TabsHistoryMeetingLight />
+                            }
                         </Tab>
                     </Tabs>
                     <br />

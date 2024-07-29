@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik } from 'formik';
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { ThemeContext } from '../../../../../auth';
 
 function ModalEditLink ( {
     showEditLink,
@@ -14,6 +15,7 @@ function ModalEditLink ( {
 } )
 {
 
+    const { theme } = useContext( ThemeContext );
     const handleClose = () =>
     {
         setShowEditLink( false );
@@ -60,6 +62,18 @@ function ModalEditLink ( {
 
     }
 
+    const formStyles = {
+        label: {
+            fontFamily: 'Poppins-Medium',
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+        },
+        input: {
+            color: theme === 'light' ? '#FFFFFF' : '#222222',
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+        },
+    };
 
     return (
         <Modal
@@ -68,9 +82,10 @@ function ModalEditLink ( {
             backdrop="static"
             keyboard={ false }
             centered
+            data-bs-theme={ theme === 'light' ? 'dark' : '' }
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                     Ubah Link Meeting
                 </Modal.Title>
             </Modal.Header>
@@ -103,7 +118,7 @@ function ModalEditLink ( {
                             <div className="d-grid gap-2 mt-4">
                                 <Button
                                     type="submit"
-                                    id='actionButtonModal'
+                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                                     variant='btn'
                                 // disabled={ disabled }
                                 >
@@ -120,17 +135,3 @@ function ModalEditLink ( {
 }
 
 export default ModalEditLink;
-
-
-const formStyles = {
-    label: {
-        fontFamily: 'Poppins-Medium',
-        color: '#222',
-    },
-    input: {
-        color: '#222',
-        fontFamily: 'Poppins-Regular',
-        minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
-    },
-};
