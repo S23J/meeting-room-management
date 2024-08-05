@@ -115,6 +115,7 @@ function ModalEditPerlengkapan ( {
     const selectStyles = {
         control: ( provided, state ) => ( {
             ...provided,
+            color: theme === 'light' ? '#222' : '#fff',
             minHeight: '50px', // Adjust the height as needed
             border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
             boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
@@ -123,6 +124,10 @@ function ModalEditPerlengkapan ( {
             },
             backgroundColor: theme === 'light' ? '#212529' : 'FFFFFF',
             fontFamily: 'Poppins-Regular'
+        } ),
+        singleValue: ( provided, state ) => ( {
+            ...provided,
+            color: theme === 'light' ? ( state.isFocused ? '#222' : '#fff' ) : ( state.isSelected ? '#222' : '#222' ), // Conditional text color based on theme and focus
         } ),
         option: ( provided, state ) => ( {
             ...provided,
