@@ -15,6 +15,7 @@ function ModalTambahPin ( {
 
     const { theme } = useContext( ThemeContext );
     const [ pinCode, setPinCode ] = useState( '' );
+    const [ disabled, setDisabled ] = useState( false );
 
     const handleClose = () =>
     {
@@ -29,6 +30,7 @@ function ModalTambahPin ( {
             pincode: pinCode,
         };
         // console.log( data );
+        setDisabled( true );
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, data,
                 {
@@ -49,6 +51,7 @@ function ModalTambahPin ( {
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
+            setDisabled( false );
         } catch ( err ) {
             console.log( err );
             handleClose();
@@ -56,7 +59,8 @@ function ModalTambahPin ( {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat menambahkan kode pin',
-            } )
+            } );
+            setDisabled( false );
         }
 
     }
@@ -91,7 +95,7 @@ function ModalTambahPin ( {
             <Modal.Body>
                 <Form onSubmit={ handleSubmitPin }>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode PIN*</Form.Label>
+                        <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode Pintu*</Form.Label>
                         <Form.Control
                             id='pinCode'
                             type="text"
@@ -108,7 +112,7 @@ function ModalTambahPin ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                        // disabled={ disabled }
+                            disabled={ disabled }
                         >
                             Simpan
                         </Button>

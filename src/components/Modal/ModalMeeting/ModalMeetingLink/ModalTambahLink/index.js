@@ -14,6 +14,7 @@ function ModalTambahLink ( {
 {
     const { theme } = useContext( ThemeContext );
     const [ linkMeeting, setLinkMeeting ] = useState( '' );
+    const [ disabled, setDisabled ] = useState( false );
 
     const handleClose = () =>
     {
@@ -28,6 +29,7 @@ function ModalTambahLink ( {
             link_meeting: linkMeeting,
         };
         // console.log( data );
+        setDisabled( true );
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, data,
                 {
@@ -48,6 +50,7 @@ function ModalTambahLink ( {
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
+            setDisabled( false );
         } catch ( err ) {
             console.log( err );
             handleClose();
@@ -55,7 +58,8 @@ function ModalTambahLink ( {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat menambahkan link',
-            } )
+            } );
+            setDisabled( false );
         }
 
     }
@@ -109,7 +113,7 @@ function ModalTambahLink ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                        // disabled={ disabled }
+                            disabled={ disabled }
                         >
                             Simpan
                         </Button>

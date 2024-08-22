@@ -39,8 +39,8 @@ function Meeting ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84.5vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84.5vw' } }>
                     <Tabs
                         id="controlled-tab-meeting"
                         defaultActiveKey="request"

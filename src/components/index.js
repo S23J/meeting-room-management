@@ -3,8 +3,14 @@ import
         ModalLupaPassword,
         ModalAddRuangan,
         ModalEditRuangan,
+        ModalAddAkun,
+        ModalEditAkun,
+        ModalAddUser,
+        ModalEditUser,
         ModalAddPerlengkapan,
         ModalEditPerlengkapan,
+        ModalBuatMeeting,
+
         ModalTambahPin,
         ModalEditPin,
         ModalTambahLink,
@@ -12,7 +18,7 @@ import
     } from "./Modal"
 import SidebarComponent from "./Sidebar"
 import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header"
-import { TableRuanganDark, TableRuanganLight, TableEquipmentDark, TableEquipmentLight } from "./TableComponent"
+import { TableRuanganDark, TableRuanganLight, TableUserDark, TableUserLight } from "./TableComponent"
 import
 {
     TabsRequestMeetingDark,
@@ -23,6 +29,8 @@ import
     TabsHistoryMeetingLight
 } from "./TabsComponent"
 
+import ZoomAuth from "./ZoomAuth"
+
 
 export
 {
@@ -30,8 +38,14 @@ export
     ModalLupaPassword,
     ModalAddRuangan,
     ModalEditRuangan,
+    ModalAddAkun,
+    ModalEditAkun,
+    ModalAddUser,
+    ModalEditUser,
     ModalAddPerlengkapan,
     ModalEditPerlengkapan,
+    ModalBuatMeeting,
+
     ModalTambahPin,
     ModalEditPin,
     ModalTambahLink,
@@ -42,12 +56,13 @@ export
     HeaderDetailPage,
     TableRuanganDark,
     TableRuanganLight,
-    TableEquipmentDark,
-    TableEquipmentLight,
+    TableUserDark,
+    TableUserLight,
     TabsRequestMeetingDark,
     TabsRequestMeetingLight,
     TabsTodaysMeetingDark,
     TabsTodaysMeetingLight,
     TabsHistoryMeetingDark,
-    TabsHistoryMeetingLight
+    TabsHistoryMeetingLight,
+    ZoomAuth
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
@@ -16,6 +16,7 @@ function ModalEditLink ( {
 {
 
     const { theme } = useContext( ThemeContext );
+    const [ disabled, setDisabled ] = useState( false );
     const handleClose = () =>
     {
         setShowEditLink( false );
@@ -30,6 +31,7 @@ function ModalEditLink ( {
     {
 
         // console.log( values );
+        setDisabled( true );
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, values,
                 {
@@ -50,6 +52,7 @@ function ModalEditLink ( {
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
+            setDisabled( false );
         } catch ( err ) {
             console.log( err );
             handleClose();
@@ -57,7 +60,8 @@ function ModalEditLink ( {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat mengubah link',
-            } )
+            } );
+            setDisabled( false );
         }
 
     }
@@ -120,7 +124,7 @@ function ModalEditLink ( {
                                     type="submit"
                                     id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                                     variant='btn'
-                                // disabled={ disabled }
+                                    disabled={ disabled }
                                 >
                                     Simpan
                                 </Button>

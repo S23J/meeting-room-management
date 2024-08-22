@@ -58,7 +58,6 @@ font-family: 'Poppins-ExtraBold';
 font-weight: 800;
 src: local('Poppins-ExtraBold'), url(./assets/fonts/Poppins-ExtraBold.otf) format('truetype');
 }
-
 /* Poppins Font Setup */
 
 /* Sweetalert Styling */
@@ -120,7 +119,6 @@ font-family: 'Poppins-Regular';
 
 /* Hover styles */
   &:hover {
-    border: 2px solid #a7b7e4;
     box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
       inset 3px 3px 6px #a7b7e4;
   }
@@ -144,17 +142,17 @@ inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
 
 #actionButtonApproveLight {
 font-family: 'Poppins-Regular';
-min-height: 45px;
-background-color: #FFFFFF;
-  color: green;
-  border: green 1px solid;
-  border-radius: 8px;
+  min-height: 45px;
+  box-shadow: 3px 3px 6px #a7b7e4,
+      -3px -3px 6px rgba(255, 255, 255, 0.7);
+    color: green;
+    border: none;
 
-/* Hover styles */
-&:hover {
-background-color: green;
-  color: #FFFFFF;
-}
+  /* Hover styles */
+    &:hover {
+      box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
+          inset 3px 3px 6px #a7b7e4;
+      }
 }
 
 #actionButtonApproveDark {
@@ -176,17 +174,16 @@ border: none;
 
 #actionButtonDeniedLight {
 font-family: 'Poppins-Regular';
-min-height: 45px;
-background-color: #FFFFFF;
-  color: red;
-  border: red 1px solid;
-  border-radius: 8px;
+  min-height: 45px;
+  box-shadow: 3px 3px 6px #a7b7e4,
+      -3px -3px 6px rgba(255, 255, 255, 0.7);
+    color: red;
 
-/* Hover styles */
-&:hover {
-background-color: red;
-  color: #FFFFFF;
-}
+  /* Hover styles */
+    &:hover {
+      box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
+          inset 3px 3px 6px #a7b7e4;
+      }
 }
 
 #actionButtonDeniedDark {
@@ -216,7 +213,6 @@ box-shadow: 3px 3px 6px #a7b7e4,
 
 /* Hover styles */
 &:hover {
-border: 2px solid #a7b7e4;
 box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
     inset 3px 3px 6px #a7b7e4;
 }
@@ -245,7 +241,6 @@ min-height: 45px;
 
 /* Hover styles */
 &:hover {
-border: 2px solid #a7b7e4;
   box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
     inset 3px 3px 6px #a7b7e4;
 }
@@ -273,7 +268,6 @@ min-height: 45px;
 
 /* Hover styles */
 &:hover {
-border: 2px solid #a7b7e4;
   box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
     inset 3px 3px 6px #a7b7e4;
 }
@@ -301,7 +295,6 @@ min-height: 45px;
 
 /* Hover styles */
 &:hover {
-border: 2px solid #a7b7e4;
   box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
     inset 3px 3px 6px #a7b7e4;
 }
@@ -316,6 +309,60 @@ box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
   color: #FFFFFF;
 
 /* Hover styles */
+  &:hover {
+    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
+      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+    color: #FFFFFF;
+  }
+}
+
+#buttonEditTableLightEquip {
+  min-height: 30px;
+  box-shadow: 3px 3px 6px #a7b7e4,
+    -3px -3px 6px rgba(255, 255, 255, 0.7);
+
+  /* Hover styles */
+  &:hover {
+    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
+      inset 3px 3px 6px #a7b7e4;
+  }
+
+}
+
+#buttonEditTableDarkEquip {
+  min-height: 30px;
+  box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
+    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+  border-radius: 8px;
+  color: #FFFFFF;
+
+  /* Hover styles */
+  &:hover {
+    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
+      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+    color: #FFFFFF;
+  }
+}
+
+#buttonDeleteTableLightEquip {
+  min-height: 30px;
+  box-shadow: 3px 3px 6px #a7b7e4,
+    -3px -3px 6px rgba(255, 255, 255, 0.7);
+
+  /* Hover styles */
+  &:hover {
+    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
+      inset 3px 3px 6px #a7b7e4;
+  }
+}
+
+#buttonDeleteTableDarkEquip {
+  min-height: 30px;
+  box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
+    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+  border-radius: 8px;
+  color: #FFFFFF;
+  /* Hover styles */
   &:hover {
     box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
       inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
@@ -386,17 +433,23 @@ overflow-x: hidden !important;
 .active-menu-item-light {
 background-color: whitesmoke;
 color: #000A2E !important;
-  min-width: 300px !important;
+min-width: 100% !important;
   padding-left: 10px;
-  border-radius: 50px !important;
+border-top-left-radius: 50px !important;
+  border-bottom-left-radius: 50px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }
 
 .active-menu-item-dark {
 background-color: #2C2C2C;
 color: #FFFFFF !important;
-min-width: 300px !important;
-padding-left: 10px;
-  border-radius: 50px !important;
+min-width: 100% !important;
+  padding-left: 10px;
+  border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 
 .css-1t8x7v1>.ps-menu-button:hover {
@@ -980,12 +1033,29 @@ background: #222222 !important;
   border-top: 0.5px solid #2C2C2C;
 }
 
-#containerAppDark .mantine-159z3uo {
-background: #222222 !important;
+#containerAppDark .mantine-1p2ioqc {
+  background: #222222 !important;
   color: #FFFFFF !important;
   border-top: 0.5px solid #2C2C2C;
 }
 
+#containerAppDark .mantine-1lz7n5u {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
+
+#containerAppDark .mantine-o01aio {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
+
+#containerAppDark .mantine-mjmt8i {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
 #containerAppDark .mantine-yejojm {
 background: #222222 !important;
   color: #FFFFFF !important;
@@ -1028,6 +1098,11 @@ background: #222222 !important;
   border-top: 0.5px solid #2C2C2C;
 }
 
+#containerAppDark .mantine-1xuzyay {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
 #containerAppDark .mantine-1cn2mlo {
 background: #222222 !important;
   color: #FFFFFF !important;

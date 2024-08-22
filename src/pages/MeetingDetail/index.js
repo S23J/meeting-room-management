@@ -7,16 +7,19 @@ import
 {
     HeaderDetailPage,
     HeaderMobile2,
+    ModalBuatMeeting,
     ModalEditLink,
     ModalEditPin,
     ModalTambahLink,
     ModalTambahPin,
-    SidebarComponent
+    SidebarComponent,
+    ZoomAuth
 }
     from '../../components';
 import { Button, Card, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { CiCirclePlus, CiEdit } from 'react-icons/ci';
+import Select from 'react-select';
 
 function MeetingDetail ()
 {
@@ -33,12 +36,14 @@ function MeetingDetail ()
     const [ date, setDate ] = useState();
     const [ startTime, setStartTime ] = useState();
     const [ endTime, setEndTime ] = useState();
+    const [ selectedPlatform, setSelectedPlatform ] = useState( null );
     const [ filteredUserObject, setFilteredUserObject ] = useState( {} );
     const navigate = useNavigate();
     const [ showAddPin, setShowAddPin ] = useState( false );
     const [ showEditPin, setShowEditPin ] = useState( false );
-    const [ showAddLink, setShowAddLink ] = useState( false );
+    const [ showAddNewMeeting, setShowAddMeeting ] = useState( false );
     const [ showEditLink, setShowEditLink ] = useState( false );
+    const [ listAkun, setListAkun ] = useState( [] );
 
     const handleShowAddPin = () =>
     {
@@ -50,9 +55,9 @@ function MeetingDetail ()
         setShowEditPin( true );
     }
 
-    const handleShowAddLink = () =>
+    const handleShowAddMeeting = () =>
     {
-        setShowAddLink( true );
+        setShowAddMeeting( true );
     }
 
     const handleShowEditLink = () =>
@@ -103,7 +108,31 @@ function MeetingDetail ()
 
                 } else ( console.log( err ) )
             } )
-    }
+    };
+
+
+    const retrieveAkun = () =>
+    {
+        axios.get( `/manage/omplatform/filter_by_ruangan/?ruangan_id=${detailRuangan?.id}`,
+            {
+                headers:
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ` + tokenUser,
+                },
+
+            } )
+            .then( res =>
+            {
+
+                setListAkun( res.data );
+            } ).catch( err =>
+            {
+            } )
+    };
+
 
     const retrieveUser = () =>
     {
@@ -149,7 +178,7 @@ function MeetingDetail ()
             {
             //    console.log( err )
             } )
-    }
+    };
 
 
     const retrieveRuangan = () =>
@@ -174,7 +203,7 @@ function MeetingDetail ()
             {
 
             } )
-    }
+    };
 
     const retrieveDetailEquipment = () =>
     {
@@ -195,7 +224,33 @@ function MeetingDetail ()
             {
 
             } )
-    }
+    };
+
+    const formStyles = {
+        label: {
+            fontFamily: 'Poppins-Medium',
+        },
+        input: {
+
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+            backgroundColor: theme === 'light' ? '#222' : '#FFFFFF',
+            color: theme === 'light' ? '#FFFFFF' : '#222'
+        },
+        inputTipeMeeting: {
+
+            fontFamily: 'Poppins-Regular',
+            minHeight: '50px',
+            borderColor: '#ced4da', // Initial border color
+            backgroundColor: theme === 'light' ? '#222' : '#FFFFFF',
+            color: theme === 'light' ? '#FFFFFF' : '#222',
+            textAlign: isMobile ? 'left' : 'center'
+        },
+        button: {
+            height: '50px',
+        },
+    };
 
     useEffect( () =>
     {
@@ -203,6 +258,7 @@ function MeetingDetail ()
         {
             if ( tokenUser !== undefined ) {
 
+                await retrieveAkun();
                 await retrieveDetailMeeting();
                 await retrieveUser();
 
@@ -256,6 +312,16 @@ function MeetingDetail ()
             } )
         );
     }, [ detailPeserta, listUser ] );
+
+    const platformOptions = listAkun.map( akun => ( {
+        value: akun.id,
+        label: akun.account + ' || ' + akun.platform,
+    } ) );
+
+    const handleSelectPlatform = selectedOption =>
+    {
+        setSelectedPlatform( selectedOption );
+    };
 
     const handleApprove = async ( event ) =>
     {
@@ -355,6 +421,29 @@ function MeetingDetail ()
         }
     };
 
+    // Custom styles for react-select
+    const selectStyles = {
+        control: ( provided, state ) => ( {
+            ...provided,
+            minHeight: '50px', // Adjust the height as needed
+            border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
+            boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
+            '&:hover': {
+                borderColor: '#80bdff',
+            },
+            fontFamily: 'Poppins-Regular'
+        } ),
+        singleValue: ( provided, state ) => ( {
+            ...provided,
+        } ),
+        option: ( provided, state ) => ( {
+            ...provided,
+            color: state.isSelected ? '#fff' : '#333',
+            background: state.isSelected ? '#007bff' : '#fff',
+            fontFamily: 'Poppins-Regular'
+        } ),
+    };
+
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -437,7 +526,7 @@ function MeetingDetail ()
                                     <div>
                                         <Form>
                                             <Row>
-                                                <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
+                                                <Col xs={ 12 } md={ showSidebar ? 9 : 8 } lg={ showSidebar ? 9 : 8 } className="mb-3">
                                                     <Form.Group >
                                                         <Form.Label style={ formStyles.label } htmlFor='namaMeeting'>Nama Meeting</Form.Label>
                                                         <Form.Control
@@ -446,6 +535,32 @@ function MeetingDetail ()
                                                             value={ meeting?.nama_meeting || '' }
                                                             readOnly
                                                             style={ formStyles.input }
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col xs={ 12 } md={ showSidebar ? 3 : 4 } lg={ showSidebar ? 3 : 4 } className="mb-3">
+                                                    <Form.Group >
+                                                        <Form.Label style={ formStyles.label } htmlFor='tipeMeeting'>Tipe Meeting</Form.Label>
+                                                        <Form.Control
+                                                            id='tipeMeeting'
+                                                            type="text"
+                                                            value={
+                                                                ( () =>
+                                                                {
+                                                                    switch ( meeting?.online ) {
+                                                                        case false:
+                                                                            return "Offline";
+                                                                        case true:
+                                                                            return "Online";
+                                                                        default:
+                                                                            return "";
+                                                                    }
+                                                                } )()
+
+                                                                || ''
+                                                            }
+                                                            readOnly
+                                                            style={ formStyles.inputTipeMeeting }
                                                         />
                                                     </Form.Group>
                                                 </Col>
@@ -500,7 +615,7 @@ function MeetingDetail ()
                                                 <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
                                                     { meeting?.status === 'processing' ? (
                                                         <>
-                                                            <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode PIN</Form.Label>
+                                                            <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode Pintu</Form.Label>
                                                             <InputGroup>
                                                                 <Form.Control
                                                                     id='pinCode'
@@ -531,16 +646,6 @@ function MeetingDetail ()
                                                         :
                                                         (
                                                             <>
-                                                                <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode PIN</Form.Label>
-                                                                <InputGroup>
-                                                                    <Form.Control
-                                                                        id='pinCode'
-                                                                        type="text"
-                                                                        value={ meeting?.pincode || '' }
-                                                                        readOnly
-                                                                        style={ formStyles.input }
-                                                                    />
-                                                                </InputGroup>
                                                             </>
                                                         )
                                                     }
@@ -552,8 +657,38 @@ function MeetingDetail ()
                                                             <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
                                                                 { meeting?.status === 'processing' ? (
                                                                     <>
-                                                                        <Form.Label style={ formStyles.label } htmlFor='link'>Link Meeting</Form.Label>
-                                                                        <InputGroup>
+                                                                        {
+                                                                            !meeting?.link_meeting ?
+                                                                                (
+                                                                                    <Button variant='primary' onClick={ handleShowAddMeeting }>Buat Meeting</Button>
+                                                                                )
+                                                                                :
+                                                                                (
+
+                                                                                    <>
+                                                                                        <Form.Label style={ formStyles.label } htmlFor='link'>Link Meeting</Form.Label>
+                                                                                        <Form.Control
+                                                                                            id='link'
+                                                                                            as="textarea"
+                                                                                            rows={ 4 }
+                                                                                            type="text"
+                                                                                            value={ meeting?.link_meeting || '' }
+                                                                                            readOnly
+                                                                                            style={ formStyles.input }
+                                                                                        />
+                                                                                    </>
+
+                                                                                )
+                                                                        }
+
+                                                                        {/* <Select
+                                                                            id='platform'
+                                                                            options={ platformOptions }
+                                                                            value={ selectedPlatform }
+                                                                            onChange={ handleSelectPlatform }
+                                                                            styles={ selectStyles }
+                                                                        /> */}
+                                                                        {/* <InputGroup>
                                                                             <Form.Control
                                                                                 id='link'
                                                                                 as="textarea"
@@ -579,23 +714,16 @@ function MeetingDetail ()
 
                                                                                     )
                                                                             }
-                                                                        </InputGroup>
+                                                                        </InputGroup> */}
+                                                                        {/* <ZoomAuth
+                                                                            meetingid={ meetingid }
+                                                                            selectedPlatform={ selectedPlatform }
+                                                                            tokenUser={ tokenUser }
+                                                                        /> */}
                                                                     </>
                                                                 )
                                                                     : (
                                                                         <>
-                                                                            <Form.Label style={ formStyles.label } htmlFor='link'>Link Meeting</Form.Label>
-                                                                            <InputGroup>
-                                                                                <Form.Control
-                                                                                    id='link'
-                                                                                    as="textarea"
-                                                                                    rows={ 4 }
-                                                                                    type="text"
-                                                                                    value={ meeting?.link_meeting || '' }
-                                                                                    readOnly
-                                                                                    style={ formStyles.input }
-                                                                                />
-                                                                            </InputGroup>
                                                                         </>
                                                                     ) }
 
@@ -640,7 +768,7 @@ function MeetingDetail ()
                                                 <p className='content mb-3'>{ detailRuangan?.kapasitas }</p>
                                             </Col>
                                             <Col xs={ 12 }  >
-                                                <Table bordered responsive>
+                                                <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
                                                     <thead>
                                                         <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
                                                             <th>#</th>
@@ -677,7 +805,7 @@ function MeetingDetail ()
                                         Detail Peserta
                                     </p>
                                     <div>
-                                        <Table bordered responsive>
+                                        <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
                                             <thead>
                                                 <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
                                                     <th>#</th>
@@ -739,8 +867,8 @@ function MeetingDetail ()
                 tokenUser={ tokenUser }
             />
             <ModalTambahLink
-                showAddLink={ showAddLink }
-                setShowAddLink={ setShowAddLink }
+                // showAddLink={ showAddLink }
+                // setShowAddLink={ setShowAddLink }
                 meetingid={ meetingid }
                 retrieveDetailMeeting={ retrieveDetailMeeting }
                 tokenUser={ tokenUser }
@@ -753,25 +881,17 @@ function MeetingDetail ()
                 retrieveDetailMeeting={ retrieveDetailMeeting }
                 tokenUser={ tokenUser }
             />
+            <ModalBuatMeeting
+                showAddNewMeeting={ showAddNewMeeting }
+                setShowAddMeeting={ setShowAddMeeting }
+                meetingid={ meetingid }
+                retrieveDetailMeeting={ retrieveDetailMeeting }
+                detailRuangan={ detailRuangan }
+                tokenUser={ tokenUser }
+            />
         </div>
     )
 }
 
 export default MeetingDetail;
 
-
-const formStyles = {
-    label: {
-        fontFamily: 'Poppins-Medium',
-
-    },
-    input: {
-
-        fontFamily: 'Poppins-Regular',
-        minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
-    },
-    button: {
-        height: '50px',
-    },
-};

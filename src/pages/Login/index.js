@@ -7,8 +7,8 @@ import { mdiEye, mdiEyeOff } from '@mdi/js';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
 import Swal from 'sweetalert2';
-import axios from '../../api/axios';
 import { ModalLupaPassword } from '../../components';
+import axios from '../../api/axios';
 
 
 function Login ()
@@ -39,7 +39,7 @@ function Login ()
         maxWidth: isMobile ? '90vw' : isTablet ? '75vw' : '75vw'
     };
 
-    const win = window.sessionStorage
+    // const win = window.localStorage
     const handleSubmitLogin = async ( event ) =>
     {
         event.preventDefault()
@@ -57,27 +57,35 @@ function Login ()
                         'Content-Type': 'application/json',
                         withCredentials: true,
                     },
-                    httpsAgent: {
-                        rejectUnauthorized: false,
-                    }
                 }
 
             );
-            const userInfo = response?.data.user_info
-            const userToken = response?.data
-            setTokens( { token: userToken.token } );
-            win.setItem( "token", JSON.stringify( { token: userToken.token } ) )
-            setUserInfo( userInfo );
-            win.setItem( "userInfo", JSON.stringify( userInfo ) )
-            Swal.fire( {
-                icon: 'success',
-                title: 'Login berhasil',
-                showConfirmButton: false,
-                timer: 2000
-            } )
-            setIsSubmittingLogin( false );
-            setDisabled( false );
-            navigate( '/dashboard/' );
+            // console.log( response )
+            if ( response?.data.user_info.group_name === 'administrator' ) {
+                const userInfo = response?.data.user_info
+                const userToken = response?.data
+                setTokens( { token: userToken.token } );
+                window.sessionStorage.setItem( "token", JSON.stringify( { token: userToken.token } ) )
+                setUserInfo( userInfo );
+                window.sessionStorage.setItem( "userInfo", JSON.stringify( userInfo ) )
+                Swal.fire( {
+                    icon: 'success',
+                    title: 'Login berhasil',
+                    showConfirmButton: false,
+                    timer: 2000
+                } )
+                setIsSubmittingLogin( false );
+                setDisabled( false );
+                navigate( '/dashboard/' );
+            } else {
+                Swal.fire( {
+                    icon: 'error',
+                    title: 'Warning',
+                    text: 'Tidak punya akes!',
+                } )
+                setIsSubmittingLogin( false );
+                setDisabled( false );
+            }
         } catch ( err ) {
             console.log( err )
             if ( !err?.response ) {

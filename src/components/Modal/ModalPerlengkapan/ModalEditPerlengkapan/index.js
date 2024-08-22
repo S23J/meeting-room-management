@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import Select from 'react-select';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
 import { Formik } from 'formik';
@@ -10,44 +9,19 @@ function ModalEditPerlengkapan ( {
     showEditAlat,
     setShowEditAlat,
     rowSelected,
-    listRuangan,
-    retrieveAlat,
-    retrieveRuangan,
+    ruangid,
+    retrieveDetailEquipment,
     tokenUser
 } )
 {
 
     const { theme } = useContext( ThemeContext );
+    const [ disabled, setDisabled ] = useState( false );
+
     const handleClose = () =>
     {
         setShowEditAlat( false );
     };
-
-    const [ selectedRuangan, setSelectedRuangan ] = useState( null );
-
-    const ruanganOptions = listRuangan.map( ruangan => ( {
-        value: ruangan.id,
-        label: ruangan.nama_ruangan,
-    } ) );
-
-    const [ isDefaultSet, setIsDefaultSet ] = useState( false );
-
-    useEffect( () =>
-    {
-
-        const defaultSelectedRuangan = ruanganOptions.find( ( option ) => option.value === rowSelected?.ruangan );
-
-        if ( defaultSelectedRuangan ) {
-            setSelectedRuangan( defaultSelectedRuangan );
-            setIsDefaultSet( true );
-        }
-    }, [ rowSelected?.ruangan, isDefaultSet ] );
-
-    const handleSelectRuangan = selectedOption =>
-    {
-        setSelectedRuangan( selectedOption );
-    };
-
 
     const defaultValue = {
 
@@ -60,11 +34,11 @@ function ModalEditPerlengkapan ( {
         const { alat, ...restData } = values;
 
         const finalData = Object.assign( {}, restData, {
-            ruangan: selectedRuangan?.value,
+            ruangan: ruangid,
         } );
 
         // console.log( finalData );
-
+        setDisabled( true );
         try {
             const response = await axios.patch( `/manage/equipment/${rowSelected.id}/`, finalData,
                 {
@@ -84,8 +58,8 @@ function ModalEditPerlengkapan ( {
                 title: 'Berhasil mengubah peralatan',
                 showConfirmButton: true,
             } )
-            retrieveAlat();
-            // retrieveRuangan();
+            retrieveDetailEquipment();
+            setDisabled( false );
         } catch ( err ) {
             console.log( err );
             handleClose();
@@ -93,7 +67,8 @@ function ModalEditPerlengkapan ( {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat mengubah peralatan',
-            } )
+            } );
+            setDisabled( false );
         }
 
     }
@@ -109,32 +84,6 @@ function ModalEditPerlengkapan ( {
             minHeight: '50px',
             borderColor: '#ced4da', // Initial border color
         },
-    };
-
-    // Custom styles for react-select
-    const selectStyles = {
-        control: ( provided, state ) => ( {
-            ...provided,
-            color: theme === 'light' ? '#222' : '#fff',
-            minHeight: '50px', // Adjust the height as needed
-            border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
-            boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
-            '&:hover': {
-                borderColor: '#80bdff',
-            },
-            backgroundColor: theme === 'light' ? '#212529' : 'FFFFFF',
-            fontFamily: 'Poppins-Regular'
-        } ),
-        singleValue: ( provided, state ) => ( {
-            ...provided,
-            color: theme === 'light' ? ( state.isFocused ? '#222' : '#fff' ) : ( state.isSelected ? '#222' : '#222' ), // Conditional text color based on theme and focus
-        } ),
-        option: ( provided, state ) => ( {
-            ...provided,
-            color: state.isSelected ? '#fff' : '#333',
-            background: state.isSelected ? '#007bff' : '#fff',
-            fontFamily: 'Poppins-Regular'
-        } ),
     };
 
     return (
@@ -175,23 +124,12 @@ function ModalEditPerlengkapan ( {
                                     style={ formStyles.input }
                                 />
                             </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label style={ formStyles.label } htmlFor="namaRuangan">Ruangan*</Form.Label>
-                                <Select
-                                    id='namaRuangan'
-                                    options={ ruanganOptions }
-                                    required
-                                    value={ selectedRuangan }
-                                    onChange={ handleSelectRuangan }
-                                    styles={ selectStyles }
-                                />
-                            </Form.Group>
                             <div className="d-grid gap-2 mt-4">
                                 <Button
                                     type="submit"
                                     id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                                     variant='btn'
-                                // disabled={ disabled }
+                                    disabled={ disabled }
                                 >
                                     Simpan
                                 </Button>

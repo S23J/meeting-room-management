@@ -1,48 +1,57 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
+import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
-import { ThemeContext } from '../../../../auth';
+import Icon from '@mdi/react';
+import { mdiEye, mdiEyeOff } from '@mdi/js';
 
-function ModalAddRuangan ( {
-    showAddRuangan,
-    setShowAddRuangan,
-    retrieveRuangan,
+function ModalAddUser ( {
+    showAddUser,
+    setShowAddUser,
+    retrieveUser,
     tokenUser
 } )
 {
+
     const { theme } = useContext( ThemeContext );
-    const [ gedung, setGedung ] = useState( '' );
-    const [ namaRuangan, setNamaRuangan ] = useState( '' );
-    const [ noRuangan, setNoRuangan ] = useState( '' );
-    const [ kapasitas, setKapasitas ] = useState( '' );
-    const [ lantai, setLantai ] = useState( '' );
+    const [ firstName, setFirstName ] = useState( '' );
+    const [ lastName, setLastName ] = useState( '' );
+    const [ userName, setUserName ] = useState( '' );
+    const [ email, setEmail ] = useState( '' );
+    const [ password, setPassword ] = useState( '' );
     const [ disabled, setDisabled ] = useState( false );
 
     const handleClose = () =>
     {
-        setShowAddRuangan( false );
-        setGedung( '' );
-        setNamaRuangan( '' );
-        setNoRuangan( '' );
-        setKapasitas( '' );
-        setLantai( '' );
+        setShowAddUser( false );
+        setFirstName( '' );
+        setLastName( '' );
+        setUserName( '' );
+        setEmail( '' );
+        setPassword( '' );
     };
 
-    const handleSubmitRuangan = async ( event ) =>
+    const [ passwordShown, setPasswordShown ] = useState( false );
+    const togglePassword = () =>
+    {
+        setPasswordShown( !passwordShown );
+    };
+
+    const handleSubmitUser = async ( event ) =>
     {
         event.preventDefault();
         const data = {
-            gedung: gedung,
-            nama_ruangan: namaRuangan,
-            no_ruangan: noRuangan,
-            kapasitas: kapasitas,
-            lantai: lantai
+            first_name: firstName,
+            last_name: lastName,
+            username: userName,
+            email: email,
+            password: password
         };
         // console.log( data );
         setDisabled( true );
         try {
-            const response = await axios.post( `/manage/ruangan/`, data,
+            const response = await axios.post( `/auth/register/`, data,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -57,10 +66,10 @@ function ModalAddRuangan ( {
             handleClose();
             Swal.fire( {
                 icon: 'success',
-                title: 'Berhasil menambahkan ruangan',
+                title: 'Berhasil menambahkan user',
                 showConfirmButton: true,
-            } );
-            retrieveRuangan();
+            } )
+            retrieveUser();
             setDisabled( false );
         } catch ( err ) {
             console.log( err );
@@ -68,13 +77,11 @@ function ModalAddRuangan ( {
             Swal.fire( {
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Terjadi kesalahan menambahkan ruangan',
+                text: 'Terjadi kesalahan saat menambahkan user',
             } );
             setDisabled( false );
         }
-
-    }
-
+    };
 
     const formStyles = {
         label: {
@@ -91,7 +98,7 @@ function ModalAddRuangan ( {
 
     return (
         <Modal
-            show={ showAddRuangan }
+            show={ showAddUser }
             onHide={ handleClose }
             backdrop="static"
             keyboard={ false }
@@ -100,70 +107,75 @@ function ModalAddRuangan ( {
         >
             <Modal.Header closeButton >
                 <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
-                    Tambah Ruangan
+                    Tambah User
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={ handleSubmitRuangan }>
+                <Form onSubmit={ handleSubmitUser }>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='gedung'>Gedung*</Form.Label>
+                        <Form.Label style={ formStyles.label } htmlFor='first_name'>Nama Depan*</Form.Label>
                         <Form.Control
-                            id='gedung'
+                            id='first_name'
                             type="text"
-                            onChange={ ( e ) => setGedung( e.target.value ) }
-                            value={ gedung }
+                            onChange={ ( e ) => setFirstName( e.target.value ) }
+                            value={ firstName }
+                            required
+                            placeholder="Masukkan nama depan"
+                            style={ formStyles.input }
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label style={ formStyles.label } htmlFor='last_name'>Nama Belakang*</Form.Label>
+                        <Form.Control
+                            id='last_name'
+                            type="text"
+                            onChange={ ( e ) => setLastName( e.target.value ) }
+                            value={ lastName }
+                            required
+                            placeholder="Masukkan nama belakang"
+                            style={ formStyles.input }
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label style={ formStyles.label } htmlFor='email'>Email*</Form.Label>
+                        <Form.Control
+                            id='email'
+                            type="email"
+                            onChange={ ( e ) => setEmail( e.target.value ) }
+                            value={ email }
                             required
                             placeholder="Masukkan nama gedung"
                             style={ formStyles.input }
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='ruangan'>Nama Ruangan*</Form.Label>
+                        <Form.Label style={ formStyles.label } htmlFor='username'>Username*</Form.Label>
                         <Form.Control
-                            id='ruangan'
+                            id='username'
                             type="text"
-                            onChange={ ( e ) => setNamaRuangan( e.target.value ) }
-                            value={ namaRuangan }
+                            onChange={ ( e ) => setUserName( e.target.value ) }
+                            value={ userName }
                             required
-                            placeholder="Masukkan nama ruangan"
+                            placeholder="Masukkan username"
                             style={ formStyles.input }
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='no_ruangan'>No. Ruangan*</Form.Label>
+                        <Form.Label style={ formStyles.label } htmlFor='password'>Password*</Form.Label>
                         <Form.Control
-                            id='no_ruangan'
-                            type="text"
-                            onChange={ ( e ) => setNoRuangan( e.target.value ) }
-                            value={ noRuangan }
+                            id='password'
+                            type={ passwordShown ? "text" : "password" }
+                            onChange={ ( e ) => setPassword( e.target.value ) }
+                            value={ password }
                             required
-                            placeholder="Masukkan nomor ruangan"
+                            placeholder="Masukkan password"
                             style={ formStyles.input }
                         />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='kapasitas'>Kapasitas Ruangan*</Form.Label>
-                        <Form.Control
-                            id='kapasitas'
-                            type="number"
-                            onChange={ ( e ) => setKapasitas( e.target.value ) }
-                            value={ kapasitas }
-                            required
-                            placeholder="Masukkan nama gedung"
-                            style={ formStyles.input }
-                        />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='lantai'>Lantai*</Form.Label>
-                        <Form.Control
-                            id='lantai'
-                            type="text"
-                            onChange={ ( e ) => setLantai( e.target.value ) }
-                            value={ lantai }
-                            required
-                            placeholder="Masukkan nama gedung"
-                            style={ formStyles.input }
-                        />
+                        <p className='mt-2'
+                            onClick={ togglePassword }
+                            style={ { fontFamily: 'Poppins-Regular', cursor: 'pointer', maxWidth: '170px', color: theme === 'light' ? '#FFFFFF' : '#222' } }
+                        >
+                            { passwordShown ? "Hide" : "Show" } password <span >{ passwordShown ? <Icon path={ mdiEyeOff } size={ 0.8 } /> : <Icon path={ mdiEye } size={ 0.8 } /> } </span></p>
                     </Form.Group>
                     <div className="d-grid gap-2 mt-4">
                         <Button
@@ -181,5 +193,4 @@ function ModalAddRuangan ( {
     )
 }
 
-export default ModalAddRuangan
-
+export default ModalAddUser

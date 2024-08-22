@@ -1,8 +1,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Login, Meeting, MeetingDetail, Perlengkapan, ResetPasswordPage, Ruangan, RuanganDetail } from "./pages";
+import { Dashboard, Login, Meeting, MeetingDetail, ResetPasswordPage, Ruangan, RuanganDetail, User } from "./pages";
 import { PrivateRouteComp } from "./auth";
 
 
@@ -13,10 +14,16 @@ function App ()
     <BrowserRouter>
       <Routes>
         <Route path="/" element={ <Login /> } />
-        {/* <Route path="/dashboard/"
+        <Route path="/dashboard/"
           element={
             <PrivateRouteComp >
               <Dashboard />
+            </PrivateRouteComp>
+          } />
+        <Route path="/user/"
+          element={
+            <PrivateRouteComp >
+              <User />
             </PrivateRouteComp>
           } />
         <Route path="/ruangan/"
@@ -29,12 +36,6 @@ function App ()
           element={
             <PrivateRouteComp >
               <RuanganDetail />
-            </PrivateRouteComp>
-          } />
-        <Route path="/perlengkapan/"
-          element={
-            <PrivateRouteComp >
-              <Perlengkapan />
             </PrivateRouteComp>
           } />
         <Route path="/meeting/"
@@ -54,21 +55,19 @@ function App ()
             <PrivateRouteComp >
               <ResetPasswordPage />
             </PrivateRouteComp>
-          } /> */}
+          } />
 
-
-
-        <Route path="/dashboard/"
+        {/* <Route path="/dashboard/"
           element={ <Dashboard />
+          } />
+        <Route path="/user/"
+          element={ <User />
           } />
         <Route path="/ruangan/"
           element={ <Ruangan />
           } />
         <Route path="/detail-ruangan/:ruangid"
           element={ <RuanganDetail />
-          } />
-        <Route path="/perlengkapan/"
-          element={ <Perlengkapan />
           } />
         <Route path="/meeting/"
           element={ <Meeting />
@@ -78,9 +77,7 @@ function App ()
           } />
         <Route path="/reset-password/:userId/:token"
           element={ <ResetPasswordPage />
-          } />
-
-
+          } /> */}
       </Routes>
     </BrowserRouter>
   );

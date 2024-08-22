@@ -1,43 +1,42 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap';
-import { Formik } from 'formik';
+import { Button, Form, Modal } from 'react-bootstrap'
+import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
-import { ThemeContext } from '../../../../auth';
+import { Formik } from 'formik';
 
-function ModalEditRuangan ( {
-    showEditRuangan,
-    setShowEditRuangan,
+function ModalEditUser ( {
+    showEditUser,
+    setShowEditUser,
     rowSelected,
-    retrieveRuangan,
+    retrieveUser,
     tokenUser
 } )
 {
+
     const { theme } = useContext( ThemeContext );
     const [ disabled, setDisabled ] = useState( false );
 
     const handleClose = () =>
     {
-        setShowEditRuangan( false );
-
+        setShowEditUser( false );
     };
 
     const defaultValue = {
 
-        gedung: rowSelected?.gedung || "",
-        kapasitas: rowSelected?.kapasitas || "",
-        lantai: rowSelected?.lantai || "",
-        nama_ruangan: rowSelected?.nama_ruangan || "",
-        no_ruangan: rowSelected?.no_ruangan || "",
-    }
+        first_name: rowSelected?.first_name || "",
+        last_name: rowSelected?.last_name || "",
+        username: rowSelected?.username || "",
+        email: rowSelected?.email || "",
+    };
 
-    const handleSubmitRuangan = async ( values ) =>
+    const handleSubmitUser = async ( values ) =>
     {
 
         // console.log( values );
         setDisabled( true );
         try {
-            const response = await axios.patch( `/manage/ruangan/${rowSelected.id}/`, values,
+            const response = await axios.patch( `/auth/user-retrieve/${rowSelected.id}/`, values,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -52,10 +51,10 @@ function ModalEditRuangan ( {
             handleClose();
             Swal.fire( {
                 icon: 'success',
-                title: 'Berhasil mengubah ruangan',
+                title: 'Berhasil mengubah user',
                 showConfirmButton: true,
             } )
-            retrieveRuangan();
+            retrieveUser();
             setDisabled( false );
         } catch ( err ) {
             console.log( err );
@@ -63,13 +62,11 @@ function ModalEditRuangan ( {
             Swal.fire( {
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Terjadi kesalahan saat mengubah ruangan',
+                text: 'Terjadi kesalahan saat mengubah user',
             } );
             setDisabled( false );
         }
-
-    }
-
+    };
 
     const formStyles = {
         label: {
@@ -84,10 +81,9 @@ function ModalEditRuangan ( {
         },
     };
 
-
     return (
         <Modal
-            show={ showEditRuangan }
+            show={ showEditUser }
             onHide={ handleClose }
             backdrop="static"
             keyboard={ false }
@@ -96,14 +92,14 @@ function ModalEditRuangan ( {
         >
             <Modal.Header closeButton style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                 <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
-                    Ubah Ruangan
+                    Ubah User
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
                     initialValues={ defaultValue }
                     enableReinitialize={ true }
-                    onSubmit={ handleSubmitRuangan }
+                    onSubmit={ handleSubmitUser }
                 >
                     { ( {
                         handleSubmit,
@@ -113,57 +109,46 @@ function ModalEditRuangan ( {
                     } ) => (
                         <Form onSubmit={ handleSubmit }>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='namaGedung'>Gedung*</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='firstName'>Nama Depan*</Form.Label>
                                 <Form.Control
-                                    id='namaGedung'
+                                    id='firstName'
                                     type='text'
                                     required
-                                    value={ values.gedung }
-                                    onChange={ handleChange( "gedung" ) }
+                                    value={ values.first_name }
+                                    onChange={ handleChange( "first_name" ) }
                                     style={ formStyles.input }
                                 />
                             </Form.Group>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='namaRuangan'>Nama Ruangan*</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='lastName'>Nama Belakang*</Form.Label>
                                 <Form.Control
-                                    id='namaRuangan'
+                                    id='lastName'
                                     type='text'
                                     required
-                                    value={ values.nama_ruangan }
-                                    onChange={ handleChange( "nama_ruangan" ) }
+                                    value={ values.last_name }
+                                    onChange={ handleChange( "last_name" ) }
                                     style={ formStyles.input }
                                 />
                             </Form.Group>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='nomorRuangan'>No. Ruangan*</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='userName'>Username*</Form.Label>
                                 <Form.Control
-                                    id='nomorRuangan'
+                                    id='userName'
                                     type='text'
                                     required
-                                    value={ values.no_ruangan }
-                                    onChange={ handleChange( "no_ruangan" ) }
+                                    value={ values.username }
+                                    onChange={ handleChange( "username" ) }
                                     style={ formStyles.input }
                                 />
                             </Form.Group>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='kapasitasRuangan'>Kapasitas Ruangan*</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='email'>Email*</Form.Label>
                                 <Form.Control
-                                    id='kapasitasRuangan'
-                                    type='number'
+                                    id='email'
+                                    type='email'
                                     required
-                                    value={ values.kapasitas }
-                                    onChange={ handleChange( "kapasitas" ) }
-                                    style={ formStyles.input }
-                                />
-                            </Form.Group>
-                            <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='lantai'>Lantai*</Form.Label>
-                                <Form.Control
-                                    id='lantai'
-                                    type='number'
-                                    required
-                                    value={ values.lantai }
-                                    onChange={ handleChange( "lantai" ) }
+                                    value={ values.email }
+                                    onChange={ handleChange( "email" ) }
                                     style={ formStyles.input }
                                 />
                             </Form.Group>
@@ -185,6 +170,4 @@ function ModalEditRuangan ( {
     )
 }
 
-export default ModalEditRuangan
-
-
+export default ModalEditUser

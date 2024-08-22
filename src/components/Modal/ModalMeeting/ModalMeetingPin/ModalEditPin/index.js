@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
@@ -16,6 +16,8 @@ function ModalEditPin ( {
 {
 
     const { theme } = useContext( ThemeContext );
+    const [ disabled, setDisabled ] = useState( false );
+
     const handleClose = () =>
     {
         setShowEditPin( false );
@@ -30,6 +32,7 @@ function ModalEditPin ( {
     {
 
         // console.log( values );
+        setDisabled( true );
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, values,
                 {
@@ -50,6 +53,7 @@ function ModalEditPin ( {
                 showConfirmButton: true,
             } )
             retrieveDetailMeeting();
+            setDisabled( false );
         } catch ( err ) {
             console.log( err );
             handleClose();
@@ -57,7 +61,8 @@ function ModalEditPin ( {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat mengubah kode pin',
-            } )
+            } );
+            setDisabled( false );
         }
 
     }
@@ -103,7 +108,7 @@ function ModalEditPin ( {
                     } ) => (
                         <Form onSubmit={ handleSubmit }>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode PIN*</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode Pintu*</Form.Label>
                                 <Form.Control
                                     id='pinCode'
                                     type='text'
@@ -119,7 +124,7 @@ function ModalEditPin ( {
                                     type="submit"
                                     id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                                     variant='btn'
-                                // disabled={ disabled }
+                                    disabled={ disabled }
                                 >
                                     Simpan
                                 </Button>

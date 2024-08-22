@@ -5,9 +5,10 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { AuthContext, ThemeContext } from '../../auth'
 import { useMediaQuery } from 'react-responsive'
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
-import { CiBoxes, CiCalendarDate, CiDark, CiGrid41, CiLight, CiViewList } from 'react-icons/ci'
-import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc'
+import { CiCalendarDate, CiDark, CiGrid41, CiLight, CiViewList } from 'react-icons/ci'
+import { VscChevronRight } from 'react-icons/vsc'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { PiUserCircleGearLight } from 'react-icons/pi'
 
 function SidebarComponent ()
 {
@@ -34,8 +35,8 @@ function SidebarComponent ()
                 : 'active-menu-item-light'
             : '';
 
-    const activeClassPerlengkapan =
-        location.pathname === '/perlengkapan/'
+    const activeClassUser =
+        location.pathname === '/user/'
             ? theme === 'light'
                 ? 'active-menu-item-dark'
                 : 'active-menu-item-light'
@@ -107,16 +108,16 @@ function SidebarComponent ()
                                         <CiGrid41 size={ 25 } />
                                     </MenuItem>
                                     <MenuItem
+                                        className={ `mb-3 mx-auto ${menuItemClass} ${activeClassUser}` }
+                                        component={ <NavLink to="/user/" /> }
+                                    >
+                                        <PiUserCircleGearLight size={ 25 } />
+                                    </MenuItem>
+                                    <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
                                         component={ <NavLink to="/ruangan/" /> }
                                     >
                                         <CiViewList size={ 25 } />
-                                    </MenuItem>
-                                    <MenuItem
-                                        className={ `mb-3 mx-auto ${menuItemClass} ${activeClassPerlengkapan}` }
-                                        component={ <NavLink to="/perlengkapan/" /> }
-                                    >
-                                        <CiBoxes size={ 25 } />
                                     </MenuItem>
                                     <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
@@ -137,20 +138,20 @@ function SidebarComponent ()
                                         Dashboard
                                     </MenuItem>
                                     <MenuItem
+                                        className={ `mb-3 mx-auto ${menuItemClass} ${activeClassUser}` }
+                                        component={ <NavLink to="/user/" /> }
+                                        icon={ <PiUserCircleGearLight size={ 25 } /> }
+                                        style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
+                                    >
+                                        User
+                                    </MenuItem>
+                                    <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
                                         component={ <NavLink to="/ruangan/" /> }
                                         icon={ <CiViewList size={ 25 } /> }
                                         style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                                     >
                                         Ruangan
-                                    </MenuItem>
-                                    <MenuItem
-                                        className={ `mb-3 mx-auto ${menuItemClass} ${activeClassPerlengkapan}` }
-                                        component={ <NavLink to="/perlengkapan/" /> }
-                                        icon={ <CiBoxes size={ 25 } /> }
-                                        style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
-                                    >
-                                        Peralatan
                                     </MenuItem>
                                     <MenuItem
                                         className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }
@@ -219,23 +220,23 @@ function SidebarComponent ()
                             >
                                 Dashboard
                             </MenuItem>
+                                <MenuItem
+                                    className={ `mb-3 mx-auto ${menuItemClass} ${activeClassUser}` }
+                                    component={ <NavLink to="/user/" /> }
+                                    icon={ <PiUserCircleGearLight size={ 25 } /> }
+                                    onClick={ toggleMobileSidebar }
+                                    style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
+                                >
+                                    User
+                                </MenuItem>
                             <MenuItem
-                                className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
-                                component={ <NavLink to="/ruangan/" /> }
-                                icon={ <CiViewList size={ 25 } /> }
+                                    className={ `mb-3 mx-auto ${menuItemClass} ${activeClassRuangan}` }
+                                    component={ <NavLink to="/ruangan/" /> }
+                                    icon={ <CiViewList size={ 25 } /> }
                                     onClick={ toggleMobileSidebar }
                                 style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
                             >
-                                Ruangan
-                            </MenuItem>
-                            <MenuItem
-                                className={ `mb-3 mx-auto ${menuItemClass} ${activeClassPerlengkapan}` }
-                                component={ <NavLink to="/perlengkapan/" /> }
-                                icon={ <CiBoxes size={ 25 } /> }
-                                    onClick={ toggleMobileSidebar }
-                                style={ { fontFamily: 'Poppins-Regular', fontSize: '15px' } }
-                            >
-                                Peralatan
+                                    Ruangan
                             </MenuItem>
                             <MenuItem
                                 className={ `mb-3 mx-auto ${menuItemClass} ${activeClassJadwal}` }

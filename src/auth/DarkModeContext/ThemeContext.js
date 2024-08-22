@@ -5,7 +5,7 @@ export const ThemeContext = createContext();
 
 export const ThemeProvider = ( { children } ) =>
 {
-    const [ theme, setTheme ] = useState( 'light' );
+    const [ theme, setTheme ] = useState( 'dark' );
 
     // Load theme from local storage when component mounts
     useEffect( () =>

@@ -18,9 +18,9 @@ function HeaderWeb ()
 
     const navigate = useNavigate();
 
-    const handleMeetingPage = () =>
+    const handleMeetingPage = ( data ) =>
     {
-        navigate( '/meeting/' )
+        navigate( "/detail-meeting/" + data )
     }
 
     const retrieveMeeting = () =>
@@ -84,6 +84,15 @@ function HeaderWeb ()
     }, [ meetingList, previousFilteredData ] );
 
     // console.log( meetingList )
+
+    const truncateText = ( text, maxLength ) =>
+    {
+        if ( text.length > maxLength ) {
+            return text.slice( 0, maxLength ) + '...';
+        }
+        return text;
+    };
+
 
     const LogoutSession = async () =>
     {
@@ -160,19 +169,27 @@ function HeaderWeb ()
                                         id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
                                         className="d-flex align-items-center justify-content-center my-3"
                                         key={ index }
-                                        onClick={ handleMeetingPage }
+                                        style={ { cursor: 'default' } }
                                     >
-                                        <div style={ { color: theme === 'light' ? '#FFFFFF' : '#707070' } }>
-                                            <hr className='text-end' style={ { border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E' } } />
-                                            <p>
-                                                { data?.nama_meeting }
+                                        <div
+                                            style={ {
+                                                color: theme === 'light' ? '#FFFFFF' : '#707070',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                borderBottom: theme === 'light' ? '2px dashed #FFFFFF' : '2px dashed #000A2E'
+                                            } }
+                                        >
+                                            <p className="mb-3" style={ { margin: 0, marginRight: '10px' } }>
+                                                { truncateText( data?.nama_meeting, 15 ) }
                                             </p>
-                                            <div className="d-grid gap-2">
-                                                <Button variant="primary">
-                                                    Proses
-                                                </Button>
-                                            </div>
-                                            <hr className='text-end' style={ { border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E' } } />
+                                            <Button
+                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
+                                                variant="btn"
+                                                className="mb-3"
+                                                onClick={ () => handleMeetingPage( data.id ) }
+                                            >
+                                                Proses
+                                            </Button>
                                         </div>
                                     </Dropdown.Item>
                                 )
