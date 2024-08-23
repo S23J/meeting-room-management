@@ -344,6 +344,27 @@ function RuanganDetail ()
         }
     };
 
+
+    useEffect( () =>
+    {
+        const handleToken = ( event ) =>
+        {
+            if ( event.data && event.data.accessToken ) {
+                const accessToken = event.data.accessToken;
+                window.sessionStorage.setItem( "refresh_token", JSON.stringify( accessToken ) );
+                // Use the access token as needed
+            }
+        };
+
+        window.addEventListener( 'message', handleToken );
+
+        return () =>
+        {
+            window.removeEventListener( 'message', handleToken );
+        };
+    }, [] );
+
+
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
