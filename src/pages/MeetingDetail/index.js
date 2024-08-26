@@ -7,19 +7,11 @@ import
 {
     HeaderDetailPage,
     HeaderMobile2,
-    ModalBuatMeeting,
-    ModalEditLink,
-    ModalEditPin,
-    ModalTambahLink,
-    ModalTambahPin,
     SidebarComponent,
-    ZoomAuth
 }
     from '../../components';
-import { Button, Card, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
-import { CiCirclePlus, CiEdit } from 'react-icons/ci';
-import Select from 'react-select';
 
 function MeetingDetail ()
 {
@@ -36,34 +28,9 @@ function MeetingDetail ()
     const [ date, setDate ] = useState();
     const [ startTime, setStartTime ] = useState();
     const [ endTime, setEndTime ] = useState();
-    const [ selectedPlatform, setSelectedPlatform ] = useState( null );
     const [ filteredUserObject, setFilteredUserObject ] = useState( {} );
     const navigate = useNavigate();
-    const [ showAddPin, setShowAddPin ] = useState( false );
-    const [ showEditPin, setShowEditPin ] = useState( false );
-    const [ showAddNewMeeting, setShowAddMeeting ] = useState( false );
-    const [ showEditLink, setShowEditLink ] = useState( false );
     const [ listAkun, setListAkun ] = useState( [] );
-
-    const handleShowAddPin = () =>
-    {
-        setShowAddPin( true );
-    }
-
-    const handleShowEditPin = () =>
-    {
-        setShowEditPin( true );
-    }
-
-    const handleShowAddMeeting = () =>
-    {
-        setShowAddMeeting( true );
-    }
-
-    const handleShowEditLink = () =>
-    {
-        setShowEditLink( true );
-    }
 
     const buttonBack = () =>
     {
@@ -106,7 +73,7 @@ function MeetingDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
@@ -126,10 +93,10 @@ function MeetingDetail ()
             } )
             .then( res =>
             {
-
                 setListAkun( res.data );
             } ).catch( err =>
             {
+                console.error( err );
             } )
     };
 
@@ -153,6 +120,7 @@ function MeetingDetail ()
                 setListUser( res.data );
             } ).catch( err =>
             {
+                console.error( err );
             } )
     }
 
@@ -176,7 +144,7 @@ function MeetingDetail ()
 
             } ).catch( err =>
             {
-            //    console.log( err )
+                console.error( err );
             } )
     };
 
@@ -201,7 +169,7 @@ function MeetingDetail ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-
+                console.error( err );
             } )
     };
 
@@ -222,7 +190,7 @@ function MeetingDetail ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-
+                console.error( err );
             } )
     };
 
@@ -313,16 +281,6 @@ function MeetingDetail ()
         );
     }, [ detailPeserta, listUser ] );
 
-    const platformOptions = listAkun.map( akun => ( {
-        value: akun.id,
-        label: akun.account + ' || ' + akun.platform,
-    } ) );
-
-    const handleSelectPlatform = selectedOption =>
-    {
-        setSelectedPlatform( selectedOption );
-    };
-
     const handleApprove = async ( event ) =>
     {
 
@@ -363,7 +321,7 @@ function MeetingDetail ()
             } );
             navigate( '/meeting/' );
         } catch ( error ) {
-            console.log( error );
+            console.error( error );
             Swal.fire( {
                 icon: 'error',
                 title: 'Warning!',
@@ -412,7 +370,7 @@ function MeetingDetail ()
             } );
             navigate( '/meeting/' );
         } catch ( error ) {
-            console.log( error );
+            console.error( error );
             Swal.fire( {
                 icon: 'error',
                 title: 'Warning!',
@@ -421,29 +379,284 @@ function MeetingDetail ()
         }
     };
 
-    // Custom styles for react-select
-    const selectStyles = {
-        control: ( provided, state ) => ( {
-            ...provided,
-            minHeight: '50px', // Adjust the height as needed
-            border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
-            boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
-            '&:hover': {
-                borderColor: '#80bdff',
-            },
-            fontFamily: 'Poppins-Regular'
-        } ),
-        singleValue: ( provided, state ) => ( {
-            ...provided,
-        } ),
-        option: ( provided, state ) => ( {
-            ...provided,
-            color: state.isSelected ? '#fff' : '#333',
-            background: state.isSelected ? '#007bff' : '#fff',
-            fontFamily: 'Poppins-Regular'
-        } ),
+    const [ selectedAccount, setSelectedAccount ] = useState( '' );
+    const [ detailAkun, setDetailAkun ] = useState( {} );
+    const [ fetching, setFetching ] = useState( false ); // To manage loading state
+    const [ meetingTopic, setMeetingTopic ] = useState( '' );
+    const [ meetingStartTime, setMeetingStartTime ] = useState( '' );
+    const [ meetingDuration, setMeetingDuration ] = useState( '' );
+    const [ meetingAgenda, setMeetingAgenda ] = useState( '' );
+
+    const retrieveDetailAkun = async () =>
+    {
+        try {
+            setFetching( true ); // Start fetching
+            const res = await axios.get( `/manage/omplatform/${selectedAccount}`, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
+                    Authorization: `Token ${tokenUser}`,
+                },
+            } );
+            setDetailAkun( res.data );
+            // console.log( res.data );
+        } catch ( err ) {
+            console.error( err );
+        } finally {
+            setFetching( false ); // Stop fetching
+        }
     };
 
+    useEffect( () =>
+    {
+        if ( tokenUser && selectedAccount ) {
+            retrieveDetailAkun();
+        }
+    }, [ tokenUser, selectedAccount ] );
+
+    const handleCheckboxChange = ( event ) =>
+    {
+        const value = event.target.value;
+        if ( selectedAccount === value ) {
+            setSelectedAccount( '' );
+        } else {
+            setSelectedAccount( value );
+        }
+    };
+
+    const dataSelectedAccount = listAkun.map( ( data, index ) =>
+    {
+        const isChecked = selectedAccount === String( data.id );
+        const isDisabled = selectedAccount && selectedAccount !== String( data.id );
+
+        return (
+            <div className='mb-3' key={ index } style={ { fontFamily: 'Poppins-Regular' } }>
+                <Form.Check
+                    type="checkbox"
+                    id={ `checkboxAccount-${data.id}` }
+                    label={ `${data.account} || ${data.platform}` }
+                    onChange={ handleCheckboxChange }
+                    value={ data.id }
+                    checked={ isChecked }
+                    disabled={ isDisabled }
+                />
+            </div>
+        );
+    } );
+
+    // console.log( detailAkun );
+
+    const handleSubmitMeeting = async ( event ) =>
+    {
+        event.preventDefault();
+
+        const calculateEndTime = ( startTime, duration ) =>
+        {
+            const startDate = new Date( startTime );
+            const durationMinutes = parseInt( duration, 10 );
+            const endDate = new Date( startDate.getTime() + durationMinutes * 60 * 1000 );
+            return endDate;
+        };
+
+        if ( detailAkun?.platform === "Google Meeting" ) {
+
+            const dataBody = new URLSearchParams( {
+                grant_type: 'refresh_token',
+                refresh_token: detailAkun?.auth_code,
+            } );
+
+            try {
+                const response = await axios.post( 'https://oauth2.googleapis.com/token', dataBody.toString(), {
+                    headers: {
+                        Authorization: `Basic ${btoa( `${detailAkun?.client_id}:${detailAkun?.client_secret}` )}`,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                } );
+                // console.log( response );
+                const winLocal = window.sessionStorage
+                winLocal.setItem( "gmeet_new_access_token", JSON.stringify( response.data.access_token ) );
+
+            } catch ( error ) {
+                console.error( error.response );
+            };
+
+            const localStartDate = new Date( meetingStartTime );
+            const endDate = calculateEndTime( localStartDate, meetingDuration );
+
+            const utcStartDateString = localStartDate.toISOString();
+            const utcEndDateString = endDate.toISOString();
+
+            const formData = {
+                summary: meetingTopic,
+                description: meetingAgenda,
+                start: {
+                    dateTime: utcStartDateString,
+                    timeZone: "Asia/Jakarta"
+                },
+                end: {
+                    dateTime: utcEndDateString,
+                    timeZone: "Asia/Jakarta"
+                },
+                conferenceData: {
+                    createRequest: {
+                        requestId: "sample123",
+                        conferenceSolutionKey: {
+                            type: "hangoutsMeet"
+                        }
+                    }
+                }
+            };
+
+            try {
+
+                const getAccessToken = window.sessionStorage.getItem( "gmeet_new_access_token" );
+                const accessToken = JSON.parse( getAccessToken );
+
+                // console.log( accessToken )
+
+                const response = await axios.post( `https://www.googleapis.com/calendar/v3/calendars/${detailAkun?.calendar_id}/events?conferenceDataVersion=1`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`, // Replace with the actual access token
+                    },
+                } );
+                window.sessionStorage.removeItem( "gmeet_new_access_token" );
+
+                const dataLink = {
+                    link_meeting: response?.data.hangoutLink,
+                };
+                // console.log( response );
+
+                try {
+                    const response = await axios.patch( `/manage/requests/${meetingid}/`, dataLink,
+                        {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        }
+
+                    );
+
+                    // console.log( response );
+
+                    Swal.fire( {
+                        icon: 'success',
+                        title: 'Berhasil membuat Meeting',
+                        showConfirmButton: true
+                    } );
+                    retrieveDetailMeeting();
+
+                } catch ( err ) {
+                    console.error( err.response );
+
+                }
+
+
+            } catch ( error ) {
+                console.error( 'Error creating meeting', error.response.data );
+            };
+
+
+        } else if ( detailAkun?.platform === "Zoom" ) {
+            const dataBody = new URLSearchParams( {
+                grant_type: 'refresh_token',
+                refresh_token: detailAkun?.auth_code,
+            } );
+
+            try {
+                const response = await axios.post( 'https://zoom.us/oauth/token', dataBody.toString(), {
+                    headers: {
+                        Authorization: `Basic ${btoa( `${detailAkun?.client_id}:${detailAkun?.client_secret}` )}`,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                } );
+                // console.log( response );
+                const winLocal = window.sessionStorage
+                winLocal.setItem( "zoom_new_access_token", JSON.stringify( response.data.access_token ) );
+
+            } catch ( error ) {
+                console.error( error.response );
+            };
+
+            const localDate = new Date( meetingStartTime );
+
+            const offsetInMinutes = localDate.getTimezoneOffset();
+            const offsetInMilliseconds = offsetInMinutes * 60 * 1000;
+
+            const utcDate = new Date( localDate.getTime() - offsetInMilliseconds );
+
+            const utcDateString = utcDate.toISOString();
+
+            const data = {
+                topic: meetingTopic,
+                type: 2,
+                start_time: utcDateString,
+                duration: meetingDuration,
+                timezone: 'Asia/Jakarta',
+                agenda: meetingAgenda
+            };
+
+            try {
+
+                const getAccessToken = window.sessionStorage.getItem( "zoom_new_access_token" );
+                const accessToken = JSON.parse( getAccessToken );
+
+                const responseNewMeeting = await axios.post( `https://api.zoom.us/v2/users/me/meetings`, data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`, // Replace with the actual access token
+                        },
+                    }
+
+                );
+
+                window.sessionStorage.removeItem( "zoom_new_access_token" );
+
+                const dataLink = {
+                    link_meeting: responseNewMeeting?.data.join_url,
+                };
+
+                try {
+                    const response = await axios.patch( `/manage/requests/${meetingid}/`, dataLink,
+                        {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        }
+
+                    );
+                    console.log( response );
+
+                    Swal.fire( {
+                        icon: 'success',
+                        title: 'Berhasil membuat Meeting',
+                        showConfirmButton: true
+                    } );
+                    retrieveDetailMeeting();
+
+                } catch ( err ) {
+                    console.error( err.response );
+
+                }
+
+            } catch ( err ) {
+                console.error( err.response );
+                Swal.fire( {
+                    icon: 'error',
+                    title: 'Warning',
+                    text: 'Terjadi kesalahan saat membuat Meeting',
+                    showConfirmButton: true
+                } );
+            };
+        }
+
+    };
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -479,7 +692,7 @@ function MeetingDetail ()
                 <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>
-                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting?.pincode }>Setuju</Button>
+                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
                             <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
                             <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
                         </>
@@ -494,7 +707,7 @@ function MeetingDetail ()
                     <Row>
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='my-2'>
                             <Card id={ theme === 'light' ? 'cardDetailMeetingDark' : 'cardDetailMeetingLight' } >
-                                <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
+                                <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '' } }>
                                     <>
                                         <Row>
                                             <Col xs={ !meeting?.finished ? 6 : 6 } className='text-start'>
@@ -612,131 +825,99 @@ function MeetingDetail ()
                                                         />
                                                     </Form.Group>
                                                 </Col>
-                                                <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
-                                                    { meeting?.status === 'processing' ? (
-                                                        <>
-                                                            <Form.Label style={ formStyles.label } htmlFor='pinCode'>Kode Pintu</Form.Label>
-                                                            <InputGroup>
-                                                                <Form.Control
-                                                                    id='pinCode'
-                                                                    type="text"
-                                                                    value={ meeting?.pincode || '' }
-                                                                    readOnly
-                                                                    style={ formStyles.input }
-                                                                />
-                                                                {
-                                                                    !meeting?.pincode ?
-                                                                        (
-                                                                            <Button variant="primary" onClick={ handleShowAddPin } >
-                                                                                <CiCirclePlus size={ 30 } />
-                                                                            </Button>
-                                                                        )
-                                                                        :
-                                                                        (
+                                                {
+                                                    meeting?.online === true ?
+                                                        <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
+                                                            {
+                                                                !meeting?.link_meeting ?
+                                                                    (
+                                                                        <>
+                                                                            <Form.Label style={ formStyles.label } htmlFor='radioAccount'>Akun Meeting Online</Form.Label>
+                                                                            { dataSelectedAccount }
 
-                                                                            <Button variant="success" onClick={ handleShowEditPin }>
-                                                                                <CiEdit size={ 30 } />
-                                                                            </Button>
-
-                                                                        )
-                                                                }
-                                                            </InputGroup>
-                                                        </>
-                                                    )
-                                                        :
-                                                        (
-                                                            <>
-                                                            </>
-                                                        )
-                                                    }
-
-                                                </Col>
-                                                <>
-                                                    { meeting?.online === true ?
-                                                        (
-                                                            <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
-                                                                { meeting?.status === 'processing' ? (
-                                                                    <>
-                                                                        {
-                                                                            !meeting?.link_meeting ?
-                                                                                (
-                                                                                    <Button variant='primary' onClick={ handleShowAddMeeting }>Buat Meeting</Button>
-                                                                                )
-                                                                                :
-                                                                                (
+                                                                            {
+                                                                                !selectedAccount ?
+                                                                                    <></>
+                                                                                    :
 
                                                                                     <>
-                                                                                        <Form.Label style={ formStyles.label } htmlFor='link'>Link Meeting</Form.Label>
-                                                                                        <Form.Control
-                                                                                            id='link'
-                                                                                            as="textarea"
-                                                                                            rows={ 4 }
-                                                                                            type="text"
-                                                                                            value={ meeting?.link_meeting || '' }
-                                                                                            readOnly
-                                                                                            style={ formStyles.input }
-                                                                                        />
+                                                                                        <Form.Group className="mb-3">
+                                                                                            <Form.Label style={ formStyles.label } htmlFor='meetingTopic'>Topik Meeting*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                id='meetingTopic'
+                                                                                                type="text"
+                                                                                                onChange={ ( e ) => setMeetingTopic( e.target.value ) }
+                                                                                                value={ meetingTopic }
+                                                                                                required
+                                                                                                placeholder="Masukkan topik meeting"
+                                                                                                style={ formStyles.input }
+                                                                                            />
+                                                                                        </Form.Group>
+                                                                                        <Form.Group className="mb-3">
+                                                                                            <Form.Label style={ formStyles.label } htmlFor='meetingAgenda'>Agenda Meeting</Form.Label>
+                                                                                            <Form.Control
+                                                                                                id='meetingAgenda'
+                                                                                                type="text"
+                                                                                                onChange={ ( e ) => setMeetingAgenda( e.target.value ) }
+                                                                                                value={ meetingAgenda }
+                                                                                                placeholder="Masukkan topik agenda"
+                                                                                                style={ formStyles.input }
+                                                                                            />
+                                                                                        </Form.Group>
+                                                                                        <Form.Group className="mb-3">
+                                                                                            <Form.Label style={ formStyles.label } htmlFor='startMeeting'>Mulai Meeting*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                id='startMeeting'
+                                                                                                type="datetime-local"
+                                                                                                onChange={ ( e ) => setMeetingStartTime( e.target.value ) }
+                                                                                                value={ meetingStartTime }
+                                                                                                required
+                                                                                                style={ formStyles.input }
+                                                                                            />
+                                                                                        </Form.Group>
+                                                                                        <Form.Group className="mb-3">
+                                                                                            <Form.Label style={ formStyles.label } htmlFor='meetingDuration'>Durasi Meeting*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                id='meetingDuration'
+                                                                                                type="number"
+                                                                                                onChange={ ( e ) => setMeetingDuration( e.target.value ) }
+                                                                                                value={ meetingDuration }
+                                                                                                required
+                                                                                                placeholder="Masukkan durasi meeting"
+                                                                                                style={ formStyles.input }
+                                                                                            />
+                                                                                        </Form.Group>
+                                                                                        <div>
+                                                                                            <Button variant='primary' onClick={ handleSubmitMeeting }>Buat Meeting</Button>
+                                                                                        </div>
                                                                                     </>
-
-                                                                                )
-                                                                        }
-
-                                                                        {/* <Select
-                                                                            id='platform'
-                                                                            options={ platformOptions }
-                                                                            value={ selectedPlatform }
-                                                                            onChange={ handleSelectPlatform }
-                                                                            styles={ selectStyles }
-                                                                        /> */}
-                                                                        {/* <InputGroup>
-                                                                            <Form.Control
-                                                                                id='link'
-                                                                                as="textarea"
-                                                                                rows={ 4 }
-                                                                                type="text"
-                                                                                value={ meeting?.link_meeting || '' }
-                                                                                readOnly
-                                                                                style={ formStyles.input }
-                                                                            />
-                                                                            {
-                                                                                !meeting?.link_meeting ?
-                                                                                    (
-                                                                                        <Button variant="primary" onClick={ handleShowAddLink } >
-                                                                                            <CiCirclePlus size={ 30 } />
-                                                                                        </Button>
-                                                                                    )
-                                                                                    :
-                                                                                    (
-
-                                                                                        <Button variant="success" onClick={ handleShowEditLink }>
-                                                                                            <CiEdit size={ 30 } />
-                                                                                        </Button>
-
-                                                                                    )
                                                                             }
-                                                                        </InputGroup> */}
-                                                                        {/* <ZoomAuth
-                                                                            meetingid={ meetingid }
-                                                                            selectedPlatform={ selectedPlatform }
-                                                                            tokenUser={ tokenUser }
-                                                                        /> */}
-                                                                    </>
-                                                                )
-                                                                    : (
-                                                                        <>
                                                                         </>
-                                                                    ) }
+                                                                    )
+                                                                    :
+                                                                    (
 
-                                                            </Col>
-                                                        )
+                                                                        <>
+                                                                            <Form.Group >
+                                                                                <Form.Label style={ formStyles.label } htmlFor='linkMeeting'>Link Meeting</Form.Label>
+                                                                                <Form.Control
+                                                                                    id='linkMeeting'
+                                                                                    type="text"
+                                                                                    as="textarea"
+                                                                                    rows={ 3 }
+                                                                                    value={ meeting?.link_meeting || '' }
+                                                                                    readOnly
+                                                                                    style={ formStyles.input }
+                                                                                />
+                                                                            </Form.Group>
+                                                                        </>
+
+                                                                    )
+                                                            }
+                                                        </Col>
                                                         :
-                                                        (
-                                                            <>
-
-                                                            </>
-                                                        )
-                                                    }
-                                                </>
+                                                        <></>
+                                                }
                                             </Row>
                                         </Form>
                                     </div>
@@ -851,44 +1032,6 @@ function MeetingDetail ()
                     <br />
                 </div>
             </Container>
-            <ModalTambahPin
-                showAddPin={ showAddPin }
-                setShowAddPin={ setShowAddPin }
-                meetingid={ meetingid }
-                retrieveDetailMeeting={ retrieveDetailMeeting }
-                tokenUser={ tokenUser }
-            />
-            <ModalEditPin
-                showEditPin={ showEditPin }
-                setShowEditPin={ setShowEditPin }
-                meeting={ meeting }
-                meetingid={ meetingid }
-                retrieveDetailMeeting={ retrieveDetailMeeting }
-                tokenUser={ tokenUser }
-            />
-            <ModalTambahLink
-                // showAddLink={ showAddLink }
-                // setShowAddLink={ setShowAddLink }
-                meetingid={ meetingid }
-                retrieveDetailMeeting={ retrieveDetailMeeting }
-                tokenUser={ tokenUser }
-            />
-            <ModalEditLink
-                showEditLink={ showEditLink }
-                setShowEditLink={ setShowEditLink }
-                meeting={ meeting }
-                meetingid={ meetingid }
-                retrieveDetailMeeting={ retrieveDetailMeeting }
-                tokenUser={ tokenUser }
-            />
-            <ModalBuatMeeting
-                showAddNewMeeting={ showAddNewMeeting }
-                setShowAddMeeting={ setShowAddMeeting }
-                meetingid={ meetingid }
-                retrieveDetailMeeting={ retrieveDetailMeeting }
-                detailRuangan={ detailRuangan }
-                tokenUser={ tokenUser }
-            />
         </div>
     )
 }

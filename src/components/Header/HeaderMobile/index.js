@@ -39,7 +39,7 @@ function HeaderMobile ()
 
             } ).catch( err =>
             {
-                // console.log( err )
+                console.error( err )
             } );
     };
 
@@ -115,7 +115,7 @@ function HeaderMobile ()
             } );
             navigate( '/' );
         } catch ( error ) {
-            // console.log( error );
+            console.error( error )
             Swal.fire( {
                 icon: 'error',
                 title: 'Warning!',

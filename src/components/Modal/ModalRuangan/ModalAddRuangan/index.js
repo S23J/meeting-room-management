@@ -63,7 +63,7 @@ function ModalAddRuangan ( {
             retrieveRuangan();
             setDisabled( false );
         } catch ( err ) {
-            console.log( err );
+            console.error( err )
             handleClose();
             Swal.fire( {
                 icon: 'error',

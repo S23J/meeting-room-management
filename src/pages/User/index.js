@@ -52,7 +52,7 @@ function User ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 

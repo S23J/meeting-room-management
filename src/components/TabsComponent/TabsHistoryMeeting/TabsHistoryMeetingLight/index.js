@@ -60,7 +60,7 @@ function TabsHistoryMeetingLight ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 
@@ -98,7 +98,7 @@ function TabsHistoryMeetingLight ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 

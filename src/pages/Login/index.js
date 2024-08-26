@@ -87,7 +87,7 @@ function Login ()
                 setDisabled( false );
             }
         } catch ( err ) {
-            console.log( err )
+            console.error( err );
             if ( !err?.response ) {
                 Swal.fire( {
                     icon: 'error',

@@ -49,7 +49,7 @@ function Dashboard ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-                console.log( err )
+                console.error( err );
             } )
     }
 
@@ -73,7 +73,7 @@ function Dashboard ()
                 // console.log( res.data )
             } ).catch( err =>
             {
-                // console.log( err )
+                console.error( err );
             } )
     }
 

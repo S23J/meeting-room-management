@@ -54,6 +54,7 @@ function ModalBuatMeeting ( {
                 setListAkun( res.data );
             } ).catch( err =>
             {
+                console.error( err )
             } )
     };
 

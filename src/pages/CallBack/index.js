@@ -42,23 +42,27 @@ function Callback ()
 
                 const accessToken = response.data.access_token;
 
-                // Store the access token and notify the parent window
+                console.log( response )
+
                 window.opener.postMessage( { accessToken: accessToken, authorizationStatus: 'success' }, '*' );
 
-                Swal.fire( {
+                const result = await Swal.fire( {
                     html: `
-                <div style="text-align: center;">
-                    <img src="${LogoBundar}" alt="Logo" style="width: 100px; height: 100px; display: block; margin: 0 auto;">
-                    <h2 style="margin-top: 60px">Berhasil melakukan Authorization</h2>
-                </div>
-            `,
-                    showConfirmButton: false,
-                    timer: 2000
+                        <div style="text-align: center;">
+                            <img src="${LogoBundar}" alt="Logo" style="width: 100px; height: 100px; display: block; margin: 0 auto;">
+                            <h2 style="margin-top: 50px">Berhasil melakukan Authorization</h2>
+                        </div>
+                    `,
+                    showConfirmButton: true
                 } );
-                setTimeout( () =>
-                {
-                    window.close();
-                }, 2000 );
+
+                if ( result.isConfirmed ) {
+                    try {
+                        window.close();
+                    } catch ( err ) {
+                        console.error( err );
+                    }
+                };
             } catch ( error ) {
                 console.error( 'Error fetching access token', error.response.data );
                 const result = await Swal.fire( {
@@ -76,61 +80,13 @@ function Callback ()
                     }
                 }
             };
+
         } else if ( getDataParse?.platform === "Zoom" ) {
 
-            const clientId = getDataParse?.client_id;
-            const clientSecret = getDataParse?.client_secret;
-            const redirectUri = `http://localhost:3000/callback/`;
-
-            const dataBody = new URLSearchParams( {
-                code: code,
-                grant_type: 'authorization_code',
-                redirect_uri: redirectUri,
-            } );
-
             try {
-                const response = await axios.post( 'https://zoom.us/oauth/token', dataBody.toString(), {
-                    headers: {
-                        Authorization: `Basic ${btoa( `${clientId}:${clientSecret}` )}`,
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                } );
 
-                const accessToken = response.data.access_token;
-
-                // Store the access token and notify the parent window
-                window.opener.postMessage( { accessToken: accessToken, authorizationStatus: 'success' }, '*' );
-
-                Swal.fire( {
-                    html: `
-                <div style="text-align: center;">
-                    <img src="${LogoBundar}" alt="Logo" style="width: 100px; height: 100px; display: block; margin: 0 auto;">
-                    <h2 style="margin-top: 60px">Berhasil melakukan Authorization</h2>
-                </div>
-            `,
-                    showConfirmButton: false,
-                    timer: 2000
-                } );
-                setTimeout( () =>
-                {
-                    window.close();
-                }, 2000 );
             } catch ( error ) {
-                console.error( 'Error fetching access token', error.response.data );
-                const result = await Swal.fire( {
-                    icon: 'error',
-                    title: 'Warning',
-                    text: 'Terjadi kesalahan saat melakukan Authorization',
-                    showConfirmButton: true
-                } );
-
-                if ( result.isConfirmed ) {
-                    try {
-                        window.close();
-                    } catch ( err ) {
-                        console.error( err )
-                    }
-                }
+                console.error( error );
             };
         }
 

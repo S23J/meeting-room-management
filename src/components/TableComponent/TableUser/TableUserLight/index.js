@@ -47,7 +47,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 Swal.fire( 'Terhapus!', 'User berhasil dihapus', 'success' );
                 retrieveUser();
             } catch ( err ) {
-                console.log( err );
+                console.error( err )
                 Swal.fire( 'Error', 'Terjadi kesalahan saat menghapus!', 'error' );
 
             }

@@ -50,7 +50,7 @@ function Ruangan ()
                         }
                     } );
 
-                } else ( <></> )
+                } else ( console.error( err ) )
             } )
     }
 

@@ -816,8 +816,18 @@ margin-bottom: 0 !important;
 }
 
 .content {
-font-family: 'Poppins-Regular';
-margin-top: 0 !important;
+  font-family: 'Poppins-Regular';
+    margin-top: 0 !important;
+  display: flex;
+    align-items: center;
+  }
+  
+  .icon-content {
+    cursor: pointer;
+    margin-left: 8px;
+    /* Add some space between the text and the icon */
+    display: flex;
+    align-items: center;
 }
 
 .head-content {

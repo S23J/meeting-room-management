@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalEditAkun, ModalEditPerlengkapan, SidebarComponent } from '../../components';
+import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalTambahPin, SidebarComponent } from '../../components';
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
 import { CiEdit, CiTrash } from 'react-icons/ci';
+import { BsEye, BsEyeSlash, BsPencil } from 'react-icons/bs';
 
 function RuanganDetail ()
 {
@@ -51,6 +52,16 @@ function RuanganDetail ()
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ listAkun, setListAkun ] = useState( [] );
     const [ listUser, setListUser ] = useState( [] );
+    const [ showAddPin, setShowAddPin ] = useState( false );
+    const [ showEditPin, setShowEditPin ] = useState( false );
+    const handleShowAddPin = () =>
+    {
+        setShowAddPin( true );
+    }
+    const handleShowEditPin = () =>
+    {
+        setShowEditPin( true );
+    }
 
     const retrieveMeeting = () =>
     {
@@ -86,13 +97,13 @@ function RuanganDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
     const retrieveAkun = () =>
     {
-        axios.get( `/manage/omplatform/`,
+        axios.get( `/manage/omplatform/filter_by_ruangan/?ruangan_id=${ruangid}`,
             {
                 headers:
                 {
@@ -123,7 +134,7 @@ function RuanganDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
@@ -160,7 +171,7 @@ function RuanganDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
@@ -237,7 +248,7 @@ function RuanganDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
@@ -272,7 +283,7 @@ function RuanganDetail ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     };
 
@@ -334,7 +345,7 @@ function RuanganDetail ()
                 Swal.fire( 'Terhapus!', 'Akun berhasil dihapus', 'success' );
                 retrieveAkun();
             } catch ( err ) {
-                console.log( err );
+                console.error( err )
                 Swal.fire( 'Error', 'Terjadi kesalahan saat menghapus!', 'error' );
 
             }
@@ -364,6 +375,15 @@ function RuanganDetail ()
         };
     }, [] );
 
+    const [ isPasswordVisible, setPasswordVisible ] = useState( false );
+
+    // Function to toggle the visibility
+    const togglePasswordVisibility = () =>
+    {
+        setPasswordVisible( !isPasswordVisible );
+    };
+
+    const pin = detailRuangan?.pincode;
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -414,6 +434,34 @@ function RuanganDetail ()
                                                 <p className='content mb-3'>{ detailRuangan?.lantai }</p>
                                                 <p className='label'>Kapasitas Ruangan:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.kapasitas }</p>
+                                                {
+                                                    !detailRuangan?.pincode ?
+                                                        <>
+                                                            <p className='label'>PIN Ruangan:</p>
+                                                            <Button
+                                                                variant='btn'
+                                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
+                                                                className='mb-3'
+                                                                style={ { minWidth: '100%' } }
+                                                                onClick={ handleShowAddPin }
+                                                            >
+                                                                Tambah PIN Ruangan
+                                                            </Button>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <p className='label'>PIN Ruangan:</p>
+                                                            <p className='content mb-3'>
+                                                                { isPasswordVisible ? pin : '*******' }{ ' ' }
+                                                                <span onClick={ togglePasswordVisibility } className="icon-content">
+                                                                    { isPasswordVisible ? <BsEyeSlash /> : <BsEye /> }
+                                                                </span>
+                                                                <span className="icon-content">
+                                                                    <BsPencil className='ms-2' size={ 15 } onClick={ handleShowEditPin } />
+                                                                </span>
+                                                            </p>
+                                                        </>
+                                                }
                                             </Col>
                                         </Row>
                                     </div>
@@ -640,6 +688,21 @@ function RuanganDetail ()
                 rowSelected={ rowSelected }
                 ruangid={ ruangid }
                 retrieveAkun={ retrieveAkun }
+                tokenUser={ tokenUser }
+            />
+            <ModalTambahPin
+                showAddPin={ showAddPin }
+                setShowAddPin={ setShowAddPin }
+                ruangid={ ruangid }
+                retrieveDetailRuangan={ retrieveDetailRuangan }
+                tokenUser={ tokenUser }
+            />
+            <ModalEditPin
+                showEditPin={ showEditPin }
+                setShowEditPin={ setShowEditPin }
+                detailRuangan={ detailRuangan }
+                ruangid={ ruangid }
+                retrieveDetailRuangan={ retrieveDetailRuangan }
                 tokenUser={ tokenUser }
             />
         </div>

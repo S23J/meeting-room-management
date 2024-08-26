@@ -54,7 +54,7 @@ function TabsRequestMeetingDark ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 
@@ -92,7 +92,7 @@ function TabsRequestMeetingDark ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 

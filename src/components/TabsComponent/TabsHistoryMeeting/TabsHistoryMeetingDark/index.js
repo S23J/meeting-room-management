@@ -60,7 +60,7 @@ function TabsHistoryMeetingDark ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 
@@ -98,7 +98,7 @@ function TabsHistoryMeetingDark ()
                         }
                     } );
 
-                } else ( console.log( err ) )
+                } else ( console.error( err ) )
             } )
     }
 

@@ -53,7 +53,7 @@ function HeaderMobile2 ()
             } );
             navigate( '/' );
         } catch ( error ) {
-            // console.log( error );
+            console.error( error )
             Swal.fire( {
                 icon: 'error',
                 title: 'Warning!',

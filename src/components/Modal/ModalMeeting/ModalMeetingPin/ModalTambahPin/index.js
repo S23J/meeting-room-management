@@ -7,8 +7,8 @@ import { ThemeContext } from '../../../../../auth';
 function ModalTambahPin ( {
     showAddPin,
     setShowAddPin,
-    meetingid,
-    retrieveDetailMeeting,
+    ruangid,
+    retrieveDetailRuangan,
     tokenUser
 } )
 {
@@ -32,7 +32,7 @@ function ModalTambahPin ( {
         // console.log( data );
         setDisabled( true );
         try {
-            const response = await axios.patch( `/manage/requests/${meetingid}/`, data,
+            const response = await axios.patch( `/manage/ruangan/${ruangid}/`, data,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -50,7 +50,7 @@ function ModalTambahPin ( {
                 title: 'Berhasil menambahkan kode pin',
                 showConfirmButton: true,
             } )
-            retrieveDetailMeeting();
+            retrieveDetailRuangan();
             setDisabled( false );
         } catch ( err ) {
             console.log( err );

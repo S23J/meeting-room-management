@@ -8,9 +8,9 @@ import { ThemeContext } from '../../../../../auth';
 function ModalEditPin ( {
     showEditPin,
     setShowEditPin,
-    meeting,
-    meetingid,
-    retrieveDetailMeeting,
+    detailRuangan,
+    ruangid,
+    retrieveDetailRuangan,
     tokenUser
 } )
 {
@@ -25,7 +25,7 @@ function ModalEditPin ( {
 
     const defaultValue = {
 
-        pincode: meeting?.pincode || "",
+        pincode: detailRuangan?.pincode || "",
     }
 
     const handleSubmitPin = async ( values ) =>
@@ -34,7 +34,7 @@ function ModalEditPin ( {
         // console.log( values );
         setDisabled( true );
         try {
-            const response = await axios.patch( `/manage/requests/${meetingid}/`, values,
+            const response = await axios.patch( `/manage/ruangan/${ruangid}/`, values,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -52,7 +52,7 @@ function ModalEditPin ( {
                 title: 'Berhasil mengubah kode pin',
                 showConfirmButton: true,
             } )
-            retrieveDetailMeeting();
+            retrieveDetailRuangan();
             setDisabled( false );
         } catch ( err ) {
             console.log( err );
