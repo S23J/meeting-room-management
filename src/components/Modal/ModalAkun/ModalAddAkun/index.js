@@ -41,10 +41,8 @@ function ModalAddAkun ( {
         setSelectedPlatform( selectedOption );
     };
 
-    const [ authCode, setAuthCode ] = useState( null );
-    const [ hasSubmitted, setHasSubmitted ] = useState( false );
 
-    const redirectToGMeetAuth = ( event ) =>
+    const redirectAuth = ( event ) =>
     {
         event.preventDefault();
 
@@ -65,23 +63,38 @@ function ModalAddAkun ( {
             const getData = window.sessionStorage.getItem( "data" );
             const getDataParse = JSON.parse( getData );
 
-            const ruangidParams = ruangid;
             const clientId = getDataParse?.client_id;
             const redirectUri = `http://localhost:3000/callback/`;
             const scope = 'https://www.googleapis.com/auth/calendar';
 
             const GMeetAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent( redirectUri )}&scope=${encodeURIComponent( scope )}&access_type=offline&prompt=consent`;
 
-            window.open( GMeetAuthUrl, '_blank' );
-            setDisabled( false );
+            // Open the OAuth process in a new window
+            const authWindow = window.open( GMeetAuthUrl, "_blank", "width=500,height=600" );
+
+            // Listen for messages from the new window
+            const handleMessage = ( event ) =>
+            {
+                if ( event.origin !== window.location.origin ) return; // Ensure the message is from your own domain
+
+                if ( event.data.type === "zoom-auth-success" ) {
+                    const { refreshToken } = event.data;
+                    window.sessionStorage.setItem( "refresh_token", JSON.stringify( refreshToken ) );
+                }
+
+                setDisabled( false );
+                window.removeEventListener( "message", handleMessage ); // Remove the event listener after use
+            };
+
+            window.addEventListener( "message", handleMessage );
 
         } else if ( selectedPlatform?.value === "Zoom" ) {
 
             const getData = window.sessionStorage.getItem( "data" );
             const getDataParse = JSON.parse( getData );
-
-            const redirectUri = `http://localhost:3000/detail-ruangan/${ruangid}`;
-            const zoomAuthUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent( redirectUri )}`;
+            const clientId = getDataParse?.client_id;
+            const redirectUri = `http://localhost:3000/callback`;
+            const zoomAuthUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent( redirectUri )}`;
 
             // Open the OAuth process in a new window
             const authWindow = window.open( zoomAuthUrl, "_blank", "width=500,height=600" );
@@ -91,11 +104,9 @@ function ModalAddAkun ( {
             {
                 if ( event.origin !== window.location.origin ) return; // Ensure the message is from your own domain
 
-                if ( event.data.type === "zoom-auth-success" && !hasSubmitted ) {
+                if ( event.data.type === "zoom-auth-success" ) {
                     const { refreshToken } = event.data;
                     window.sessionStorage.setItem( "refresh_token", JSON.stringify( refreshToken ) );
-                    setHasSubmitted( true ); // Mark that submission has happened
-                    submitData( refreshToken );
                 }
 
                 setDisabled( false );
@@ -106,126 +117,82 @@ function ModalAddAkun ( {
         }
     };
 
-    const exchangeCodeForToken = async ( code ) =>
-    {
-        const getData = window.sessionStorage.getItem( "data" );
-        const getDataParse = JSON.parse( getData );
-        const redirectUri = `http://localhost:3000/detail-ruangan/${ruangid}`;
+    // const [ hasRefreshToken, setHasRefreshToken ] = useState( false );
 
-        const dataBody = new URLSearchParams( {
-            code: code,
-            grant_type: 'authorization_code',
-            redirect_uri: redirectUri,
-        } );
+    // useEffect( () =>
+    // {
+    //     const refreshToken = window.sessionStorage.getItem( "refresh_token" );
+    //     setHasRefreshToken( refreshToken !== null );
 
-        try {
-            const response = await axios.post( 'https://zoom.us/oauth/token', dataBody.toString(), {
-                headers: {
-                    Authorization: `Basic ${btoa( `${getDataParse?.client_id}:${getDataParse?.client_secret}` )}`,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            } );
+    //     const handleMessage = ( event ) =>
+    //     {
+    //         if ( event.data.authorizationStatus === 'success' ) {
+    //             const refreshToken = window.sessionStorage.getItem( "refresh_token" );
+    //             setHasRefreshToken( refreshToken !== null );
+    //         }
+    //     };
 
-            // Send the refresh token back to the original page
-            window.opener.postMessage( {
-                type: "zoom-auth-success",
-                refreshToken: response.data.refresh_token,
-            }, window.location.origin );
+    //     window.addEventListener( 'message', handleMessage );
 
-            // Close the new window after sending the message
-            window.close();
+    //     return () =>
+    //     {
+    //         window.removeEventListener( 'message', handleMessage );
+    //     };
+    // }, [] );
 
-        } catch ( error ) {
-            console.error( error )
-        }
-    };
+    // // Submits data to the backend
+    // const submitData = async () =>
+    // {
 
-    useEffect( () =>
-    {
-        const urlParams = new URLSearchParams( window.location.search );
-        const code = urlParams.get( 'code' );
-        if ( code && !hasSubmitted ) {
-            setAuthCode( code );
-            exchangeCodeForToken( code );
-        }
-    }, [ hasSubmitted ] );
+    //     const getData = window.sessionStorage.getItem( "data" );
+    //     const getDataParse = JSON.parse( getData );
+    //     const getRefreshToken = window.sessionStorage.getItem( "refresh_token" );
+    //     const refreshToken = JSON.parse( getRefreshToken );
 
-    const [ hasRefreshToken, setHasRefreshToken ] = useState( false );
+    //     const finalData = {
+    //         account: getDataParse?.account,
+    //         client_id: getDataParse?.client_id,
+    //         client_secret: getDataParse?.client_secret,
+    //         calendar_id: getDataParse?.calendar_id,
+    //         platform: getDataParse?.platform,
+    //         ruangan: ruangid,
+    //         auth_code: refreshToken,
+    //     };
+    //     // console.log( finalData );
 
-    useEffect( () =>
-    {
-        const refreshToken = window.sessionStorage.getItem( "refresh_token" );
-        setHasRefreshToken( refreshToken !== null );
+    //     setDisabled( true );
+    //     try {
+    //         const response = await axios.post( `/manage/omplatform/`, finalData, {
+    //             headers: {
+    //                 'Access-Control-Allow-Origin': '*',
+    //                 'Content-Type': 'application/json',
+    //                 withCredentials: true,
+    //                 Authorization: `Token ` + tokenUser,
+    //             },
+    //         }
+    //         );
+    //         // console.log( response );
+    //         window.sessionStorage.removeItem( 'data' );
+    //         window.sessionStorage.removeItem( 'refresh_token' );
+    //         handleClose();
+    //         Swal.fire( {
+    //             icon: 'success',
+    //             title: 'Berhasil menambahkan Akun',
+    //             showConfirmButton: true,
+    //         } )
+    //         retrieveAkun();
+    //         setDisabled( false );
+    //     } catch ( err ) {
+    //         console.error( err )
+    //         Swal.fire( {
+    //             icon: 'error',
+    //             title: 'Oops...',
+    //             text: 'Terjadi kesalahan saat menambahkan Akun',
+    //         } );
+    //         setDisabled( false );
+    //     }
 
-        const handleMessage = ( event ) =>
-        {
-            if ( event.data.authorizationStatus === 'success' ) {
-                const refreshToken = window.sessionStorage.getItem( "refresh_token" );
-                setHasRefreshToken( refreshToken !== null );
-            }
-        };
-
-        window.addEventListener( 'message', handleMessage );
-
-        return () =>
-        {
-            window.removeEventListener( 'message', handleMessage );
-        };
-    }, [] );
-
-    // Submits data to the backend
-    const submitData = async () =>
-    {
-
-        const getData = window.sessionStorage.getItem( "data" );
-        const getDataParse = JSON.parse( getData );
-        const getRefreshToken = window.sessionStorage.getItem( "refresh_token" );
-        const refreshToken = JSON.parse( getRefreshToken );
-
-        const finalData = {
-            account: getDataParse?.account,
-            client_id: getDataParse?.client_id,
-            client_secret: getDataParse?.client_secret,
-            calendar_id: getDataParse?.calendar_id,
-            platform: getDataParse?.platform,
-            ruangan: ruangid,
-            auth_code: refreshToken,
-        };
-        // console.log( finalData );
-
-        setDisabled( true );
-        try {
-            const response = await axios.post( `/manage/omplatform/`, finalData, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    withCredentials: true,
-                    Authorization: `Token ` + tokenUser,
-                },
-            }
-            );
-            // console.log( response );
-            window.sessionStorage.removeItem( 'data' );
-            window.sessionStorage.removeItem( 'refresh_token' );
-            handleClose();
-            Swal.fire( {
-                icon: 'success',
-                title: 'Berhasil menambahkan Akun',
-                showConfirmButton: true,
-            } )
-            retrieveAkun();
-            setDisabled( false );
-        } catch ( err ) {
-            console.error( err )
-            Swal.fire( {
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Terjadi kesalahan saat menambahkan Akun',
-            } );
-            setDisabled( false );
-        }
-
-    };
+    // };
 
     const formStyles = {
         label: {
@@ -341,7 +308,15 @@ function ModalAddAkun ( {
                         </Form.Group>
                     ) }
                     <div className="d-grid gap-2 mt-4">
-                        {
+                        <Button
+                            onClick={ redirectAuth }
+                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                            disabled={ disabled || !accountEmail || !selectedPlatform?.value || !clientID || !clientSecret }
+                            variant='btn'
+                        >
+                            Simpan
+                        </Button>
+                        {/* {
                             hasRefreshToken ?
                                 <Button
                                     onClick={ submitData }
@@ -360,7 +335,7 @@ function ModalAddAkun ( {
                                 >
                                     Authorized
                                 </Button>
-                        }
+                        } */}
                     </div>
                 </Form>
             </Modal.Body>
