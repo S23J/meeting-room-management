@@ -31,6 +31,7 @@ function MeetingDetail ()
     const [ filteredUserObject, setFilteredUserObject ] = useState( {} );
     const navigate = useNavigate();
     const [ listAkun, setListAkun ] = useState( [] );
+    const [ disabled, setDisabled ] = useState( false );
 
     const buttonBack = () =>
     {
@@ -226,7 +227,6 @@ function MeetingDetail ()
         {
             if ( tokenUser !== undefined ) {
 
-                await retrieveAkun();
                 await retrieveDetailMeeting();
                 await retrieveUser();
 
@@ -240,6 +240,7 @@ function MeetingDetail ()
 
                 if ( detailRuangan?.id !== undefined ) {
                     await retrieveDetailEquipment();
+                    await retrieveAkun();
                 }
             }
         };
@@ -390,7 +391,7 @@ function MeetingDetail ()
     const retrieveDetailAkun = async () =>
     {
         try {
-            setFetching( true ); // Start fetching
+            setFetching( true ); 
             const res = await axios.get( `/manage/omplatform/${selectedAccount}`, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -400,11 +401,11 @@ function MeetingDetail ()
                 },
             } );
             setDetailAkun( res.data );
-            // console.log( res.data );
+
         } catch ( err ) {
             console.error( err );
         } finally {
-            setFetching( false ); // Stop fetching
+            setFetching( false );
         }
     };
 
@@ -445,12 +446,184 @@ function MeetingDetail ()
         );
     } );
 
-    // console.log( detailAkun );
-
-    const handleSubmitMeeting = async ( event ) =>
+    const redirectAuth = () =>
     {
-        event.preventDefault();
 
+        if ( detailAkun?.platform === "Google Meeting" ) {
+
+            const handleMessage = async ( event ) =>
+            {
+                if ( event.origin !== window.location.origin ) return;
+
+                const { refreshToken } = event.data;
+                window.sessionStorage.setItem( "new_refresh_token", JSON.stringify( refreshToken ) );
+
+                const result = await Swal.fire( {
+                    title: 'Proses Otorisasi Berhasil!',
+                    text: 'Harap mengupdate Otorisasi akun anda kembali dengan menekan tombol OK!',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'OK!',
+                    cancelButtonText: 'Batalkan',
+                } );
+
+                if ( result.isConfirmed ) {
+
+                    const getDataNewRefreshToken = window.sessionStorage.getItem( "new_refresh_token" );
+                    const getDataNewRefreshTokenParse = JSON.parse( getDataNewRefreshToken );
+
+                    const updateData = {
+                        auth_code: getDataNewRefreshTokenParse,
+                    }
+
+                    try {
+                        const responseUpdate = await axios.patch( `/manage/omplatform/${detailAkun?.id}/`, updateData, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        }
+                        );
+
+                        window.sessionStorage.removeItem( 'data-akun-meeting' );
+                        window.sessionStorage.removeItem( 'new_refresh_token' );
+
+                        Swal.fire( {
+                            icon: 'success',
+                            title: 'Berhasil mengupdate Otorisasi Akun!',
+                            text: 'Anda bisa membuat meeting kembali',
+                            showConfirmButton: true,
+                        } );
+
+                        retrieveAkun();
+                        retrieveDetailAkun();
+
+                        setDisabled( false );
+                    } catch ( err ) {
+                        console.error( err )
+                        Swal.fire( {
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Terjadi kesalahan saat mengupdate Otorisasi Akun!',
+                        } );
+                        setDisabled( false );
+                    }
+                } else {
+                    Swal.fire( 'Dibatalkan', 'Update Authentikasi dibatalkan', 'info' );
+                };
+                // setDisabled( false );
+                window.removeEventListener( "message", handleMessage );
+
+            };
+
+            const clientId = detailAkun?.client_id;
+            const redirectUri = `http://localhost:3000/callback`;
+            const scope = 'https://www.googleapis.com/auth/calendar';
+
+            const GMeetAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent( redirectUri )}&scope=${encodeURIComponent( scope )}&access_type=offline&prompt=consent`;
+
+            window.open( GMeetAuthUrl, "_blank", "width=500,height=600" );
+
+            window.addEventListener( "message", handleMessage );
+
+
+        } else if ( detailAkun?.platform === "Zoom" ) {
+
+            const handleMessage = async ( event ) =>
+            {
+                if ( event.origin !== window.location.origin ) return;
+
+                const { refreshToken } = event.data;
+                window.sessionStorage.setItem( "new_refresh_token", JSON.stringify( refreshToken ) );
+
+                const result = await Swal.fire( {
+                    title: 'Proses Otorisasi Berhasil!',
+                    text: 'Harap mengupdate Otorisasi akun anda kembali dengan menekan tombol OK!',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'OK!',
+                    cancelButtonText: 'Batalkan',
+                } );
+
+                if ( result.isConfirmed ) {
+
+                    const getDataNewRefreshToken = window.sessionStorage.getItem( "new_refresh_token" );
+                    const getDataNewRefreshTokenParse = JSON.parse( getDataNewRefreshToken );
+
+                    const updateData = {
+                        auth_code: getDataNewRefreshTokenParse,
+                    }
+
+                    try {
+                        const responseUpdate = await axios.patch( `/manage/omplatform/${detailAkun?.id}/`, updateData, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        }
+                        );
+
+                        window.sessionStorage.removeItem( 'data-akun-meeting' );
+                        window.sessionStorage.removeItem( 'new_refresh_token' );
+
+                        Swal.fire( {
+                            icon: 'success',
+                            title: 'Berhasil mengupdate Otorisasi Akun!',
+                            text: 'Anda bisa membuat meeting kembali',
+                            showConfirmButton: true,
+                        } );
+
+                        retrieveAkun();
+                        retrieveDetailAkun();
+
+                        setDisabled( false );
+                    } catch ( err ) {
+                        console.error( err )
+                        Swal.fire( {
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Terjadi kesalahan saat mengupdate Otorisasi Akun!',
+                        } );
+                        setDisabled( false );
+                    }
+                } else {
+                    Swal.fire( 'Dibatalkan', 'Update Authentikasi dibatalkan', 'info' );
+                };
+                // setDisabled( false );
+                window.removeEventListener( "message", handleMessage );
+            };
+
+            const clientId = detailAkun?.client_id;
+            const redirectUri = `http://localhost:3000/callback`;
+            const zoomAuthUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent( redirectUri )}`;
+
+            window.open( zoomAuthUrl, "_blank", "width=500,height=600" );
+
+            window.addEventListener( "message", handleMessage );
+
+        }
+
+    };
+
+    const getTodayDate = () =>
+    {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String( today.getMonth() + 1 ).padStart( 2, '0' );
+        const day = String( today.getDate() ).padStart( 2, '0' );
+        const hours = String( today.getHours() ).padStart( 2, '0' );
+        const minutes = String( today.getMinutes() ).padStart( 2, '0' );
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
+    const handleSubmitMeeting = async () =>
+    {
+
+        setDisabled( true );
         const calculateEndTime = ( startTime, duration ) =>
         {
             const startDate = new Date( startTime );
@@ -459,6 +632,160 @@ function MeetingDetail ()
             return endDate;
         };
 
+        try {
+            if ( detailAkun?.platform === "Google Meeting" ) {
+
+                const localStartDate = new Date( meetingStartTime );
+                const endDate = calculateEndTime( localStartDate, meetingDuration );
+                const utcStartDateString = localStartDate.toISOString();
+                const utcEndDateString = endDate.toISOString();
+
+                const formData = {
+                    summary: meetingTopic,
+                    description: meetingAgenda,
+                    start: {
+                        dateTime: utcStartDateString,
+                        timeZone: "Asia/Jakarta"
+                    },
+                    end: {
+                        dateTime: utcEndDateString,
+                        timeZone: "Asia/Jakarta"
+                    },
+                    conferenceData: {
+                        createRequest: {
+                            requestId: "sample123",
+                            conferenceSolutionKey: {
+                                type: "hangoutsMeet"
+                            }
+                        }
+                    }
+                };
+
+                const getAccessToken = window.sessionStorage.getItem( "gmeet_new_access_token" );
+                const accessToken = JSON.parse( getAccessToken );
+
+                try {
+
+                    const response = await axios.post( `https://www.googleapis.com/calendar/v3/calendars/${detailAkun?.calendar_id}/events?conferenceDataVersion=1`, formData, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    } );
+                    window.sessionStorage.removeItem( "gmeet_new_access_token" );
+
+                    const dataLink = {
+                        link_meeting: response?.data.hangoutLink,
+                    };
+
+                    try {
+                        await axios.patch( `/manage/requests/${meetingid}/`, dataLink, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        } );
+
+                        Swal.fire( {
+                            icon: 'success',
+                            title: 'Berhasil membuat Meeting',
+                            showConfirmButton: true
+                        } );
+                        setDisabled( false );
+                        retrieveDetailMeeting();
+
+                    } catch ( err ) {
+                        console.error( err.response );
+                        setDisabled( false );
+                    }
+                } catch ( err ) {
+                    console.error( err.response );
+                    Swal.fire( {
+                        icon: 'error',
+                        title: 'Warning',
+                        text: 'Terjadi kesalahan saat membuat Meeting',
+                        showConfirmButton: true
+                    } );
+                    setDisabled( false );
+                }
+
+            } else if ( detailAkun?.platform === "Zoom" ) {
+
+                const localDate = new Date( meetingStartTime );
+                const offsetInMinutes = localDate.getTimezoneOffset();
+                const offsetInMilliseconds = offsetInMinutes * 60 * 1000;
+                const utcDate = new Date( localDate.getTime() - offsetInMilliseconds );
+                const utcDateString = utcDate.toISOString();
+
+                const data = {
+                    topic: meetingTopic,
+                    type: 2,
+                    start_time: utcDateString,
+                    duration: meetingDuration,
+                    timezone: 'Asia/Jakarta',
+                    agenda: meetingAgenda
+                };
+
+                try {
+                    const getAccessToken = window.sessionStorage.getItem( "zoom_new_access_token" );
+                    const accessToken = JSON.parse( getAccessToken );
+
+                    const responseNewMeeting = await axios.post( `https://api.zoom.us/v2/users/me/meetings`, data, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    } );
+
+                    window.sessionStorage.removeItem( "zoom_new_access_token" );
+
+                    const dataLink = {
+                        link_meeting: responseNewMeeting?.data.join_url,
+                    };
+
+                    try {
+                        await axios.patch( `/manage/requests/${meetingid}/`, dataLink, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json',
+                                withCredentials: true,
+                                Authorization: `Token ` + tokenUser,
+                            },
+                        } );
+
+                        Swal.fire( {
+                            icon: 'success',
+                            title: 'Berhasil membuat Meeting',
+                            showConfirmButton: true
+                        } );
+                        setDisabled( false );
+                        retrieveDetailMeeting();
+
+                    } catch ( err ) {
+                        console.error( err.response );
+                        setDisabled( false );
+                    }
+                } catch ( err ) {
+                    console.error( err.response );
+                    Swal.fire( {
+                        icon: 'error',
+                        title: 'Warning',
+                        text: 'Terjadi kesalahan saat membuat Meeting',
+                        showConfirmButton: true
+                    } );
+                    setDisabled( false );
+                }
+            }
+        } catch ( error ) {
+            console.error( "An error occurred:", error );
+            setDisabled( false );
+        }
+    };
+
+
+    const handleSubmiNewToken = async () =>
+    {
+
         if ( detailAkun?.platform === "Google Meeting" ) {
 
             const dataBody = new URLSearchParams( {
@@ -466,101 +793,51 @@ function MeetingDetail ()
                 refresh_token: detailAkun?.auth_code,
             } );
 
+            let response;
+
             try {
-                const response = await axios.post( 'https://oauth2.googleapis.com/token', dataBody.toString(), {
+                response = await axios.post( 'https://oauth2.googleapis.com/token', dataBody.toString(), {
                     headers: {
                         Authorization: `Basic ${btoa( `${detailAkun?.client_id}:${detailAkun?.client_secret}` )}`,
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                 } );
-                // console.log( response );
-                const winLocal = window.sessionStorage
+
+                const winLocal = window.sessionStorage;
                 winLocal.setItem( "gmeet_new_access_token", JSON.stringify( response.data.access_token ) );
 
+                handleSubmitMeeting();
+
             } catch ( error ) {
-                console.error( error.response );
-            };
 
-            const localStartDate = new Date( meetingStartTime );
-            const endDate = calculateEndTime( localStartDate, meetingDuration );
-
-            const utcStartDateString = localStartDate.toISOString();
-            const utcEndDateString = endDate.toISOString();
-
-            const formData = {
-                summary: meetingTopic,
-                description: meetingAgenda,
-                start: {
-                    dateTime: utcStartDateString,
-                    timeZone: "Asia/Jakarta"
-                },
-                end: {
-                    dateTime: utcEndDateString,
-                    timeZone: "Asia/Jakarta"
-                },
-                conferenceData: {
-                    createRequest: {
-                        requestId: "sample123",
-                        conferenceSolutionKey: {
-                            type: "hangoutsMeet"
-                        }
-                    }
-                }
-            };
-
-            try {
-
-                const getAccessToken = window.sessionStorage.getItem( "gmeet_new_access_token" );
-                const accessToken = JSON.parse( getAccessToken );
-
-                // console.log( accessToken )
-
-                const response = await axios.post( `https://www.googleapis.com/calendar/v3/calendars/${detailAkun?.calendar_id}/events?conferenceDataVersion=1`, formData, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`, // Replace with the actual access token
-                    },
-                } );
-                window.sessionStorage.removeItem( "gmeet_new_access_token" );
-
-                const dataLink = {
-                    link_meeting: response?.data.hangoutLink,
-                };
-                // console.log( response );
-
-                try {
-                    const response = await axios.patch( `/manage/requests/${meetingid}/`, dataLink,
-                        {
-                            headers: {
-                                'Access-Control-Allow-Origin': '*',
-                                'Content-Type': 'application/json',
-                                withCredentials: true,
-                                Authorization: `Token ` + tokenUser,
-                            },
-                        }
-
-                    );
-
-                    // console.log( response );
-
-                    Swal.fire( {
-                        icon: 'success',
-                        title: 'Berhasil membuat Meeting',
-                        showConfirmButton: true
+                if ( error.response?.data?.error === "invalid_grant" ) {
+                    const result = await Swal.fire( {
+                        title: 'Otorisasi akun yang anda pilih telah habis!',
+                        text: 'Harap melakukan proses otorisasi kembali dengan menekan tombol OK!',
+                        icon: 'error',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK!',
+                        cancelButtonText: 'Batalkan',
                     } );
-                    retrieveDetailMeeting();
 
-                } catch ( err ) {
-                    console.error( err.response );
+                    if ( result.isConfirmed ) {
+                        window.sessionStorage.setItem( "data-akun-meeting", JSON.stringify( detailAkun ) );
+                        redirectAuth();
+                    } else {
+                        Swal.fire( 'Dibatalkan', 'Proses Otorisasi dibatalkan', 'info' );
+                    };
 
-                }
-
-
-            } catch ( error ) {
-                console.error( 'Error creating meeting', error.response.data );
-            };
-
+                } else {
+                    Swal.fire( {
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat proses Otorisasi',
+                    } );
+                };
+            }
 
         } else if ( detailAkun?.platform === "Zoom" ) {
+
             const dataBody = new URLSearchParams( {
                 grant_type: 'refresh_token',
                 refresh_token: detailAkun?.auth_code,
@@ -577,86 +854,60 @@ function MeetingDetail ()
                 const winLocal = window.sessionStorage
                 winLocal.setItem( "zoom_new_access_token", JSON.stringify( response.data.access_token ) );
 
+                handleSubmitMeeting();
+
             } catch ( error ) {
+
                 console.error( error.response );
-            };
 
-            const localDate = new Date( meetingStartTime );
-
-            const offsetInMinutes = localDate.getTimezoneOffset();
-            const offsetInMilliseconds = offsetInMinutes * 60 * 1000;
-
-            const utcDate = new Date( localDate.getTime() - offsetInMilliseconds );
-
-            const utcDateString = utcDate.toISOString();
-
-            const data = {
-                topic: meetingTopic,
-                type: 2,
-                start_time: utcDateString,
-                duration: meetingDuration,
-                timezone: 'Asia/Jakarta',
-                agenda: meetingAgenda
-            };
-
-            try {
-
-                const getAccessToken = window.sessionStorage.getItem( "zoom_new_access_token" );
-                const accessToken = JSON.parse( getAccessToken );
-
-                const responseNewMeeting = await axios.post( `https://api.zoom.us/v2/users/me/meetings`, data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`, // Replace with the actual access token
-                        },
-                    }
-
-                );
-
-                window.sessionStorage.removeItem( "zoom_new_access_token" );
-
-                const dataLink = {
-                    link_meeting: responseNewMeeting?.data.join_url,
+                if ( error.response?.data?.error === "invalid_grant" ) {
+                    const result = await Swal.fire( {
+                        title: 'Otorisasi akun yang anda pilih telah habis!',
+                        text: 'Harap melakukan proses otorisasi kembali dengan menekan tombol OK!',
+                        icon: 'error',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK!',
+                        cancelButtonText: 'Batalkan',
+                    } );
+                    if ( result.isConfirmed ) {
+                        window.sessionStorage.setItem( "data-akun-meeting", JSON.stringify( detailAkun ) );
+                        redirectAuth();
+                    } else {
+                        Swal.fire( 'Dibatalkan', 'Proses Otorisasi dibatalkan', 'info' );
+                    };
+                } else {
+                    Swal.fire( {
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat proses Otorisasi',
+                    } );
                 };
 
-                try {
-                    const response = await axios.patch( `/manage/requests/${meetingid}/`, dataLink,
-                        {
-                            headers: {
-                                'Access-Control-Allow-Origin': '*',
-                                'Content-Type': 'application/json',
-                                withCredentials: true,
-                                Authorization: `Token ` + tokenUser,
-                            },
-                        }
-
-                    );
-                    console.log( response );
-
-                    Swal.fire( {
-                        icon: 'success',
-                        title: 'Berhasil membuat Meeting',
-                        showConfirmButton: true
-                    } );
-                    retrieveDetailMeeting();
-
-                } catch ( err ) {
-                    console.error( err.response );
-
-                }
-
-            } catch ( err ) {
-                console.error( err.response );
-                Swal.fire( {
-                    icon: 'error',
-                    title: 'Warning',
-                    text: 'Terjadi kesalahan saat membuat Meeting',
-                    showConfirmButton: true
-                } );
             };
+
         }
 
     };
+
+
+    useEffect( () =>
+    {
+        const handleToken = ( event ) =>
+        {
+            if ( event.data && event.data.accessToken ) {
+                const accessToken = event.data.accessToken;
+                window.sessionStorage.setItem( "new_refresh_token", JSON.stringify( accessToken ) );
+            }
+        };
+
+        window.addEventListener( 'message', handleToken );
+
+        return () =>
+        {
+            window.removeEventListener( 'message', handleToken );
+        };
+    }, [] );
+
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -692,7 +943,16 @@ function MeetingDetail ()
                 <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>
-                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
+                            {
+                                meeting?.online === true ?
+                                    (
+                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting.link_meeting }>Setuju</Button>
+                                    )
+                                    :
+                                    (
+                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
+                                    )
+                            }
                             <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
                             <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
                         </>
@@ -858,11 +1118,14 @@ function MeetingDetail ()
                                                                                             <Form.Control
                                                                                                 id='meetingAgenda'
                                                                                                 type="text"
+                                                                                                as="textarea"
+                                                                                                rows={ 3 }
                                                                                                 onChange={ ( e ) => setMeetingAgenda( e.target.value ) }
                                                                                                 value={ meetingAgenda }
                                                                                                 placeholder="Masukkan topik agenda"
                                                                                                 style={ formStyles.input }
                                                                                             />
+                                                                                            <small style={ { fontFamily: 'Poppins-Light', color: '#acacac' } }>Deskripsi meeting yang lebih detail</small>
                                                                                         </Form.Group>
                                                                                         <Form.Group className="mb-3">
                                                                                             <Form.Label style={ formStyles.label } htmlFor='startMeeting'>Mulai Meeting*</Form.Label>
@@ -871,6 +1134,7 @@ function MeetingDetail ()
                                                                                                 type="datetime-local"
                                                                                                 onChange={ ( e ) => setMeetingStartTime( e.target.value ) }
                                                                                                 value={ meetingStartTime }
+                                                                                                min={ getTodayDate() }
                                                                                                 required
                                                                                                 style={ formStyles.input }
                                                                                             />
@@ -886,9 +1150,17 @@ function MeetingDetail ()
                                                                                                 placeholder="Masukkan durasi meeting"
                                                                                                 style={ formStyles.input }
                                                                                             />
+                                                                                            <small style={ { fontFamily: 'Poppins-Light', color: '#acacac' } }>Durasi menggunakan hitungan menit</small>
                                                                                         </Form.Group>
                                                                                         <div>
-                                                                                            <Button variant='primary' onClick={ handleSubmitMeeting }>Buat Meeting</Button>
+                                                                                            <Button
+                                                                                                variant='btn'
+                                                                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
+                                                                                                onClick={ handleSubmiNewToken }
+                                                                                                disabled={ disabled || !meetingTopic || !meetingStartTime || !meetingDuration }
+                                                                                            >
+                                                                                                Buat Meeting
+                                                                                            </Button>
                                                                                         </div>
                                                                                     </>
                                                                             }
@@ -898,20 +1170,29 @@ function MeetingDetail ()
                                                                     (
 
                                                                         <>
-                                                                            <Form.Group >
-                                                                                <Form.Label style={ formStyles.label } htmlFor='linkMeeting'>Link Meeting</Form.Label>
-                                                                                <Form.Control
-                                                                                    id='linkMeeting'
-                                                                                    type="text"
-                                                                                    as="textarea"
-                                                                                    rows={ 3 }
-                                                                                    value={ meeting?.link_meeting || '' }
-                                                                                    readOnly
-                                                                                    style={ formStyles.input }
-                                                                                />
-                                                                            </Form.Group>
-                                                                        </>
+                                                                            {
+                                                                                meeting?.status === "approved" || meeting?.status === "denied" ?
+                                                                                    (
 
+                                                                                        <></>
+                                                                                    )
+                                                                                    :
+                                                                                    (
+                                                                                        <Form.Group >
+                                                                                            <Form.Label style={ formStyles.label } htmlFor='linkMeeting'>Link Meeting</Form.Label>
+                                                                                            <Form.Control
+                                                                                                id='linkMeeting'
+                                                                                                type="text"
+                                                                                                as="textarea"
+                                                                                                rows={ 3 }
+                                                                                                value={ meeting?.link_meeting || '' }
+                                                                                                readOnly
+                                                                                                style={ formStyles.input }
+                                                                                            />
+                                                                                        </Form.Group>
+                                                                                    )
+                                                                            }
+                                                                        </>
                                                                     )
                                                             }
                                                         </Col>

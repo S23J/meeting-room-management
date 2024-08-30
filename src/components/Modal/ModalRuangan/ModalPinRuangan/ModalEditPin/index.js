@@ -88,9 +88,10 @@ function ModalEditPin ( {
             backdrop="static"
             keyboard={ false }
             centered
+            data-bs-theme={ theme === 'light' ? 'dark' : '' }
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
                     Ubah Pin
                 </Modal.Title>
             </Modal.Header>
