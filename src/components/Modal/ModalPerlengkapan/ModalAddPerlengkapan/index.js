@@ -112,7 +112,7 @@ function ModalAddPerlengkapan ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                            disabled={ disabled }
+                            disabled={ disabled || !alat }
                         >
                             Simpan
                         </Button>

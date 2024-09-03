@@ -523,7 +523,7 @@ function RuanganDetail ()
                                                                             id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
                                                                             onClick={ () => handleDeleteAkun( data.id ) }
                                                                         >
-                                                                            <CiTrash size={ 25 } />
+                                                                            <CiTrash size={ 25 } color='red' />
                                                                         </Button>
                                                                     </td>
                                                                 </tr>
@@ -588,7 +588,7 @@ function RuanganDetail ()
                                                                             id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
                                                                             onClick={ () => handleDelete( data.id ) }
                                                                         >
-                                                                            <CiTrash size={ 25 } />
+                                                                            <CiTrash size={ 25 } color='red' />
                                                                         </Button>
                                                                     </td>
                                                                 </tr>
@@ -618,8 +618,8 @@ function RuanganDetail ()
                                                     <th>Nama Meeting</th>
                                                     <th>Request by</th>
                                                     <th>Tanggal</th>
-                                                    <th>Waktu Mulai</th>
-                                                    <th>Waktu Selesai</th>
+                                                    <th>Mulai</th>
+                                                    <th>Selesai</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -637,8 +637,8 @@ function RuanganDetail ()
                                                         return (
                                                             <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
                                                                 <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                <td>{ data?.nama_meeting }</td>
-                                                                <td>{ data?.user_name }</td>
+                                                                <td style={ { textAlign: 'center' } }>{ data?.nama_meeting }</td>
+                                                                <td style={ { textAlign: 'center' } }>{ data?.user_name }</td>
                                                                 <td>{ formattedDate }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>

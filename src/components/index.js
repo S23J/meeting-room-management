@@ -29,9 +29,6 @@ import
     TabsHistoryMeetingLight
 } from "./TabsComponent"
 
-import ZoomAuth from "./ZoomAuth"
-
-
 export
 {
     SidebarComponent,
@@ -64,5 +61,4 @@ export
     TabsTodaysMeetingLight,
     TabsHistoryMeetingDark,
     TabsHistoryMeetingLight,
-    ZoomAuth
 }

@@ -182,7 +182,7 @@ function ModalAddUser ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                            disabled={ disabled }
+                            disabled={ disabled || !firstName || !lastName || !email || !userName || !password }
                         >
                             Simpan
                         </Button>

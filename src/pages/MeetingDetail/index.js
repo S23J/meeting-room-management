@@ -914,7 +914,7 @@ function MeetingDetail ()
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                 <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
+                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             {
                                 isMobile === false ? (
@@ -939,7 +939,7 @@ function MeetingDetail ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
                 <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>

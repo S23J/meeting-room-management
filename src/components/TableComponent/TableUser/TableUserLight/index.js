@@ -116,7 +116,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' id='buttonDeleteTableLight' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<CiTrash size={ 28 } />&nbsp;
+                            &nbsp;<CiTrash size={ 28 } color='red' />&nbsp;
                         </Button>
                     </div>
                 ),

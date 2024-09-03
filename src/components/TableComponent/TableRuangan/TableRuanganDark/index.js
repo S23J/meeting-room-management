@@ -146,7 +146,7 @@ function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' id='buttonDeleteTableDark' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<CiTrash size={ 28 } />&nbsp;
+                            &nbsp;<CiTrash size={ 28 } color='red' />&nbsp;
                         </Button>
                     </div>
                 ),

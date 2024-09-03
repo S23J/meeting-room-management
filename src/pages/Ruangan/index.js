@@ -65,7 +65,7 @@ function Ruangan ()
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                 <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
+                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
                                 Daftar Ruangan
@@ -80,8 +80,8 @@ function Ruangan ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84.5vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84.5vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw' } }>
                     {
                         theme === 'light' ?
                             <TableRuanganDark

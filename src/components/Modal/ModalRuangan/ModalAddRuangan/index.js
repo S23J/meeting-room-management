@@ -130,13 +130,12 @@ function ModalAddRuangan ( {
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='no_ruangan'>No. Ruangan*</Form.Label>
+                        <Form.Label style={ formStyles.label } htmlFor='no_ruangan'>No. Ruangan</Form.Label>
                         <Form.Control
                             id='no_ruangan'
                             type="text"
                             onChange={ ( e ) => setNoRuangan( e.target.value ) }
                             value={ noRuangan }
-                            required
                             placeholder="Masukkan nomor ruangan"
                             style={ formStyles.input }
                         />
@@ -170,7 +169,7 @@ function ModalAddRuangan ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                            disabled={ disabled }
+                            disabled={ disabled || !gedung || !namaRuangan || !kapasitas || !lantai }
                         >
                             Simpan
                         </Button>

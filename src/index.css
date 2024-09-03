@@ -79,6 +79,9 @@ font-family: 'Poppins-Regular';
 
 /* Sweetalert Styling */
 
+#containerAppDark input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) !important;
+}
 /* Button Action Modal*/
 
 #actionButtonModalLight {
@@ -306,13 +309,11 @@ font-family: 'Poppins-Regular';
 box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
     -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
   border-radius: 8px;
-  color: #FFFFFF;
 
 /* Hover styles */
   &:hover {
     box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
       inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-    color: #FFFFFF;
   }
 }
 
@@ -361,12 +362,12 @@ box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
   box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
     -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
   border-radius: 8px;
-  color: #FFFFFF;
+
   /* Hover styles */
   &:hover {
     box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
       inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-    color: #FFFFFF;
+
   }
 }
 /* Button Table */
