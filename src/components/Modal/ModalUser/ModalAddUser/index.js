@@ -144,7 +144,7 @@ function ModalAddUser ( {
                             onChange={ ( e ) => setEmail( e.target.value ) }
                             value={ email }
                             required
-                            placeholder="Masukkan nama gedung"
+                            placeholder="Masukkan email"
                             style={ formStyles.input }
                         />
                     </Form.Group>

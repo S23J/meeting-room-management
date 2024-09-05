@@ -78,20 +78,20 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 ),
                 size: 50,
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'left',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'left',
                 },
             },
             {
                 header: 'Nama Gedung',
                 accessorKey: 'gedung',
                 mantineTableHeadCellProps: {
-                    align: 'left',
+                    align: 'center',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'left',
+                    align: 'center',
                 },
             },
             {
@@ -115,16 +115,6 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 },
             },
             {
-                header: 'Kapasitas Ruangan',
-                accessorKey: 'kapasitas',
-                mantineTableHeadCellProps: {
-                    align: 'center',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'center',
-                },
-            },
-            {
                 header: 'Ubah',
                 accessorFn: row => (
                     <div >
@@ -135,10 +125,10 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 ),
                 size: 50,
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
             },
             {
@@ -152,10 +142,10 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 ),
                 size: 50,
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
 
                 },
             }

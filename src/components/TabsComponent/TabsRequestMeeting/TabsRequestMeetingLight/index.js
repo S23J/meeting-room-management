@@ -203,20 +203,20 @@ function TabsRequestMeetingLight ()
                     align: 'center',
                 },
             },
-            {
-                header: 'Waktu Selesai',
-                accessorFn: row => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { row.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }
-                    </div>
-                ),
-                mantineTableHeadCellProps: {
-                    align: 'center',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'center',
-                },
-            },
+            // {
+            //     header: 'Waktu Selesai',
+            //     accessorFn: row => (
+            //         <div style={ { marginBottom: '0px', marginTop: '0px' } }>
+            //             { row.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }
+            //         </div>
+            //     ),
+            //     mantineTableHeadCellProps: {
+            //         align: 'center',
+            //     },
+            //     mantineTableBodyCellProps: {
+            //         align: 'center',
+            //     },
+            // },
             {
                 header: 'Approval',
                 accessorFn: row => (

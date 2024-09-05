@@ -148,7 +148,7 @@ function ModalAddRuangan ( {
                             onChange={ ( e ) => setKapasitas( e.target.value ) }
                             value={ kapasitas }
                             required
-                            placeholder="Masukkan nama gedung"
+                            placeholder="Masukkan kapasitas ruangan"
                             style={ formStyles.input }
                         />
                     </Form.Group>
@@ -160,7 +160,7 @@ function ModalAddRuangan ( {
                             onChange={ ( e ) => setLantai( e.target.value ) }
                             value={ lantai }
                             required
-                            placeholder="Masukkan nama gedung"
+                            placeholder="Masukkan lantai"
                             style={ formStyles.input }
                         />
                     </Form.Group>

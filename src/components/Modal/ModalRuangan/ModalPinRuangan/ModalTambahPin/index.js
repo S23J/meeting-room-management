@@ -112,7 +112,7 @@ function ModalTambahPin ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                            disabled={ disabled }
+                            disabled={ disabled || !pinCode }
                         >
                             Simpan
                         </Button>

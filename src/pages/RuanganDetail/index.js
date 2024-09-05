@@ -433,7 +433,7 @@ function RuanganDetail ()
                                                 <p className='label'>Lantai:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.lantai }</p>
                                                 <p className='label'>Kapasitas Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.kapasitas }</p>
+                                                <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
                                                 {
                                                     !detailRuangan?.pincode ?
                                                         <>
@@ -505,7 +505,7 @@ function RuanganDetail ()
                                                                 <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
                                                                     <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
                                                                     <td>{ data?.account }</td>
-                                                                    <td>
+                                                                    <td style={ { textAlign: 'center' } }>
                                                                         { data?.platform }
                                                                     </td>
                                                                     <td className='text-center'>
@@ -639,7 +639,7 @@ function RuanganDetail ()
                                                                 <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data?.nama_meeting }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data?.user_name }</td>
-                                                                <td>{ formattedDate }</td>
+                                                                <td style={ { textAlign: 'center' } }>{ formattedDate }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
                                                                 <td style={ { textAlign: 'center' } }>{ data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
                                                             </tr>

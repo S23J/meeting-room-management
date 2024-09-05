@@ -248,7 +248,6 @@ function MeetingDetail ()
         fetchData();
     }, [ tokenUser, meeting?.ruangan, detailRuangan?.id ] );
 
-
     useEffect( () =>
     {
         if ( meeting && listUser.length > 0 ) {
@@ -999,7 +998,7 @@ function MeetingDetail ()
                                     <div>
                                         <Form>
                                             <Row>
-                                                <Col xs={ 12 } md={ showSidebar ? 9 : 8 } lg={ showSidebar ? 9 : 8 } className="mb-3">
+                                                <Col xs={ 12 } md={ 8 } lg={ 8 } className="mb-3">
                                                     <Form.Group >
                                                         <Form.Label style={ formStyles.label } htmlFor='namaMeeting'>Nama Meeting</Form.Label>
                                                         <Form.Control
@@ -1011,7 +1010,7 @@ function MeetingDetail ()
                                                         />
                                                     </Form.Group>
                                                 </Col>
-                                                <Col xs={ 12 } md={ showSidebar ? 3 : 4 } lg={ showSidebar ? 3 : 4 } className="mb-3">
+                                                <Col xs={ 12 } md={ 4 } lg={ 4 } className="mb-3">
                                                     <Form.Group >
                                                         <Form.Label style={ formStyles.label } htmlFor='tipeMeeting'>Tipe Meeting</Form.Label>
                                                         <Form.Control
@@ -1227,7 +1226,7 @@ function MeetingDetail ()
                                                 <p className='label'>Lantai:</p>
                                                 <p className='content mb-3'>{ detailRuangan?.lantai }</p>
                                                 <p className='label'>Kapasitas Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.kapasitas }</p>
+                                                <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
                                             </Col>
                                             <Col xs={ 12 }  >
                                                 <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
@@ -1258,7 +1257,7 @@ function MeetingDetail ()
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='mt-2 mb-2'>
+                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='mt-3 mb-2'>
                             <Card id={ theme === 'light' ? 'cardDetailPesertaDark' : 'cardDetailPesertaLight' }>
                                 <Card.Body>
                                     <p
@@ -1290,8 +1289,8 @@ function MeetingDetail ()
                                                                         switch ( data?.hadir ) {
                                                                             case true:
                                                                                 return <span>Hadir</span>;
-                                                                            case null:
-                                                                                return <span>Belum Konfirmasi</span>;
+                                                                            case false:
+                                                                                return <span className='text-muted'>Tidak Hadir</span>;
                                                                             default:
                                                                                 return null;
                                                                         }
@@ -1307,6 +1306,68 @@ function MeetingDetail ()
                                 </Card.Body>
                             </Card>
                         </Col>
+                        {/* {
+                            meeting?.online === true ?
+
+                                (
+                                    <></>
+                                )
+                                :
+                                (
+                                    <>
+                                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='mt-3 mb-2'>
+                                            <Card id={ theme === 'light' ? 'cardDetailPesertaDark' : 'cardDetailPesertaLight' }>
+                                                <Card.Body>
+                                                    <p
+                                                        className='head-content text-center'
+                                                    >
+                                                        Detail Peserta
+                                                    </p>
+                                                    <div>
+                                                        <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
+                                                            <thead>
+                                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                                    <th>#</th>
+                                                                    <th>Nama Peserta</th>
+                                                                    <th>Status Kehadiran</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    dataPeserta.map( ( data, index ) =>
+                                                                    {
+
+                                                                        return (
+                                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                                <td>{ data?.user_name }</td>
+                                                                                <td style={ { textAlign: 'center' } }>
+                                                                                    { ( () =>
+                                                                                    {
+                                                                                        switch ( data?.hadir ) {
+                                                                                            case true:
+                                                                                                return <span>Hadir</span>;
+                                                                                            case null:
+                                                                                                return <span>Belum Konfirmasi</span>;
+                                                                                            default:
+                                                                                                return null;
+                                                                                        }
+                                                                                    } )() }
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    } )
+                                                                }
+                                                            </tbody>
+                                                        </Table>
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </>
+                                )
+                        } */}
+
                     </Row>
                     <br />
                     <br />
@@ -1318,4 +1379,3 @@ function MeetingDetail ()
 }
 
 export default MeetingDetail;
-

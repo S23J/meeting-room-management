@@ -11,7 +11,6 @@ import { ModalLupaPassword } from '../../components';
 import axios from '../../api/axios';
 
 
-
 function Login ()
 {
 
@@ -29,6 +28,7 @@ function Login ()
     {
         setPasswordShown( !passwordShown );
     };
+
     const [ showLupaPassword, setShowLupaPassword ] = useState( false );
     const handleShowLupaPassword = () =>
     {
@@ -40,7 +40,6 @@ function Login ()
         maxWidth: isMobile ? '90vw' : isTablet ? '75vw' : '75vw'
     };
 
-    // const win = window.localStorage
     const handleSubmitLogin = async ( event ) =>
     {
         event.preventDefault()
@@ -116,9 +115,6 @@ function Login ()
             }
         }
     };
-
-
-
 
     return (
         <Container

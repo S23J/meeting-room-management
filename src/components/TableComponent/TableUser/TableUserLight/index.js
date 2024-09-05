@@ -53,7 +53,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
             }
         } else {
 
-            Swal.fire( 'Dibatalkan', 'Data kamu tidak terhapus', 'info' );
+            Swal.fire( 'Dibatalkan', '', 'info' );
         }
     };
 
@@ -68,10 +68,10 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                     </>
                 ),
                 mantineTableHeadCellProps: {
-                    align: 'left',
+                    align: 'center',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'left',
+                    align: 'center',
                 },
             },
             {
@@ -105,10 +105,10 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 ),
                 size: 50,
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
             },
             {
@@ -122,10 +122,10 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 ),
                 size: 50,
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
 
                 },
             }

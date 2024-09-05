@@ -6,6 +6,7 @@ import RuanganDetail from "./RuanganDetail"
 import Meeting from "./Meeting"
 import MeetingDetail from "./MeetingDetail"
 import ResetPasswordPage from "./ResetPasswordPage"
+import NotFound from "./NotFound"
 
 import Callback from "./CallBack"
 
@@ -19,5 +20,6 @@ export
     Meeting,
     MeetingDetail,
     ResetPasswordPage,
-    Callback
+    Callback,
+    NotFound
 }

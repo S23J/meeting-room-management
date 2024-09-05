@@ -214,10 +214,10 @@ function TabsTodaysMeetingDark ()
                     </div>
                 ),
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
             },
             {
@@ -228,10 +228,10 @@ function TabsTodaysMeetingDark ()
                     </div>
                 ),
                 mantineTableHeadCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
                 mantineTableBodyCellProps: {
-                    align: 'center',
+                    align: 'right',
                 },
             },
         ],

@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Login, Meeting, MeetingDetail, ResetPasswordPage, Ruangan, RuanganDetail, User, Callback } from "./pages";
-import { PrivateRouteComp } from "./auth";
+import { Dashboard, Login, Meeting, MeetingDetail, ResetPasswordPage, Ruangan, RuanganDetail, User, Callback, NotFound } from "./pages";
+import { PrivateRouteComp, PublicRoute } from "./auth";
 
 
 function App ()
@@ -13,12 +13,20 @@ function App ()
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={ <Login /> } />
-        {/* <Route path="/dashboard/"
+        <Route path="/"
+          element={
+            <PublicRoute >
+              <Login />
+            </PublicRoute>
+          } />
+        <Route path="/dashboard/"
           element={
             <PrivateRouteComp >
               <Dashboard />
             </PrivateRouteComp>
+          } />
+        <Route path="/callback/"
+          element={ <Callback />
           } />
         <Route path="/user/"
           element={
@@ -55,9 +63,14 @@ function App ()
             <PrivateRouteComp >
               <ResetPasswordPage />
             </PrivateRouteComp>
-          } /> */}
+          } />
+        <Route path="*"
+          element={
+            <NotFound />
+          }
+        />
 
-        <Route path="/dashboard/"
+        {/* <Route path="/dashboard/"
           element={ <Dashboard />
           } />
         <Route path="/callback/"
@@ -80,7 +93,7 @@ function App ()
           } />
         <Route path="/reset-password/:userId/:token"
           element={ <ResetPasswordPage />
-          } />
+          } /> */}
       </Routes>
     </BrowserRouter>
   );

@@ -94,7 +94,7 @@ function Dashboard ()
                 <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                    <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '94vw' : '84.5vw' } }>
+                    <Row style={ { maxWidth: isMobile ? '92vw' : showSidebar ? '94vw' : '84.5vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
                                 Dashboard

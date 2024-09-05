@@ -82,8 +82,8 @@ function User ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw' } }>
 
                     {
                         theme === 'light' ?

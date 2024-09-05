@@ -80,8 +80,8 @@ function Ruangan ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '84vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw' } }>
                     {
                         theme === 'light' ?
                             <TableRuanganDark
