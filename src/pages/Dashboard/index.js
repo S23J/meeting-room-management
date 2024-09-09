@@ -34,7 +34,6 @@ function Dashboard ()
             } )
             .then( res =>
             {
-
                 const filterData = res.data.filter( item => item.status === "processing" );
                 setListMeeting( filterData );
 
@@ -70,7 +69,7 @@ function Dashboard ()
             {
 
                 setListRuangan( res.data );
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 console.error( err );

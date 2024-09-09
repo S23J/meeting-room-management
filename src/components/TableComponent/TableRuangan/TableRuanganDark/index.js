@@ -87,6 +87,7 @@ function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )
             {
                 header: 'Nama Gedung',
                 accessorKey: 'gedung',
+                id: 'nama_gedung',
                 mantineTableHeadCellProps: {
                     align: 'center',
                 },
@@ -160,12 +161,12 @@ function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )
         enableFullScreenToggle: false,
         initialState: {
             density: 'xs',
-            // sorting: [
-            //     {
-            //         id: 'username', //sort by age by default on page load
-            //         asc: true,
-            //     },
-            // ],
+            sorting: [
+                {
+                    id: 'nama_gedung',
+                    asc: true,
+                },
+            ],
         },
         data: listRuangan,
         enableRowNumbers: true,

@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalTambahPin, SidebarComponent } from '../../components';
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalAddUUID, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalEditUUID, ModalSetupUUID, ModalTambahPin, SidebarComponent } from '../../components';
+import { Button, Card, Col, Container, Dropdown, Row, Table } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
 import { CiEdit, CiTrash } from 'react-icons/ci';
-import { BsEye, BsEyeSlash, BsPencil } from 'react-icons/bs';
+import { BsEye, BsEyeSlash, BsGear, BsPencil } from 'react-icons/bs';
 
 function RuanganDetail ()
 {
@@ -54,6 +54,8 @@ function RuanganDetail ()
     const [ listUser, setListUser ] = useState( [] );
     const [ showAddPin, setShowAddPin ] = useState( false );
     const [ showEditPin, setShowEditPin ] = useState( false );
+    const [ showAddUUID, setShowAddUUID ] = useState( false );
+
     const handleShowAddPin = () =>
     {
         setShowAddPin( true );
@@ -61,6 +63,10 @@ function RuanganDetail ()
     const handleShowEditPin = () =>
     {
         setShowEditPin( true );
+    }
+    const handleShowAddUUID = () =>
+    {
+        setShowAddUUID( true );
     }
 
     const retrieveMeeting = () =>
@@ -311,7 +317,7 @@ function RuanganDetail ()
                 Swal.fire( 'Terhapus!', 'Peralatan berhasil dihapus', 'success' );
                 retrieveDetailEquipment();
             } catch ( err ) {
-                console.log( err );
+                console.error( err );
                 Swal.fire( 'Error', 'Terjadi kesalahan saat menghapus!', 'error' );
 
             }
@@ -414,11 +420,64 @@ function RuanganDetail ()
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='mb-3'>
                             <Card id={ theme === 'light' ? 'cardDetailRuanganDark' : 'cardDetailRuanganLight' }>
                                 <Card.Body>
-                                    <p
-                                        className='head-content text-center'
-                                    >
-                                        Detail Ruangan
-                                    </p>
+                                    <Row>
+                                        <Col xs={ 6 } className='text-start'>
+                                            <p
+                                                className='head-content'
+                                            >
+                                                Detail Ruangan
+                                            </p>
+                                        </Col>
+                                        <Col xs={ 6 } className='text-end'>
+                                            <Dropdown drop='start'>
+                                                <Dropdown.Toggle variant="btn" id={ theme === 'light' ? 'buttonGearDark' : 'buttonGearLight' }>
+                                                    <BsGear size={ 25 } />
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
+                                                    {
+                                                        !detailRuangan?.pincode ?
+                                                            <>
+                                                                <Dropdown.Item
+                                                                    className='my-2'
+                                                                    id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
+                                                                    onClick={ handleShowAddPin }
+                                                                    style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
+                                                                >
+                                                                    Tambah PIN Ruangan
+                                                                </Dropdown.Item>
+                                                            </>
+                                                            :
+                                                            <></>
+                                                    }
+                                                    <Dropdown.Item
+                                                        className='my-2'
+                                                        id={ theme === 'light' ? 'dropdownItem2Dark' : 'dropdownItem2Light' }
+                                                        onClick={ handleShowAddAkun }
+                                                        style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
+                                                    >
+                                                        Tambah Akun Ruangan
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        className='my-2'
+                                                        id={ theme === 'light' ? 'dropdownItem3Dark' : 'dropdownItem3Light' }
+                                                        onClick={ handleShowAddAlat }
+                                                        style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
+                                                    >
+                                                        Tambah Perlengkapan Ruangan
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        className='my-2'
+                                                        id={ theme === 'light' ? 'dropdownItem4Dark' : 'dropdownItem4Light' }
+                                                        onClick={ handleShowAddUUID }
+                                                        style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
+                                                    >
+                                                        Setup UUID Ruangan
+                                                    </Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Col>
+                                    </Row>
+
                                     <div>
                                         <Row>
                                             <Col xs={ 12 } md={ 6 } lg={ 6 } >
@@ -438,15 +497,7 @@ function RuanganDetail ()
                                                     !detailRuangan?.pincode ?
                                                         <>
                                                             <p className='label'>PIN Ruangan:</p>
-                                                            <Button
-                                                                variant='btn'
-                                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
-                                                                className='mb-3'
-                                                                style={ { minWidth: '100%' } }
-                                                                onClick={ handleShowAddPin }
-                                                            >
-                                                                Tambah PIN Ruangan
-                                                            </Button>
+                                                            <p className='content mb-3'>PIN belum ada</p>
                                                         </>
                                                         :
                                                         <>
@@ -467,7 +518,12 @@ function RuanganDetail ()
                                     </div>
                                     <hr style={ { marginBottom: '0px', marginTop: '0px' } } />
                                     <div className='mt-3'>
-                                        <Row className='mb-3'>
+                                        <p
+                                            className='head-content text-center'
+                                        >
+                                            Detail Akun
+                                        </p>
+                                        {/* <Row className='mb-3'>
                                             <Col className='text-start my-auto'>
                                                 <p
                                                     className='head-content'
@@ -484,7 +540,7 @@ function RuanganDetail ()
                                                     Tambah
                                                 </Button>
                                             </Col>
-                                        </Row>
+                                        </Row> */}
                                         <div>
                                             <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
                                                 <thead>
@@ -536,7 +592,12 @@ function RuanganDetail ()
                                     </div>
                                     <hr style={ { marginBottom: '0px', marginTop: '0px' } } />
                                     <div className='mt-3'>
-                                        <Row className='mb-3'>
+                                        <p
+                                            className='head-content text-center'
+                                        >
+                                            Detail Perlengkapan
+                                        </p>
+                                        {/* <Row className='mb-3'>
                                             <Col className='text-start my-auto'>
                                                 <p
                                                     className='head-content'
@@ -553,7 +614,7 @@ function RuanganDetail ()
                                                     Tambah
                                                 </Button>
                                             </Col>
-                                        </Row>
+                                        </Row> */}
                                         <div>
                                             <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
                                                 <thead>
@@ -701,6 +762,13 @@ function RuanganDetail ()
                 showEditPin={ showEditPin }
                 setShowEditPin={ setShowEditPin }
                 detailRuangan={ detailRuangan }
+                ruangid={ ruangid }
+                retrieveDetailRuangan={ retrieveDetailRuangan }
+                tokenUser={ tokenUser }
+            />
+            <ModalSetupUUID
+                showAddUUID={ showAddUUID }
+                setShowAddUUID={ setShowAddUUID }
                 ruangid={ ruangid }
                 retrieveDetailRuangan={ retrieveDetailRuangan }
                 tokenUser={ tokenUser }

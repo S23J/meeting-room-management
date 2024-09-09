@@ -14,7 +14,8 @@ import
         ModalTambahPin,
         ModalEditPin,
         ModalTambahLink,
-        ModalEditLink
+        ModalEditLink,
+        ModalSetupUUID
     } from "./Modal"
 import SidebarComponent from "./Sidebar"
 import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header"
@@ -47,6 +48,8 @@ export
     ModalEditPin,
     ModalTambahLink,
     ModalEditLink,
+    ModalSetupUUID,
+
     HeaderWeb,
     HeaderMobile,
     HeaderMobile2,

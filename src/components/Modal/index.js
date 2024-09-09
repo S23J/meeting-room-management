@@ -12,6 +12,7 @@ import ModalEditPerlengkapan from "./ModalPerlengkapan/ModalEditPerlengkapan"
 import ModalBuatMeeting from "./ModalMeeting/ModalBuatMeeting"
 import ModalTambahLink from "./ModalMeeting/ModalMeetingLink/ModalTambahLink"
 import ModalEditLink from "./ModalMeeting/ModalMeetingLink/ModalEditLink"
+import ModalSetupUUID from "./ModalRuangan/ModalSetupUUID"
 
 export
 {
@@ -29,5 +30,6 @@ export
     ModalTambahPin,
     ModalEditPin,
     ModalTambahLink,
-    ModalEditLink
+    ModalEditLink,
+    ModalSetupUUID
 }

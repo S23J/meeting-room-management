@@ -142,8 +142,8 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
             density: 'xs',
             sorting: [
                 {
-                    id: 'nama_user', //sort by age by default on page load
-                    asc: true,
+                    id: 'nama_user',
+                    desc: true,
                 },
             ],
         },

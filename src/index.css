@@ -93,6 +93,34 @@ font-family: 'Poppins-Regular';
 }
 /* Button Action Modal*/
 
+#buttonGearLight {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  box-shadow: 3px 3px 6px #a7b7e4,
+    -3px -3px 6px rgba(255, 255, 255, 0.7);
+
+  /* Hover styles */
+  &:hover {
+    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
+      inset 3px 3px 6px #a7b7e4;
+  }
+}
+
+#buttonGearDark {
+  font-family: 'Poppins-Regular';
+  min-height: 45px;
+  box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
+    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+  border-radius: 8px;
+  color: #FFFFFF;
+
+  /* Hover styles */
+  &:hover {
+    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
+      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
+    color: #FFFFFF;
+  }
+}
 #actionButtonModalLight {
 font-family: 'Poppins-Regular';
 min-height: 45px;
@@ -626,6 +654,38 @@ background-color: #222222;
 cursor: pointer;
 }
 
+#dropdownItem2Light {
+  background-color: #FFFFFF;
+  cursor: pointer;
+
+}
+
+#dropdownItem2Dark {
+  background-color: #222222;
+  cursor: pointer;
+}
+
+#dropdownItem3Light {
+  background-color: #FFFFFF;
+  cursor: pointer;
+
+}
+
+#dropdownItem3Dark {
+  background-color: #222222;
+  cursor: pointer;
+}
+
+#dropdownItem4Light {
+  background-color: #FFFFFF;
+  cursor: pointer;
+
+}
+
+#dropdownItem4Dark {
+  background-color: #222222;
+  cursor: pointer;
+}
 /* Header */
 
 /* Login Pages */
@@ -1118,6 +1178,11 @@ background: #222222 !important;
   border-top: 0.5px solid #2C2C2C;
 }
 
+#containerAppDark .mantine-zeiogp {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
 #containerAppDark .mantine-1xuzyay {
   background: #222222 !important;
   color: #FFFFFF !important;

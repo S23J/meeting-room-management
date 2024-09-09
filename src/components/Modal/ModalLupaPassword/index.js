@@ -97,7 +97,7 @@ function ModalLupaPassword ( {
                             type="submit"
                             id='actionButton'
                             variant='btn'
-                            disabled={ disabled }
+                            disabled={ disabled || !email }
                         >
                             Submit
                         </Button>

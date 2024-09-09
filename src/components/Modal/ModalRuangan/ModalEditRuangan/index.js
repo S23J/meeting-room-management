@@ -135,10 +135,11 @@ function ModalEditRuangan ( {
                                 />
                             </Form.Group>
                             <Form.Group className='mb-3'>
-                                <Form.Label style={ formStyles.label } htmlFor='nomorRuangan'>No. Ruangan</Form.Label>
+                                <Form.Label style={ formStyles.label } htmlFor='nomorRuangan'>No. Ruangan*</Form.Label>
                                 <Form.Control
                                     id='nomorRuangan'
                                     type='text'
+                                    required
                                     value={ values.no_ruangan }
                                     onChange={ handleChange( "no_ruangan" ) }
                                     style={ formStyles.input }
