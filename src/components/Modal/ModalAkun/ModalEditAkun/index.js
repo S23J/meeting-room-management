@@ -214,10 +214,10 @@ function ModalEditAkun ( {
                                 <Button variant="secondary" onClick={ togglePassword } >
                                     {
                                         passwordShown ?
-                                            <PiEyeSlash size={ 30 } />
+                                            <PiEyeSlash size={ 25 } />
 
                                             :
-                                            <PiEye size={ 30 } />
+                                            <PiEye size={ 25 } />
                                     }
                                 </Button>
                             </InputGroup>

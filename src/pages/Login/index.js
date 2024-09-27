@@ -70,7 +70,7 @@ function Login ()
                 window.sessionStorage.setItem( "userInfo", JSON.stringify( userInfo ) )
                 Swal.fire( {
                     icon: 'success',
-                    title: 'Login berhasil',
+                    title: `Selamat datang ${response?.data.user_info.first_name} ${response?.data.user_info.last_name}`,
                     showConfirmButton: false,
                     timer: 2000
                 } )
@@ -81,7 +81,7 @@ function Login ()
                 Swal.fire( {
                     icon: 'error',
                     title: 'Warning',
-                    text: 'Tidak punya akes!',
+                    text: 'Akun tidak punya akes!',
                 } )
                 setIsSubmittingLogin( false );
                 setDisabled( false );
@@ -92,7 +92,7 @@ function Login ()
                 Swal.fire( {
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Server tidak ada respon',
+                    text: 'Terjadi kesalahan pada proses login!',
                 } )
                 setIsSubmittingLogin( false );
                 setDisabled( false );
@@ -146,7 +146,7 @@ function Login ()
                     </Col>
                     <Col xs={ 12 } md={ 12 } lg={ 6 } className='text-start my-auto' >
                         <div className='mx-4'>
-                            <p className='text-center mb-5' style={ { fontFamily: 'Poppins-Light' } }>Silahkan Login menggunakan Akun yang sudah dibuat!</p>
+                            <p className='text-center mb-5' style={ { fontFamily: 'Poppins-Light' } }>Silahkan Login menggunakan Akun Administrator!</p>
                             <Form onSubmit={ handleSubmitLogin } >
                                 <Form.Group className="mb-3">
                                     <Form.Label style={ formStyles.label } htmlFor='usernameLogin'>Username atau Email*</Form.Label>
@@ -177,7 +177,7 @@ function Login ()
                                     <p
                                         className='mt-4'
                                         onClick={ handleShowLupaPassword }
-                                        style={ { fontFamily: 'Poppins-Regular', cursor: 'pointer', textDecoration: 'underline', color: '#12B3ED' } }
+                                        style={ { fontFamily: 'Poppins-Regular', cursor: 'pointer', textDecoration: 'underline', color: '#12B3ED', maxWidth: '130px' } }
                                     >
                                         Lupa password?
                                     </p>

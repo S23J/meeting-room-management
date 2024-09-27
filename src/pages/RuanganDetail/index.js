@@ -3,7 +3,7 @@ import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalAddUUID, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalEditUUID, ModalSetupUUID, ModalTambahPin, SidebarComponent } from '../../components';
-import { Button, Card, Col, Container, Dropdown, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Dropdown, Row, Spinner, Table } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
 import { CiEdit, CiTrash } from 'react-icons/ci';
@@ -55,6 +55,7 @@ function RuanganDetail ()
     const [ showAddPin, setShowAddPin ] = useState( false );
     const [ showEditPin, setShowEditPin ] = useState( false );
     const [ showAddUUID, setShowAddUUID ] = useState( false );
+    const [ loading, setLoading ] = useState( true );
 
     const handleShowAddPin = () =>
     {
@@ -71,6 +72,7 @@ function RuanganDetail ()
 
     const retrieveMeeting = () =>
     {
+        setLoading( true );
         axios.get( `/manage/requests/`,
             {
                 headers:
@@ -87,9 +89,11 @@ function RuanganDetail ()
 
                 const filterData = res.data.filter( item => item.status === "approved" && item.finished === false && item.ruangan == ruangid );
                 setListMeeting( filterData );
+                setLoading( false ); 
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -109,6 +113,7 @@ function RuanganDetail ()
 
     const retrieveAkun = () =>
     {
+        setLoading( true );
         axios.get( `/manage/omplatform/filter_by_ruangan/?ruangan_id=${ruangid}`,
             {
                 headers:
@@ -124,9 +129,11 @@ function RuanganDetail ()
             {
 
                 setListAkun( res.data );
+                setLoading( false ); 
                 // console.log( res.data );
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -146,6 +153,7 @@ function RuanganDetail ()
 
     const retrieveUser = () =>
     {
+        setLoading( true );
         axios.get( `/auth/users/`,
             {
                 headers:
@@ -161,9 +169,11 @@ function RuanganDetail ()
             {
 
                 setListUser( res.data );
+                setLoading( false ); 
                 // console.log( res.data );
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -225,6 +235,7 @@ function RuanganDetail ()
 
     const retrieveDetailRuangan = () =>
     {
+        setLoading( true );
         axios.get( `/manage/ruangan/${ruangid}/`,
             {
                 headers:
@@ -237,9 +248,11 @@ function RuanganDetail ()
             .then( res =>
             {
                 setDetailRuangan( res.data );
+                setLoading( false ); 
 
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -260,6 +273,7 @@ function RuanganDetail ()
 
     const retrieveDetailEquipment = () =>
     {
+        setLoading( true );
         axios.get( `/manage/equipment/filter_by_ruangan/?ruangan_id=${ruangid}`,
             {
                 headers:
@@ -272,9 +286,10 @@ function RuanganDetail ()
             .then( res =>
             {
                 setDetailEquipment( res.data );
-
+                setLoading( false ); 
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -447,7 +462,16 @@ function RuanganDetail ()
                                                                 </Dropdown.Item>
                                                             </>
                                                             :
-                                                            <></>
+                                                            <>
+                                                                <Dropdown.Item
+                                                                    className='my-2'
+                                                                    id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
+                                                                    onClick={ handleShowEditPin }
+                                                                    style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
+                                                                >
+                                                                    PIN Ruangan
+                                                                </Dropdown.Item>
+                                                            </>
                                                     }
                                                     <Dropdown.Item
                                                         className='my-2'
@@ -456,14 +480,6 @@ function RuanganDetail ()
                                                         style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
                                                     >
                                                         Tambah Akun Ruangan
-                                                    </Dropdown.Item>
-                                                    <Dropdown.Item
-                                                        className='my-2'
-                                                        id={ theme === 'light' ? 'dropdownItem3Dark' : 'dropdownItem3Light' }
-                                                        onClick={ handleShowAddAlat }
-                                                        style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
-                                                    >
-                                                        Tambah Perlengkapan Ruangan
                                                     </Dropdown.Item>
                                                     <Dropdown.Item
                                                         className='my-2'
@@ -477,45 +493,30 @@ function RuanganDetail ()
                                             </Dropdown>
                                         </Col>
                                     </Row>
-
-                                    <div>
-                                        <Row>
-                                            <Col xs={ 12 } md={ 6 } lg={ 6 } >
-                                                <p className='label'>Nama Gedung:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.gedung }</p>
-                                                <p className='label'>Nama Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.nama_ruangan }</p>
-                                                <p className='label'>Nomor Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.no_ruangan }</p>
-                                            </Col>
-                                            <Col xs={ 12 } md={ 6 } lg={ 6 } >
-                                                <p className='label'>Lantai:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.lantai }</p>
-                                                <p className='label'>Kapasitas Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
-                                                {
-                                                    !detailRuangan?.pincode ?
-                                                        <>
-                                                            <p className='label'>PIN Ruangan:</p>
-                                                            <p className='content mb-3'>PIN belum ada</p>
-                                                        </>
-                                                        :
-                                                        <>
-                                                            <p className='label'>PIN Ruangan:</p>
-                                                            <p className='content mb-3'>
-                                                                { isPasswordVisible ? pin : '*******' }{ ' ' }
-                                                                <span onClick={ togglePasswordVisibility } className="icon-content">
-                                                                    { isPasswordVisible ? <BsEyeSlash /> : <BsEye /> }
-                                                                </span>
-                                                                <span className="icon-content">
-                                                                    <BsPencil className='ms-2' size={ 15 } onClick={ handleShowEditPin } />
-                                                                </span>
-                                                            </p>
-                                                        </>
-                                                }
-                                            </Col>
-                                        </Row>
-                                    </div>
+                                    { loading ? (
+                                        <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                            <Spinner animation="border" variant="primary" />
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <Row>
+                                                <Col xs={ 12 } md={ 6 } lg={ 6 } >
+                                                    <p className='label'>Nama Gedung:</p>
+                                                    <p className='content mb-3'>{ detailRuangan?.gedung }</p>
+                                                    <p className='label'>Nama Ruangan:</p>
+                                                    <p className='content mb-3'>{ detailRuangan?.nama_ruangan }</p>
+                                                    <p className='label'>Nomor Ruangan:</p>
+                                                    <p className='content mb-3'>{ detailRuangan?.no_ruangan }</p>
+                                                </Col>
+                                                <Col xs={ 12 } md={ 6 } lg={ 6 } >
+                                                    <p className='label'>Lantai:</p>
+                                                    <p className='content mb-3'>{ detailRuangan?.lantai }</p>
+                                                    <p className='label'>Kapasitas Ruangan:</p>
+                                                    <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                    ) }
                                     <hr style={ { marginBottom: '0px', marginTop: '0px' } } />
                                     <div className='mt-3'>
                                         <p
@@ -523,81 +524,64 @@ function RuanganDetail ()
                                         >
                                             Detail Akun
                                         </p>
-                                        {/* <Row className='mb-3'>
-                                            <Col className='text-start my-auto'>
-                                                <p
-                                                    className='head-content'
-                                                >
-                                                    Detail Akun
-                                                </p>
-                                            </Col>
-                                            <Col className='text-end'>
-                                                <Button
-                                                    id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
-                                                    variant="btn"
-                                                    onClick={ handleShowAddAkun }
-                                                >
-                                                    Tambah
-                                                </Button>
-                                            </Col>
-                                        </Row> */}
-                                        <div>
-                                            <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                                                <thead>
-                                                    <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                        <th>#</th>
-                                                        <th>Akun</th>
-                                                        <th>Platform</th>
-                                                        <th>Ubah</th>
-                                                        <th>Hapus</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        listAkun.map( ( data, index ) =>
+                                        { loading ? (
+                                            <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                                <Spinner animation="border" variant="primary" />
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
+                                                    <thead>
+                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                            <th>#</th>
+                                                            <th>Akun</th>
+                                                            <th>Platform</th>
+                                                            <th>Ubah</th>
+                                                            <th>Hapus</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                                                         {
+                                                            listAkun.map( ( data, index ) =>
+                                                            {
 
-                                                            return (
-                                                                <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                    <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                    <td>{ data?.account }</td>
-                                                                    <td style={ { textAlign: 'center' } }>
-                                                                        { data?.platform }
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <Button
-                                                                            variant='btn'
-                                                                            id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
-                                                                            onClick={ () => handleShowEditAkun( data ) }
-                                                                        >
-                                                                            <CiEdit size={ 25 } />
-                                                                        </Button>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <Button
-                                                                            variant='btn'
-                                                                            id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
-                                                                            onClick={ () => handleDeleteAkun( data.id ) }
-                                                                        >
-                                                                            <CiTrash size={ 25 } color='red' />
-                                                                        </Button>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        } )
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </div>
+                                                                return (
+                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                        <td>{ data?.account }</td>
+                                                                        <td style={ { textAlign: 'center' } }>
+                                                                            { data?.platform }
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <Button
+                                                                                variant='btn'
+                                                                                id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
+                                                                                onClick={ () => handleShowEditAkun( data ) }
+                                                                            >
+                                                                                <CiEdit size={ 25 } />
+                                                                            </Button>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <Button
+                                                                                variant='btn'
+                                                                                id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
+                                                                                onClick={ () => handleDeleteAkun( data.id ) }
+                                                                            >
+                                                                                <CiTrash size={ 25 } color='red' />
+                                                                            </Button>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            } )
+                                                            }
+                                                        </tbody>
+                                                    </Table>
+                                                </div>
+                                        ) }
                                     </div>
                                     <hr style={ { marginBottom: '0px', marginTop: '0px' } } />
                                     <div className='mt-3'>
-                                        <p
-                                            className='head-content text-center'
-                                        >
-                                            Detail Perlengkapan
-                                        </p>
-                                        {/* <Row className='mb-3'>
+                                        <Row className='mb-3'>
                                             <Col className='text-start my-auto'>
                                                 <p
                                                     className='head-content'
@@ -614,51 +598,57 @@ function RuanganDetail ()
                                                     Tambah
                                                 </Button>
                                             </Col>
-                                        </Row> */}
-                                        <div>
-                                            <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                                                <thead>
-                                                    <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                        <th>#</th>
-                                                        <th>Nama Equipment</th>
-                                                        <th>Ubah</th>
-                                                        <th>Hapus</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        detailEquipment.map( ( data, index ) =>
+                                        </Row>
+                                        { loading ? (
+                                            <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                                <Spinner animation="border" variant="primary" />
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
+                                                    <thead>
+                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                            <th>#</th>
+                                                            <th>Nama Equipment</th>
+                                                            <th>Ubah</th>
+                                                            <th>Hapus</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                                                         {
+                                                            detailEquipment.map( ( data, index ) =>
+                                                            {
 
-                                                            return (
-                                                                <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                    <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                    <td>{ data?.nama_equipment }</td>
-                                                                    <td className='text-center'>
-                                                                        <Button
-                                                                            variant='btn'
-                                                                            id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
-                                                                            onClick={ () => handleShowEditAlat( data ) }
-                                                                        >
-                                                                            <CiEdit size={ 25 } />
-                                                                        </Button>
-                                                                    </td>
-                                                                    <td className='text-center'>
-                                                                        <Button
-                                                                            variant='btn'
-                                                                            id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
-                                                                            onClick={ () => handleDelete( data.id ) }
-                                                                        >
-                                                                            <CiTrash size={ 25 } color='red' />
-                                                                        </Button>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        } )
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </div>
+                                                                return (
+                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                        <td>{ data?.nama_equipment }</td>
+                                                                        <td className='text-center'>
+                                                                            <Button
+                                                                                variant='btn'
+                                                                                id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
+                                                                                onClick={ () => handleShowEditAlat( data ) }
+                                                                            >
+                                                                                <CiEdit size={ 25 } />
+                                                                            </Button>
+                                                                        </td>
+                                                                        <td className='text-center'>
+                                                                            <Button
+                                                                                variant='btn'
+                                                                                id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
+                                                                                onClick={ () => handleDelete( data.id ) }
+                                                                            >
+                                                                                <CiTrash size={ 25 } color='red' />
+                                                                            </Button>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            } )
+                                                            }
+                                                        </tbody>
+                                                    </Table>
+                                                </div>
+                                        ) }
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -671,45 +661,51 @@ function RuanganDetail ()
                                     >
                                         Upcoming Meeting
                                     </p>
-                                    <div>
-                                        <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                                            <thead>
-                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                    <th>#</th>
-                                                    <th>Nama Meeting</th>
-                                                    <th>Request by</th>
-                                                    <th>Tanggal</th>
-                                                    <th>Mulai</th>
-                                                    <th>Selesai</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    dataTable.map( ( data, index ) =>
-                                                    {
+                                    { loading ? (
+                                        <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                            <Spinner animation="border" variant="primary" />
+                                        </div>
+                                    ) : (
+                                            <div>
+                                                <Table bordered responsive data-bs-theme={ theme === 'light' ? 'dark' : '' }>
+                                                    <thead>
+                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                            <th>#</th>
+                                                            <th>Nama Meeting</th>
+                                                            <th>Request by</th>
+                                                            <th>Tanggal</th>
+                                                            <th>Mulai</th>
+                                                            <th>Selesai</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            dataTable.map( ( data, index ) =>
+                                                            {
 
-                                                        const dateTime = new Date( data?.waktu_mulai );
-                                                        const formattedDate = dateTime.toLocaleDateString( 'en-GB', {
-                                                            day: '2-digit',
-                                                            month: '2-digit',
-                                                            year: 'numeric',
-                                                        } );
+                                                                const dateTime = new Date( data?.waktu_mulai );
+                                                                const formattedDate = dateTime.toLocaleDateString( 'en-GB', {
+                                                                    day: '2-digit',
+                                                                    month: '2-digit',
+                                                                    year: 'numeric',
+                                                                } );
 
-                                                        return (
-                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                <td style={ { textAlign: 'center' } }>{ data?.nama_meeting }</td>
-                                                                <td style={ { textAlign: 'center' } }>{ data?.user_name }</td>
-                                                                <td style={ { textAlign: 'center' } }>{ formattedDate }</td>
-                                                                <td style={ { textAlign: 'center' } }>{ data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
-                                                                <td style={ { textAlign: 'center' } }>{ data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
-                                                            </tr>
-                                                        )
-                                                    } )
-                                                }
-                                            </tbody>
-                                        </Table>
-                                    </div>
+                                                                return (
+                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                        <td style={ { textAlign: 'center' } }>{ data?.nama_meeting }</td>
+                                                                        <td style={ { textAlign: 'center' } }>{ data?.user_name }</td>
+                                                                        <td style={ { textAlign: 'center' } }>{ formattedDate }</td>
+                                                                        <td style={ { textAlign: 'center' } }>{ data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
+                                                                        <td style={ { textAlign: 'center' } }>{ data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }</td>
+                                                                    </tr>
+                                                                )
+                                                            } )
+                                                        }
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                    ) }
                                 </Card.Body>
                             </Card>
                         </Col>

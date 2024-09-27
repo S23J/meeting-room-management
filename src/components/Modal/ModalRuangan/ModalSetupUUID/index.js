@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { ThemeContext } from '../../../../auth';
+import axios from '../../../../api/axios';
+import Swal from 'sweetalert2';
 
 
 function ModalSetupUUID ( {
@@ -27,42 +29,42 @@ function ModalSetupUUID ( {
     {
         event.preventDefault();
         const data = {
-            service_uuid: serviceUUID,
-            karakteristik_uuid: karakteristikUUID,
+            SERVICE_UUID: serviceUUID,
+            CHARACTERISTIC_UUID: karakteristikUUID,
         };
-        console.log( data );
-        // setDisabled( true );
-        // try {
-        //     const response = await axios.patch( `/manage/ruangan/${ruangid}/`, data,
-        //         {
-        //             headers: {
-        //                 'Access-Control-Allow-Origin': '*',
-        //                 'Content-Type': 'application/json',
-        //                 withCredentials: true,
-        //                 Authorization: `Token ` + tokenUser,
-        //             },
-        //         }
+        // console.log( data );
+        setDisabled( true );
+        try {
+            const response = await axios.patch( `/manage/ruangan/${ruangid}/`, data,
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json',
+                        withCredentials: true,
+                        Authorization: `Token ` + tokenUser,
+                    },
+                }
 
-        //     );
-        //     // console.log( response );
-        //     handleClose();
-        //     Swal.fire( {
-        //         icon: 'success',
-        //         title: 'Berhasil menambahkan kode pin',
-        //         showConfirmButton: true,
-        //     } )
-        //     retrieveDetailRuangan();
-        //     setDisabled( false );
-        // } catch ( err ) {
-        //     console.error( err );
-        //     handleClose();
-        //     Swal.fire( {
-        //         icon: 'error',
-        //         title: 'Oops...',
-        //         text: 'Terjadi kesalahan saat menambahkan kode pin',
-        //     } );
-        //     setDisabled( false );
-        // }
+            );
+            // console.log( response );
+            handleClose();
+            Swal.fire( {
+                icon: 'success',
+                title: 'Berhasil setup UUID',
+                showConfirmButton: true,
+            } )
+            retrieveDetailRuangan();
+            setDisabled( false );
+        } catch ( err ) {
+            console.error( err );
+            handleClose();
+            Swal.fire( {
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Terjadi kesalahan saat setup UUID',
+            } );
+            setDisabled( false );
+        }
 
     }
 
@@ -124,7 +126,7 @@ function ModalSetupUUID ( {
                             type="submit"
                             id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
                             variant='btn'
-                            disabled={ disabled || !serviceUUID }
+                            disabled={ disabled || !serviceUUID || !karakteristikUUID }
                         >
                             Simpan
                         </Button>

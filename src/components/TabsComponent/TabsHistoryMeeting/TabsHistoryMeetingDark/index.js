@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { CiRead } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
@@ -13,6 +13,7 @@ function TabsHistoryMeetingDark ()
     const { tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ listUser, setListUser ] = useState( [] );
+    const [ loading, setLoading ] = useState( true );
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
     const detailMeeting = ( row ) =>
@@ -22,6 +23,7 @@ function TabsHistoryMeetingDark ()
 
     const retrieveMeeting = () =>
     {
+        setLoading( true );
         axios.get( `/manage/requests/`,
             {
                 headers:
@@ -41,12 +43,13 @@ function TabsHistoryMeetingDark ()
                     // console.log( item.status, item.finished ); // Debugging line to check values
                     return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
                 } );
-
+                setLoading( false );
                 // console.log( filterData ); // Debugging line to check the filtered result
                 setListMeeting( filterData );
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false );
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -66,6 +69,7 @@ function TabsHistoryMeetingDark ()
 
     const retrieveUser = () =>
     {
+        setLoading( true );
         axios.get( `/auth/users/`,
             {
                 headers:
@@ -82,9 +86,11 @@ function TabsHistoryMeetingDark ()
 
                 // const filterData = res.data.filter( item => item.status === "processing" );
                 setListUser( res.data );
+                setLoading( false );
                 // console.log( res.data );
             } ).catch( err =>
             {
+                setLoading( false );
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -124,6 +130,8 @@ function TabsHistoryMeetingDark ()
                 return {
                     ...data,
                     user_name: userName,
+                    statusRaw: data.status,  // Add raw status
+                    meetingTypeRaw: data.online === true ? 'Online' : 'Offline',  // Add raw meeting type
                 };
             } )
         );
@@ -190,19 +198,10 @@ function TabsHistoryMeetingDark ()
             },
             {
                 header: 'Tipe Meeting',
-                accessorFn: row => (
+                accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
+                Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( row?.online ) {
-                                case false:
-                                    return <span >Offline</span>;
-                                case true:
-                                    return <span >Online</span>;
-                                default:
-                                    return null;
-                            }
-                        } )() }
+                        { cell.getValue() === 'Online' ? 'Online' : 'Offline' }
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -214,11 +213,12 @@ function TabsHistoryMeetingDark ()
             },
             {
                 header: 'Status',
-                accessorFn: row => (
+                accessorKey: 'statusRaw',  // Use raw data for filtering
+                Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
                         { ( () =>
                         {
-                            switch ( row?.status ) {
+                            switch ( cell.getValue() ) {
                                 case 'approved':
                                     return <span style={ { color: 'green' } }>Approved</span>;
                                 case 'denied':
@@ -262,9 +262,15 @@ function TabsHistoryMeetingDark ()
 
     return (
         <>
-            <MantineReactTable
-                table={ tableHistoryMeeting }
-            />
+            { loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                    <Spinner animation="border" variant="primary" />
+                </div>
+            ) : (
+                    <MantineReactTable
+                        table={ tableHistoryMeeting }
+                    />
+            ) }
         </>
     )
 }

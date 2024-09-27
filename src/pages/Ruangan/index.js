@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
 import { SidebarComponent, HeaderDetailPage, HeaderMobile2, TableRuanganDark, TableRuanganLight } from '../../components';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
@@ -14,11 +14,13 @@ function Ruangan ()
     const { showSidebar, tokens } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const [ listRuangan, setListRuangan ] = useState( [] );
+    const [ loading, setLoading ] = useState( true );
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
 
     const retrieveRuangan = () =>
     {
+        setLoading( true );
         axios.get( `/manage/ruangan/`,
             {
                 headers:
@@ -34,9 +36,11 @@ function Ruangan ()
             {
 
                 setListRuangan( res.data );
+                setLoading( false ); 
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -82,20 +86,25 @@ function Ruangan ()
                 </div>
                 <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw' } }>
-                    {
-                        theme === 'light' ?
+                    { loading ? (
+                        <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                            <Spinner animation="border" variant="primary" />
+                        </div>
+                    ) : (
+                        theme === 'light' ? (
                             <TableRuanganDark
                                 listRuangan={ listRuangan }
                                 retrieveRuangan={ retrieveRuangan }
                                 tokenUser={ tokenUser }
                             />
-                            :
-                            <TableRuanganLight
-                                listRuangan={ listRuangan }
-                                retrieveRuangan={ retrieveRuangan }
-                                tokenUser={ tokenUser }
-                            />
-                    }
+                            ) : (
+                                <TableRuanganLight
+                                    listRuangan={ listRuangan }
+                                    retrieveRuangan={ retrieveRuangan }
+                                    tokenUser={ tokenUser }
+                                />
+                        )
+                    ) }
                 </div>
                 <br />
                 <br />

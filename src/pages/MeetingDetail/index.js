@@ -10,7 +10,7 @@ import
     SidebarComponent,
 }
     from '../../components';
-import { Button, Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 
 function MeetingDetail ()
@@ -32,6 +32,7 @@ function MeetingDetail ()
     const navigate = useNavigate();
     const [ listAkun, setListAkun ] = useState( [] );
     const [ disabled, setDisabled ] = useState( false );
+    const [ loading, setLoading ] = useState( true );
 
     const buttonBack = () =>
     {
@@ -40,6 +41,7 @@ function MeetingDetail ()
 
     const retrieveDetailMeeting = () =>
     {
+        setLoading( true );
         axios.get( `/manage/requests/${meetingid}/`,
             {
                 headers:
@@ -58,9 +60,11 @@ function MeetingDetail ()
                 setDate( res?.data.waktu_mulai.split( 'T' )[ 0 ] )
                 setStartTime( res?.data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
                 setEndTime( res?.data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
+                setLoading( false ); 
                 // console.log( res.data );
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -81,6 +85,7 @@ function MeetingDetail ()
 
     const retrieveAkun = () =>
     {
+        setLoading( true );
         axios.get( `/manage/omplatform/filter_by_ruangan/?ruangan_id=${detailRuangan?.id}`,
             {
                 headers:
@@ -95,8 +100,10 @@ function MeetingDetail ()
             .then( res =>
             {
                 setListAkun( res.data );
+                setLoading( false ); 
             } ).catch( err =>
             {
+                setLoading( false ); 
                 console.error( err );
             } )
     };
@@ -104,6 +111,7 @@ function MeetingDetail ()
 
     const retrieveUser = () =>
     {
+        setLoading( true );
         axios.get( `/auth/users/`,
             {
                 headers:
@@ -119,14 +127,17 @@ function MeetingDetail ()
             {
 
                 setListUser( res.data );
+                setLoading( false ); 
             } ).catch( err =>
             {
+                setLoading( false ); 
                 console.error( err );
             } )
     }
 
     const retrievePeserta = () =>
     {
+        setLoading( true );
         axios.get( `/manage/peserta/filter_by_request/?request_id=${meeting?.id}`,
             {
                 headers:
@@ -142,9 +153,10 @@ function MeetingDetail ()
             {
 
                 setDetailPeserta( res.data );
-
+                setLoading( false ); 
             } ).catch( err =>
             {
+                setLoading( false ); 
                 console.error( err );
             } )
     };
@@ -152,6 +164,7 @@ function MeetingDetail ()
 
     const retrieveRuangan = () =>
     {
+        setLoading( true );
         axios.get( `/manage/ruangan/${meeting?.ruangan}/`,
             {
                 headers:
@@ -167,15 +180,18 @@ function MeetingDetail ()
             {
 
                 setDetailRuangan( res.data );
+                setLoading( false ); 
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false ); 
                 console.error( err );
             } )
     };
 
     const retrieveDetailEquipment = () =>
     {
+        setLoading( true );
         axios.get( `/manage/equipment/filter_by_ruangan/?ruangan_id=${detailRuangan?.id}`,
             {
                 headers:
@@ -188,9 +204,11 @@ function MeetingDetail ()
             .then( res =>
             {
                 setDetailEquipment( res.data );
+                setLoading( false ); 
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false ); 
                 console.error( err );
             } )
     };
@@ -391,6 +409,7 @@ function MeetingDetail ()
     {
         try {
             setFetching( true ); 
+
             const res = await axios.get( `/manage/omplatform/${selectedAccount}`, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -402,6 +421,7 @@ function MeetingDetail ()
             setDetailAkun( res.data );
 
         } catch ( err ) {
+
             console.error( err );
         } finally {
             setFetching( false );
@@ -998,92 +1018,100 @@ function MeetingDetail ()
                                     <div>
                                         <Form>
                                             <Row>
-                                                <Col xs={ 12 } md={ 8 } lg={ 8 } className="mb-3">
-                                                    <Form.Group >
-                                                        <Form.Label style={ formStyles.label } htmlFor='namaMeeting'>Nama Meeting</Form.Label>
-                                                        <Form.Control
-                                                            id='namaMeeting'
-                                                            type="text"
-                                                            value={ meeting?.nama_meeting || '' }
-                                                            readOnly
-                                                            style={ formStyles.input }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col xs={ 12 } md={ 4 } lg={ 4 } className="mb-3">
-                                                    <Form.Group >
-                                                        <Form.Label style={ formStyles.label } htmlFor='tipeMeeting'>Tipe Meeting</Form.Label>
-                                                        <Form.Control
-                                                            id='tipeMeeting'
-                                                            type="text"
-                                                            value={
-                                                                ( () =>
-                                                                {
-                                                                    switch ( meeting?.online ) {
-                                                                        case false:
-                                                                            return "Offline";
-                                                                        case true:
-                                                                            return "Online";
-                                                                        default:
-                                                                            return "";
-                                                                    }
-                                                                } )()
+                                                { loading ? (
+                                                    <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                                        <Spinner animation="border" variant="primary" />
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                            <Col xs={ 12 } md={ 8 } lg={ 8 } className="mb-3">
+                                                                <Form.Group >
+                                                                    <Form.Label style={ formStyles.label } htmlFor='namaMeeting'>Nama Meeting</Form.Label>
+                                                                    <Form.Control
+                                                                        id='namaMeeting'
+                                                                        type="text"
+                                                                        value={ meeting?.nama_meeting || '' }
+                                                                        readOnly
+                                                                        style={ formStyles.input }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                            <Col xs={ 12 } md={ 4 } lg={ 4 } className="mb-3">
+                                                                <Form.Group >
+                                                                    <Form.Label style={ formStyles.label } htmlFor='tipeMeeting'>Tipe Meeting</Form.Label>
+                                                                    <Form.Control
+                                                                        id='tipeMeeting'
+                                                                        type="text"
+                                                                        value={
+                                                                            ( () =>
+                                                                            {
+                                                                                switch ( meeting?.online ) {
+                                                                                    case false:
+                                                                                        return "Offline";
+                                                                                    case true:
+                                                                                        return "Online";
+                                                                                    default:
+                                                                                        return "";
+                                                                                }
+                                                                            } )()
 
-                                                                || ''
-                                                            }
-                                                            readOnly
-                                                            style={ formStyles.inputTipeMeeting }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col xs={ 12 } md={ 6 } lg={ 6 } className="mb-3">
-                                                    <Form.Group >
-                                                        <Form.Label style={ formStyles.label } htmlFor='requestBy'>Request by</Form.Label>
-                                                        <Form.Control
-                                                            id='requestBy'
-                                                            type="text"
-                                                            value={ filteredUserObject || '' }
-                                                            readOnly
-                                                            style={ formStyles.input }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col xs={ 12 } md={ 6 } lg={ 6 } className="mb-3">
-                                                    <Form.Group>
-                                                        <Form.Label style={ formStyles.label } htmlFor='date'>Tanggal</Form.Label>
-                                                        <Form.Control
-                                                            id='date'
-                                                            type="date"
-                                                            value={ date || '' }
-                                                            readOnly
-                                                            style={ formStyles.input }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col xs={ 6 } md={ 6 } lg={ 6 } className="mb-3">
-                                                    <Form.Group >
-                                                        <Form.Label style={ formStyles.label } htmlFor='startTime'>Waktu Mulai</Form.Label>
-                                                        <Form.Control
-                                                            id='startTime'
-                                                            type="time"
-                                                            value={ startTime || '' }
-                                                            readOnly
-                                                            style={ formStyles.input }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col xs={ 6 } md={ 6 } lg={ 6 } className="mb-3">
-                                                    <Form.Group >
-                                                        <Form.Label style={ formStyles.label } htmlFor='endTime'>Waktu Selesai</Form.Label>
-                                                        <Form.Control
-                                                            id='endTime'
-                                                            type="time"
-                                                            value={ endTime || '' }
-                                                            readOnly
-                                                            style={ formStyles.input }
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
+                                                                            || ''
+                                                                        }
+                                                                        readOnly
+                                                                        style={ formStyles.inputTipeMeeting }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                            <Col xs={ 12 } md={ 6 } lg={ 6 } className="mb-3">
+                                                                <Form.Group >
+                                                                    <Form.Label style={ formStyles.label } htmlFor='requestBy'>Request by</Form.Label>
+                                                                    <Form.Control
+                                                                        id='requestBy'
+                                                                        type="text"
+                                                                        value={ filteredUserObject || '' }
+                                                                        readOnly
+                                                                        style={ formStyles.input }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                            <Col xs={ 12 } md={ 6 } lg={ 6 } className="mb-3">
+                                                                <Form.Group>
+                                                                    <Form.Label style={ formStyles.label } htmlFor='date'>Tanggal</Form.Label>
+                                                                    <Form.Control
+                                                                        id='date'
+                                                                        type="date"
+                                                                        value={ date || '' }
+                                                                        readOnly
+                                                                        style={ formStyles.input }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                            <Col xs={ 6 } md={ 6 } lg={ 6 } className="mb-3">
+                                                                <Form.Group >
+                                                                    <Form.Label style={ formStyles.label } htmlFor='startTime'>Waktu Mulai</Form.Label>
+                                                                    <Form.Control
+                                                                        id='startTime'
+                                                                        type="time"
+                                                                        value={ startTime || '' }
+                                                                        readOnly
+                                                                        style={ formStyles.input }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                            <Col xs={ 6 } md={ 6 } lg={ 6 } className="mb-3">
+                                                                <Form.Group >
+                                                                    <Form.Label style={ formStyles.label } htmlFor='endTime'>Waktu Selesai</Form.Label>
+                                                                    <Form.Control
+                                                                        id='endTime'
+                                                                        type="time"
+                                                                        value={ endTime || '' }
+                                                                        readOnly
+                                                                        style={ formStyles.input }
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                    </>
+                                                ) }
                                                 {
                                                     meeting?.online === true ?
                                                         <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
@@ -1212,48 +1240,54 @@ function MeetingDetail ()
                                     >
                                         Detail Ruangan
                                     </p>
-                                    <div>
-                                        <Row>
-                                            <Col xs={ 12 } md={ 6 } lg={ 6 }  >
-                                                <p className='label'>Nama Gedung:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.gedung }</p>
-                                                <p className='label'>Nama Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.nama_ruangan }</p>
-                                                <p className='label'>Nomor Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.no_ruangan }</p>
-                                            </Col>
-                                            <Col xs={ 12 } md={ 6 } lg={ 6 } >
-                                                <p className='label'>Lantai:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.lantai }</p>
-                                                <p className='label'>Kapasitas Ruangan:</p>
-                                                <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
-                                            </Col>
-                                            <Col xs={ 12 }  >
-                                                <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
-                                                    <thead>
-                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                            <th>#</th>
-                                                            <th>Nama Equipment</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {
-                                                            detailEquipment.map( ( data, index ) =>
-                                                            {
+                                    { loading ? (
+                                        <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                            <Spinner animation="border" variant="primary" />
+                                        </div>
+                                    ) : (
+                                            <div>
+                                                <Row>
+                                                    <Col xs={ 12 } md={ 6 } lg={ 6 }  >
+                                                        <p className='label'>Nama Gedung:</p>
+                                                        <p className='content mb-3'>{ detailRuangan?.gedung }</p>
+                                                        <p className='label'>Nama Ruangan:</p>
+                                                        <p className='content mb-3'>{ detailRuangan?.nama_ruangan }</p>
+                                                        <p className='label'>Nomor Ruangan:</p>
+                                                        <p className='content mb-3'>{ detailRuangan?.no_ruangan }</p>
+                                                    </Col>
+                                                    <Col xs={ 12 } md={ 6 } lg={ 6 } >
+                                                        <p className='label'>Lantai:</p>
+                                                        <p className='content mb-3'>{ detailRuangan?.lantai }</p>
+                                                        <p className='label'>Kapasitas Ruangan:</p>
+                                                        <p className='content mb-3'>{ detailRuangan?.kapasitas } orang</p>
+                                                    </Col>
+                                                    <Col xs={ 12 }  >
+                                                        <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
+                                                            <thead>
+                                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                                    <th>#</th>
+                                                                    <th>Nama Equipment</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    detailEquipment.map( ( data, index ) =>
+                                                                    {
 
-                                                                return (
-                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                        <td>{ data?.nama_equipment }</td>
-                                                                    </tr>
-                                                                )
-                                                            } )
-                                                        }
-                                                    </tbody>
-                                                </Table>
-                                            </Col>
-                                        </Row>
-                                    </div>
+                                                                        return (
+                                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                                <td>{ data?.nama_equipment }</td>
+                                                                            </tr>
+                                                                        )
+                                                                    } )
+                                                                }
+                                                            </tbody>
+                                                        </Table>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                    ) }
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -1265,109 +1299,53 @@ function MeetingDetail ()
                                     >
                                         Detail Peserta
                                     </p>
-                                    <div>
-                                        <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
-                                            <thead>
-                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                    <th>#</th>
-                                                    <th>Nama Peserta</th>
-                                                    <th>Status Kehadiran</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    dataPeserta.map( ( data, index ) =>
-                                                    {
+                                    { loading ? (
+                                        <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                                            <Spinner animation="border" variant="primary" />
+                                        </div>
+                                    ) : (
+                                            <div>
+                                                <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
+                                                    <thead>
+                                                        <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
+                                                            <th>#</th>
+                                                            <th>Nama Peserta</th>
+                                                            <th>Status Kehadiran</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            dataPeserta.map( ( data, index ) =>
+                                                            {
 
-                                                        return (
-                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                <td>{ data?.user_name }</td>
-                                                                <td style={ { textAlign: 'center' } }>
-                                                                    { ( () =>
-                                                                    {
-                                                                        switch ( data?.hadir ) {
-                                                                            case true:
-                                                                                return <span>Hadir</span>;
-                                                                            case false:
-                                                                                return <span className='text-muted'>Tidak Hadir</span>;
-                                                                            default:
-                                                                                return null;
-                                                                        }
-                                                                    } )() }
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    } )
-                                                }
-                                            </tbody>
-                                        </Table>
-                                    </div>
+                                                                return (
+                                                                    <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
+                                                                        <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
+                                                                        <td>{ data?.user_name }</td>
+                                                                        <td style={ { textAlign: 'center' } }>
+                                                                            { ( () =>
+                                                                            {
+                                                                                switch ( data?.hadir ) {
+                                                                                    case true:
+                                                                                        return <span>Hadir</span>;
+                                                                                    case false:
+                                                                                        return <span className='text-muted'>Tidak Hadir</span>;
+                                                                                    default:
+                                                                                        return null;
+                                                                                }
+                                                                            } )() }
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            } )
+                                                        }
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                    ) }
                                 </Card.Body>
                             </Card>
                         </Col>
-                        {/* {
-                            meeting?.online === true ?
-
-                                (
-                                    <></>
-                                )
-                                :
-                                (
-                                    <>
-                                        <Col xs={ 12 } md={ 12 } lg={ 12 } className='mt-3 mb-2'>
-                                            <Card id={ theme === 'light' ? 'cardDetailPesertaDark' : 'cardDetailPesertaLight' }>
-                                                <Card.Body>
-                                                    <p
-                                                        className='head-content text-center'
-                                                    >
-                                                        Detail Peserta
-                                                    </p>
-                                                    <div>
-                                                        <Table bordered responsive data-bs-theme={ theme === "light" ? "dark" : "light" }>
-                                                            <thead>
-                                                                <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
-                                                                    <th>#</th>
-                                                                    <th>Nama Peserta</th>
-                                                                    <th>Status Kehadiran</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {
-                                                                    dataPeserta.map( ( data, index ) =>
-                                                                    {
-
-                                                                        return (
-                                                                            <tr key={ index } style={ { fontFamily: 'Poppins-Light' } }>
-                                                                                <td style={ { textAlign: 'center' } }>{ index + 1 }</td>
-                                                                                <td>{ data?.user_name }</td>
-                                                                                <td style={ { textAlign: 'center' } }>
-                                                                                    { ( () =>
-                                                                                    {
-                                                                                        switch ( data?.hadir ) {
-                                                                                            case true:
-                                                                                                return <span>Hadir</span>;
-                                                                                            case null:
-                                                                                                return <span>Belum Konfirmasi</span>;
-                                                                                            default:
-                                                                                                return null;
-                                                                                        }
-                                                                                    } )() }
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
-                                                                    } )
-                                                                }
-                                                            </tbody>
-                                                        </Table>
-                                                    </div>
-                                                </Card.Body>
-                                            </Card>
-                                        </Col>
-                                    </>
-                                )
-                        } */}
-
                     </Row>
                     <br />
                     <br />

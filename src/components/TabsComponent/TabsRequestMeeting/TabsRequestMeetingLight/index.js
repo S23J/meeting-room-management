@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { CiPaperplane } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
@@ -13,6 +13,7 @@ function TabsRequestMeetingLight ()
     const { tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ listUser, setListUser ] = useState( [] );
+    const [ loading, setLoading ] = useState( true );
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
     const detailMeeting = ( row ) =>
@@ -22,6 +23,7 @@ function TabsRequestMeetingLight ()
 
     const retrieveMeeting = () =>
     {
+        setLoading( true );
         axios.get( `/manage/requests/`,
             {
                 headers:
@@ -38,9 +40,11 @@ function TabsRequestMeetingLight ()
 
                 const filterData = res.data.filter( item => item.status === "processing" );
                 setListMeeting( filterData );
+                setLoading( false ); 
                 // console.log( res.data )
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -60,6 +64,7 @@ function TabsRequestMeetingLight ()
 
     const retrieveUser = () =>
     {
+        setLoading( true );
         axios.get( `/auth/users/`,
             {
                 headers:
@@ -76,9 +81,11 @@ function TabsRequestMeetingLight ()
 
                 // const filterData = res.data.filter( item => item.status === "processing" );
                 setListUser( res.data );
+                setLoading( false ); 
                 // console.log( res.data );
             } ).catch( err =>
             {
+                setLoading( false ); 
                 if ( err.response?.status === 401 ) {
                     Swal.fire( {
                         icon: 'error',
@@ -118,6 +125,7 @@ function TabsRequestMeetingLight ()
                 return {
                     ...data,
                     user_name: userName,
+                    meetingTypeRaw: data.online === true ? 'Online' : 'Offline',
                 };
             } )
         );
@@ -167,19 +175,10 @@ function TabsRequestMeetingLight ()
             },
             {
                 header: 'Tipe Meeting',
-                accessorFn: row => (
+                accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
+                Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( row?.online ) {
-                                case false:
-                                    return <span >Offline</span>;
-                                case true:
-                                    return <span >Online</span>;
-                                default:
-                                    return null;
-                            }
-                        } )() }
+                        { cell.getValue() === 'Online' ? 'Online' : 'Offline' }
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -203,20 +202,6 @@ function TabsRequestMeetingLight ()
                     align: 'center',
                 },
             },
-            // {
-            //     header: 'Waktu Selesai',
-            //     accessorFn: row => (
-            //         <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-            //             { row.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }
-            //         </div>
-            //     ),
-            //     mantineTableHeadCellProps: {
-            //         align: 'center',
-            //     },
-            //     mantineTableBodyCellProps: {
-            //         align: 'center',
-            //     },
-            // },
             {
                 header: 'Approval',
                 accessorFn: row => (
@@ -260,9 +245,15 @@ function TabsRequestMeetingLight ()
 
     return (
         <>
-            <MantineReactTable
-                table={ table }
-            />
+            { loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
+                    <Spinner animation="border" variant="primary" />
+                </div>
+            ) : (
+                    <MantineReactTable
+                        table={ table }
+                    />
+            ) }
         </>
     )
 }

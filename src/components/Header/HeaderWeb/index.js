@@ -97,7 +97,7 @@ function HeaderWeb ()
     const LogoutSession = async () =>
     {
         const confirmDelete = await Swal.fire( {
-            title: 'Apakah anda yakin ingin keluar?',
+            title: 'Apakah anda yakin ingin keluar dari aplikasi?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Keluar',
@@ -127,7 +127,7 @@ function HeaderWeb ()
             setUserInfo();
             Swal.fire( {
                 icon: 'success',
-                title: 'Logout Berhasil',
+                title: 'Proses keluar berhasil!',
                 showConfirmButton: false,
                 timer: 2000,
             } );
@@ -137,7 +137,7 @@ function HeaderWeb ()
             Swal.fire( {
                 icon: 'error',
                 title: 'Warning!',
-                text: 'Logout gagal!',
+                text: 'Proses keluar gagal!',
             } );
         }
     };

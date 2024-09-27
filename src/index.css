@@ -1188,6 +1188,22 @@ background: #222222 !important;
   color: #FFFFFF !important;
   border-top: 0.5px solid #2C2C2C;
 }
+#containerAppDark .mantine-18xsbhd {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
+
+#containerAppDark .mantine-13fg93z {
+  background: #222222 !important;
+  color: #FFFFFF !important;
+  border-top: 0.5px solid #2C2C2C;
+}
+
+#containerAppDark .man.mantine-asm909:disabled,
+.mantine-asm909[data-disabled] {
+  background: #222222 !important;
+}
 #containerAppDark .mantine-1cn2mlo {
 background: #222222 !important;
   color: #FFFFFF !important;
