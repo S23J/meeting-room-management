@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { Box } from '@mantine/core';
 import axios from '../../../../api/axios';
 import { ModalAddRuangan, ModalEditRuangan } from '../../../Modal';
+import { IoMdEye } from 'react-icons/io';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { FaWindowClose } from 'react-icons/fa';
 
 
 function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
@@ -71,8 +74,8 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 header: 'Detail',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonDetailTableLight' onClick={ () => detailRuangan( row.id ) }>
-                            &nbsp;<CiRead size={ 28 } />&nbsp;
+                        <Button variant='btn' onClick={ () => detailRuangan( row.id ) }>
+                            &nbsp;<IoMdEye size={ 24 } color='#4158A6' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -119,8 +122,8 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 header: 'Ubah',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonEditTableLight' onClick={ () => handleShowEditRuangan( row ) }>
-                            &nbsp;<CiEdit size={ 28 } />&nbsp;
+                        <Button variant='btn' onClick={ () => handleShowEditRuangan( row ) }>
+                            &nbsp;<BsFillPencilFill size={ 24 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -136,8 +139,8 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 header: 'Hapus',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonDeleteTableLight' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<CiTrash size={ 28 } color='red' />&nbsp;
+                        <Button variant='btn' onClick={ () => handleDelete( row.id ) }>
+                            &nbsp;<FaWindowClose size={ 24 } color='#FF0060' />&nbsp;
                         </Button>
                     </div>
                 ),

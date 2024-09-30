@@ -39,16 +39,16 @@ function Meeting ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '83vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92vw' : '82vw' } }>
                     <Tabs
                         id="controlled-tab-meeting"
                         defaultActiveKey="request"
-                        className="mb-3"
+
                         fill
                         style={ { fontFamily: 'Poppins-Regular' } }
                     >
-                        <Tab eventKey="request" title="Request" >
+                        <Tab eventKey="request" title="Request">
                             {
                                 theme === 'light' ?
                                     <TabsRequestMeetingDark />

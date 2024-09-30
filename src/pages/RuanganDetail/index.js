@@ -7,7 +7,8 @@ import { Button, Card, Col, Container, Dropdown, Row, Spinner, Table } from 'rea
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
 import { CiEdit, CiTrash } from 'react-icons/ci';
-import { BsEye, BsEyeSlash, BsGear, BsPencil } from 'react-icons/bs';
+import { BsEye, BsEyeSlash, BsFillPencilFill, BsGear, BsGearFill, BsPencil } from 'react-icons/bs';
+import { FaWindowClose } from 'react-icons/fa';
 
 function RuanganDetail ()
 {
@@ -445,8 +446,8 @@ function RuanganDetail ()
                                         </Col>
                                         <Col xs={ 6 } className='text-end'>
                                             <Dropdown drop='start'>
-                                                <Dropdown.Toggle variant="btn" id={ theme === 'light' ? 'buttonGearDark' : 'buttonGearLight' }>
-                                                    <BsGear size={ 25 } />
+                                                <Dropdown.Toggle variant="btn" >
+                                                    <BsGearFill size={ 30 } color='#0079FF' />
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                                                     {
@@ -555,19 +556,17 @@ function RuanganDetail ()
                                                                         <td className='text-center'>
                                                                             <Button
                                                                                 variant='btn'
-                                                                                id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
                                                                                 onClick={ () => handleShowEditAkun( data ) }
                                                                             >
-                                                                                <CiEdit size={ 25 } />
+                                                                                <BsFillPencilFill size={ 24 } color='#0079FF' />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
                                                                             <Button
                                                                                 variant='btn'
-                                                                                id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
                                                                                 onClick={ () => handleDeleteAkun( data.id ) }
                                                                             >
-                                                                                <CiTrash size={ 25 } color='red' />
+                                                                                <FaWindowClose size={ 24 } color='#FF0060' />
                                                                             </Button>
                                                                         </td>
                                                                     </tr>
@@ -626,19 +625,17 @@ function RuanganDetail ()
                                                                         <td className='text-center'>
                                                                             <Button
                                                                                 variant='btn'
-                                                                                id={ theme === 'light' ? 'buttonEditTableDarkEquip' : 'buttonEditTableLightEquip' }
                                                                                 onClick={ () => handleShowEditAlat( data ) }
                                                                             >
-                                                                                <CiEdit size={ 25 } />
+                                                                                <BsFillPencilFill size={ 24 } color='#0079FF' />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
                                                                             <Button
                                                                                 variant='btn'
-                                                                                id={ theme === 'light' ? 'buttonDeleteTableDarkEquip' : 'buttonDeleteTableLightEquip' }
                                                                                 onClick={ () => handleDelete( data.id ) }
                                                                             >
-                                                                                <CiTrash size={ 25 } color='red' />
+                                                                                <FaWindowClose size={ 24 } color='#FF0060' />
                                                                             </Button>
                                                                         </td>
                                                                     </tr>

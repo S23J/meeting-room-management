@@ -3,9 +3,10 @@ import { HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
 import { Card, Col, Container,  Row } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
-import { CiCalendarDate, CiSliderVertical, CiViewList } from 'react-icons/ci';
-import { VscHistory } from 'react-icons/vsc';
 import axios from '../../api/axios';
+import { FaDoorOpen } from 'react-icons/fa';
+import { MdLibraryBooks, MdWorkHistory } from 'react-icons/md';
+import { IoCalendar } from 'react-icons/io5';
 
 
 function Dashboard ()
@@ -121,16 +122,16 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#222222' : '#000A2E'
+                                                    background: '#0079FF'
                                                 } }
                                             >
                                             <span >
-                                                <CiSliderVertical size={ 30 } color='#FFFFFF' />
+                                                <IoCalendar size={ 30 } color='#FFFFFF' />
                                             </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
-                                            <div className='me-2 mt-2'>
+                                        <div className='me-3 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
                                                 Request
                                                 </p>
@@ -140,8 +141,8 @@ function Dashboard ()
                                             </div>
                                         </Col>
                                     </Row>
-                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
-                                    <div className='ms-2 my-auto'>
+                                <hr className='mx-1' style={ { marginTop: '0px', color: theme === 'light' ? 'white' : '#222222' } } />
+                                <div className='ms-3 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
                                         Jumlah request Meeting.
                                         </p>
@@ -158,16 +159,16 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#222222' : '#000A2E'
+                                                    background: '#059212'
                                                 } }
                                             >
                                             <span >
-                                                <CiCalendarDate size={ 35 } color='#FFFFFF' />
+                                                <MdLibraryBooks size={ 28 } color='#FFFFFF' />
                                             </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
-                                            <div className='me-2 mt-2'>
+                                        <div className='me-3 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
                                                 Meeting
                                                 </p>
@@ -177,8 +178,8 @@ function Dashboard ()
                                             </div>
                                         </Col>
                                     </Row>
-                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
-                                    <div className='ms-2 my-auto'>
+                                <hr className='mx-1' style={ { marginTop: '0px', color: theme === 'light' ? 'white' : '#222222' } } />
+                                <div className='ms-3 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
                                         Jumlah Meeting berjalan.
                                         </p>
@@ -195,16 +196,16 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#222222' : '#000A2E'
+                                                    background: '#FF0060'
                                                 } }
                                             >
                                             <span >
-                                                <VscHistory size={ 30 } color='#FFFFFF' />
+                                                <MdWorkHistory size={ 30 } color='#FFFFFF' />
                                             </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
-                                            <div className='me-2 mt-2'>
+                                        <div className='me-3 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
                                                 History
                                                 </p>
@@ -214,8 +215,8 @@ function Dashboard ()
                                             </div>
                                         </Col>
                                     </Row>
-                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
-                                    <div className='ms-2 my-auto'>
+                                <hr className='mx-1' style={ { marginTop: '0px', color: theme === 'light' ? 'white' : '#222222' } } />
+                                <div className='ms-3 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
                                         Jumlah Meeting selesai.
                                         </p>
@@ -232,16 +233,16 @@ function Dashboard ()
                                             <div
                                                 className='icon-box'
                                                 style={ {
-                                                    background: theme === 'light' ? '#222222' : '#000A2E'
+                                                    background: '#7C00FE'
                                                 } }
                                             >
                                             <span >
-                                                <CiViewList size={ 30 } color='#FFFFFF' />
+                                                <FaDoorOpen size={ 30 } color='#FFFFFF' />
                                             </span>
                                             </div>
                                         </Col>
                                         <Col className='text-end'>
-                                            <div className='me-2 mt-2'>
+                                        <div className='me-3 mt-2'>
                                                 <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px', marginBottom: '0px' } }>
                                                 Ruangan
                                                 </p>
@@ -251,8 +252,8 @@ function Dashboard ()
                                             </div>
                                         </Col>
                                     </Row>
-                                    <hr className='mx-1' style={ { marginTop: '0px', color: '#222222' } } />
-                                    <div className='ms-2 my-auto'>
+                                <hr className='mx-1' style={ { marginTop: '0px', color: theme === 'light' ? 'white' : '#222222' } } />
+                                <div className='ms-3 my-auto'>
                                         <p style={ { fontFamily: 'Poppins-Light', fontSize: '15px' } }>
                                         Jumlah keseluruhan Ruangan.
                                         </p>
@@ -263,17 +264,6 @@ function Dashboard ()
                     </div>
                 </Container>
         </div>
-        //         <>
-        //    <Container
-        //                 fluid
-        //                 style={ { backgroundColor: theme === 'light' ? '#3D495F' : '#F1F1F1', minHeight: '90.4vh' } }
-        //             >
-        //                 <div>
-                            
-         //               </div>
-        //             </Container>
-        //       </>
-
     )
 }
 

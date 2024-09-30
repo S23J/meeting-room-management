@@ -94,32 +94,15 @@ font-family: 'Poppins-Regular';
 /* Button Action Modal*/
 
 #buttonGearLight {
-  font-family: 'Poppins-Regular';
+background-color: #44c251;
+  color: white;
   min-height: 45px;
-  box-shadow: 3px 3px 6px #a7b7e4,
-    -3px -3px 6px rgba(255, 255, 255, 0.7);
-
-  /* Hover styles */
-  &:hover {
-    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
-      inset 3px 3px 6px #a7b7e4;
-  }
 }
 
 #buttonGearDark {
-  font-family: 'Poppins-Regular';
+background-color: #44c251;
+  color: white;
   min-height: 45px;
-  box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  border-radius: 8px;
-  color: #FFFFFF;
-
-  /* Hover styles */
-  &:hover {
-    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
-      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-    color: #FFFFFF;
-  }
 }
 #actionButtonModalLight {
 font-family: 'Poppins-Regular';
@@ -152,32 +135,16 @@ border-radius: 8px;
 
 #actionButtonKembaliLight {
 font-family: 'Poppins-Regular';
-  min-height: 45px;
-  box-shadow: 3px 3px 6px #a7b7e4,
-    -3px -3px 6px rgba(255, 255, 255, 0.7);
-
-
-/* Hover styles */
-  &:hover {
-    box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
-      inset 3px 3px 6px #a7b7e4;
-  }
+  background-color: #44c251;
+    color: white;
+    min-height: 40px;
 }
 
 #actionButtonKembaliDark {
 font-family: 'Poppins-Regular';
-  min-height: 45px;
-box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  border-radius: 8px;
-color: #FFFFFF;
-
-/* Hover styles */
-&:hover {
-box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
-inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  color: #FFFFFF;
-}
+  background-color: #44c251;
+    color: white;
+    min-height: 40px;
 }
 
 #actionButtonApproveLight {
@@ -247,31 +214,17 @@ min-height: 45px;
 
 #buttonTambahTableLight {
 font-family: 'Poppins-Regular';
-min-height: 45px;
-box-shadow: 3px 3px 6px #a7b7e4,
--3px -3px 6px rgba(255, 255, 255, 0.7);
+background-color: #44c251;
+  color: white;
+  min-height: 40px;
 
-/* Hover styles */
-&:hover {
-box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
-    inset 3px 3px 6px #a7b7e4;
-}
 }
 
 #buttonTambahTableDark {
 font-family: 'Poppins-Regular';
-min-height: 45px;
-box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  border-radius: 8px;
-color: #FFFFFF;
-
-/* Hover styles */
-&:hover {
-box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
-inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  color: #FFFFFF;
-}
+  background-color: #44c251;
+    color: white;
+    min-height: 40px;
 }
 
 #buttonDetailTableLight {
@@ -302,56 +255,29 @@ box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
 }
 
 #buttonEditTableLight {
-min-height: 45px;
-  box-shadow: 3px 3px 6px #a7b7e4,
-    -3px -3px 6px rgba(255, 255, 255, 0.7);
-
-/* Hover styles */
-&:hover {
-  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
-    inset 3px 3px 6px #a7b7e4;
-}
+  background-color: #0079FF;
+    color: white;
+  min-height: 45px;
 
 }
+
 
 #buttonEditTableDark {
-min-height: 45px;
-box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  border-radius: 8px;
-  color: #FFFFFF;
-
-/* Hover styles */
-  &:hover {
-    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
-      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-    color: #FFFFFF;
-  }
+  background-color: #0079FF;
+    color: white;
+  min-height: 45px;
 }
+
 #buttonDeleteTableLight {
-min-height: 45px;
-  box-shadow: 3px 3px 6px #a7b7e4,
-    -3px -3px 6px rgba(255, 255, 255, 0.7);
-
-/* Hover styles */
-&:hover {
-  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.7),
-    inset 3px 3px 6px #a7b7e4;
-}
+background-color: #FF0060;
+  color: white;
+  min-height: 45px;
 }
 
 #buttonDeleteTableDark {
-font-family: 'Poppins-Regular';
+background-color: #FF0060;
+  color: white;
   min-height: 45px;
-box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  border-radius: 8px;
-
-/* Hover styles */
-  &:hover {
-    box-shadow: inset .2rem .2rem .5rem rgba(0, 0, 0, 0.3),
-      inset -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5);
-  }
 }
 
 #buttonEditTableLightEquip {
@@ -423,7 +349,7 @@ z-index: 1000;
 min-height: 100vh;
 top: 0;
   position: fixed;
-background-color: #222222;
+background-color: #141c21;
 z-index: 1000;
   transition: 0.8s;
 }
@@ -469,7 +395,7 @@ transform: scale(1);
 overflow-x: hidden !important;
 }
 .active-menu-item-light {
-background-color: whitesmoke;
+background-color: #f1f7f9;
 color: #000A2E !important;
 min-width: 100% !important;
   padding-left: 10px;
@@ -480,7 +406,7 @@ border-top-left-radius: 50px !important;
 }
 
 .active-menu-item-dark {
-background-color: #2C2C2C;
+background-color: #25353d;
 color: #FFFFFF !important;
 min-width: 100% !important;
   padding-left: 10px;
@@ -591,14 +517,14 @@ white-space: nowrap;
 min-height: 100vh;
 max-width: 100vw;
   transition: 0.8s !important;
-  background-color: whitesmoke;
+  background-color: #f1f7f9;
 }
 
 #containerAppDark {
 min-height: 100vh;
 max-width: 100vw;
   transition: 0.8s !important;
-background-color: #2C2C2C;
+background-color: #25353d;
 }
 
 #bodyAppLight {
@@ -764,11 +690,11 @@ box-shadow: 3px 3px 6px #a7b7e4,
 }
 
 #cardDashboard1-Dark {
-background-color: #404040;
-border-radius: 15px !important;
+background-color: #141c21;
+  border-radius: 15px !important;
   border: none !important;
-box-shadow: .3rem .3rem .6rem #000000,
--.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
+  box-shadow: .3rem .3rem .6rem #000000,
+      -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
   border-radius: 10px;
   color: #ffffff;
   min-height: 160px !important;
@@ -789,11 +715,11 @@ box-shadow: 3px 3px 6px #a7b7e4,
 }
 
 #cardDashboard2-Dark {
-background-color: #404040;
-border-radius: 15px !important;
+background-color: #141c21;
+  border-radius: 15px !important;
   border: none !important;
-box-shadow: .3rem .3rem .6rem #000000,
--.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
+  box-shadow: .3rem .3rem .6rem #000000,
+      -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
   border-radius: 10px;
   color: #ffffff;
   min-height: 160px !important;
@@ -814,7 +740,7 @@ box-shadow: 3px 3px 6px #a7b7e4,
 }
 
 #cardDashboard3-Dark {
-background-color: #404040;
+background-color: #141c21;
 border-radius: 15px !important;
   border: none !important;
 box-shadow: .3rem .3rem .6rem #000000,
@@ -839,7 +765,7 @@ box-shadow: 3px 3px 6px #a7b7e4,
 }
 
 #cardDashboard4-Dark {
-background-color: #404040;
+background-color: #141c21;
 border-radius: 15px !important;
   border: none !important;
 box-shadow: .3rem .3rem .6rem #000000,
@@ -1013,12 +939,25 @@ border-bottom: none;
 }
 /* Ruangan */
 /* Meeting */
+.nav-tabs {
+  border: none !important;
+}
+
+.nav-tabs .nav-link {
+  border: none !important;
+}
+
+
+#containerAppDark .nav-tabs {
+  border: none !important;
+}
 #containerAppDark .nav-tabs .nav-link {
 color: #12B3ED;
+border: none !important;
 }
 
 #containerAppDark .nav-tabs .nav-link.active {
-background-color: #222222 !important;
+background-color: #141c21 !important;
 color: #FFFFFF !important;
 }
 
@@ -1028,27 +967,26 @@ color: #FFFFFF !important;
 
 /* Dark Mode Table */
 #containerAppDark .mantine-a5v3r0 {
-border: 2px solid #2C2C2C !important;
-  box-shadow: .3rem .3rem .6rem #000000,
-    -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
-  border-radius: 10px;
-  background: #2C2C2C !important;
+border: 2px solid #141c21 !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  background: #141c21 !important;
   position: relative !important;
   color: #FFFFFF !important;
 }
 
 #containerAppDark .mantine-1knjhw7 {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
 }
 
 #containerAppDark .mantine-kq5u63 {
-background: #222222 !important;
+background: #141c21 !important;
 }
 
 #containerAppDark .mantine-1qybf08 {
-background: #222222 !important;
-  border-bottom: 0.5px solid #2C2C2C !important;
+background: #141c21 !important;
+  border-bottom: 0.5px solid #141c21 !important;
   color: #FFFFFF !important;
 }
 
@@ -1056,158 +994,158 @@ background: #222222 !important;
 .mantine-h1g4yy>tfoot>tr>th,
 .mantine-h1g4yy>tbody>tr>th {
 color: #FFFFFF !important;
-  background: #222222 !important;
+  background: #141c21 !important;
 }
 
 #containerAppDark .mantine-1rf09ts {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-152c1vl {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1epn97j {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-13cvacy {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-8qmkwf {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-p2ipdu {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1xw58sj {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1d0le5c {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-vl6xmj {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1p2ioqc {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1lz7n5u {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-o01aio {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-mjmt8i {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 #containerAppDark .mantine-yejojm {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-jgrr3i {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1ltsl1k {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1lnjcp0 {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-g7yb51 {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-1h2ifzv {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-4hip49 {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-zeiogp {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 #containerAppDark .mantine-1xuzyay {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 #containerAppDark .mantine-18xsbhd {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .mantine-13fg93z {
-  background: #222222 !important;
+  background: #141c21 !important;
   color: #FFFFFF !important;
-  border-top: 0.5px solid #2C2C2C;
+  border-top: 0.5px solid #141c21;
 }
 
 #containerAppDark .man.mantine-asm909:disabled,
 .mantine-asm909[data-disabled] {
-  background: #222222 !important;
+  background: #141c21 !important;
 }
 #containerAppDark .mantine-1cn2mlo {
-background: #222222 !important;
+background: #141c21 !important;
   color: #FFFFFF !important;
-  border: 2px solid #282828 !important;
+  border: 2px solid #141c21 !important;
   box-shadow: .3rem .3rem .6rem rgba(0, 0, 0, 0.3),
     -.2rem -.2rem .5rem rgba(67, 67, 67, 0.5) !important;
   border-radius: 8px !important;
@@ -1232,16 +1170,13 @@ color: #FFFFFF !important;
 
 
 .mantine-a5v3r0 {
-border: 2px solid whitesmoke !important;
-  box-shadow: 3px 3px 6px #c8d0e7,
-    -3px -3px 6px rgba(255, 255, 255, 0.7) !important;
-  border-radius: 10px;
+border: none !important;
+  box-shadow: none !important;
+  border-radius: none !important;
+  position: relative !important;
 }
 
-/* .mantine-a5v3r0 {
-box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2) !important;
-border-radius: 10px;
-} */
+
 .mantine-gxgfw {
 max-width: none;
 }

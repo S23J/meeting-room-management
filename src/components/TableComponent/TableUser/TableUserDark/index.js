@@ -6,6 +6,8 @@ import { CiEdit, CiTrash } from 'react-icons/ci';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { Box } from '@mantine/core';
 import { ModalAddUser, ModalEditUser } from '../../../Modal';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { FaWindowClose } from 'react-icons/fa';
 
 function TableUserDark ( { tokenUser, listUser, retrieveUser } )
 {
@@ -98,8 +100,8 @@ function TableUserDark ( { tokenUser, listUser, retrieveUser } )
                 header: 'Ubah',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonEditTableDark' onClick={ () => handleShowEditAlat( row ) }>
-                            &nbsp;<CiEdit size={ 28 } />&nbsp;
+                        <Button variant='btn' onClick={ () => handleShowEditAlat( row ) }>
+                            &nbsp;<BsFillPencilFill size={ 24 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -115,8 +117,8 @@ function TableUserDark ( { tokenUser, listUser, retrieveUser } )
                 header: 'Hapus',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonDeleteTableDark' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<CiTrash size={ 28 } color='red' />&nbsp;
+                        <Button variant='btn' onClick={ () => handleDelete( row.id ) }>
+                            &nbsp;<FaWindowClose size={ 24 } color='#FF0060' />&nbsp;
                         </Button>
                     </div>
                 ),

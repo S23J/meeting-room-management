@@ -6,6 +6,7 @@ import { Button, Spinner } from 'react-bootstrap';
 import { CiRead } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
+import { IoMdEye } from 'react-icons/io';
 
 
 function TabsHistoryMeetingLight ()
@@ -143,8 +144,8 @@ function TabsHistoryMeetingLight ()
                 header: 'Detail',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonDetailTableLight' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<CiRead size={ 28 } />&nbsp;
+                        <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
+                            &nbsp;<IoMdEye size={ 24 } color='#4158A6' />&nbsp;
                         </Button>
                     </div>
                 ),

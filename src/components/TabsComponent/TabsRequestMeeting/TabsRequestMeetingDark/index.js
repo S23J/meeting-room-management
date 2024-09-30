@@ -6,6 +6,7 @@ import { Button, Spinner } from 'react-bootstrap';
 import { CiPaperplane } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
+import { FaPaperPlane } from 'react-icons/fa';
 
 
 function TabsRequestMeetingDark ()
@@ -206,8 +207,8 @@ function TabsRequestMeetingDark ()
                 header: 'Approval',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' id='buttonDetailTableDark' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<CiPaperplane size={ 28 } />&nbsp;
+                        <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
+                            &nbsp;<FaPaperPlane size={ 24 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),
