@@ -447,7 +447,7 @@ function RuanganDetail ()
                                         <Col xs={ 6 } className='text-end'>
                                             <Dropdown drop='start'>
                                                 <Dropdown.Toggle variant="btn" >
-                                                    <BsGearFill size={ 30 } color='#0079FF' />
+                                                    <BsGearFill size={ 30 } color='#44c251' />
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                                                     {

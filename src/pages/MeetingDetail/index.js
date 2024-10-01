@@ -1116,7 +1116,7 @@ function MeetingDetail ()
                                                     meeting?.online === true ?
                                                         <Col xs={ 12 } md={ 12 } lg={ 12 } className="mb-3">
                                                             {
-                                                                !meeting?.link_meeting ?
+                                                                !meeting?.link_meeting && meeting?.status === "processing" ?
                                                                     (
                                                                         <>
                                                                             <Form.Label style={ formStyles.label } htmlFor='radioAccount'>Akun Meeting Online</Form.Label>

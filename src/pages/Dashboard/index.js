@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
+import { ChartComponent, HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
 import { Card, Col, Container,  Row } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
@@ -109,8 +109,8 @@ function Dashboard ()
                         </Col>
                     </Row>
                    </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '92.5vw' : '83vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
+                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '82vw' } }>
                     <Row>
                             <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-3'>
                                 <Card
@@ -262,6 +262,9 @@ function Dashboard ()
                             </Col>
                     </Row>
                     </div>
+                <div className='py-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '82vw' } }>
+                    <ChartComponent />
+                </div>
                 </Container>
         </div>
     )

@@ -16,10 +16,11 @@ import
         ModalTambahLink,
         ModalEditLink,
         ModalSetupUUID
-    } from "./Modal"
-import SidebarComponent from "./Sidebar"
-import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header"
-import { TableRuanganDark, TableRuanganLight, TableUserDark, TableUserLight } from "./TableComponent"
+} from "./Modal";
+import SidebarComponent from "./Sidebar";
+import ChartComponent from "./ChartComponent";
+import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header";
+import { TableRuanganDark, TableRuanganLight, TableUserDark, TableUserLight } from "./TableComponent";
 import
 {
     TabsRequestMeetingDark,
@@ -28,12 +29,13 @@ import
     TabsTodaysMeetingLight,
     TabsHistoryMeetingDark,
     TabsHistoryMeetingLight
-} from "./TabsComponent"
+} from "./TabsComponent";
 
 export
 {
     SidebarComponent,
     ModalLupaPassword,
+    ChartComponent,
     ModalAddRuangan,
     ModalEditRuangan,
     ModalAddAkun,
