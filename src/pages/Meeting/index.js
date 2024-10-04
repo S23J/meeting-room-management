@@ -48,7 +48,7 @@ function Meeting ()
                         fill
                         style={ { fontFamily: 'Poppins-Regular' } }
                     >
-                        <Tab eventKey="request" title="Request">
+                        <Tab eventKey="request" title="Permintaan">
                             {
                                 theme === 'light' ?
                                     <TabsRequestMeetingDark />
@@ -56,7 +56,7 @@ function Meeting ()
                                     <TabsRequestMeetingLight />
                             }
                         </Tab>
-                        <Tab eventKey="meeting" title="Meeting">
+                        <Tab eventKey="meeting" title="Jadwal">
                             {
                                 theme === 'light' ?
                                     <TabsTodaysMeetingDark />
@@ -64,7 +64,7 @@ function Meeting ()
                                     <TabsTodaysMeetingLight />
                             }
                         </Tab>
-                        <Tab eventKey="history" title="History">
+                        <Tab eventKey="history" title="Riwayat">
                             {
                                 theme === 'light' ?
                                     <TabsHistoryMeetingDark />

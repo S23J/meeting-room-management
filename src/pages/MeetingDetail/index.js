@@ -34,6 +34,8 @@ function MeetingDetail ()
     const [ disabled, setDisabled ] = useState( false );
     const [ loading, setLoading ] = useState( true );
 
+    const [ meetingTopic, setMeetingTopic ] = useState( '' );
+
     const buttonBack = () =>
     {
         navigate( -1 )
@@ -57,9 +59,21 @@ function MeetingDetail ()
             {
 
                 setMeeting( res.data );
+                setMeetingTopic( res.data.nama_meeting );
                 setDate( res?.data.waktu_mulai.split( 'T' )[ 0 ] )
                 setStartTime( res?.data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
                 setEndTime( res?.data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
+
+                // Set start meeting time for the "Mulai Meeting" field
+                const formattedWaktuMulai = res.data.waktu_mulai.slice( 0, -1 ); // Remove the "Z" for compatibility with datetime-local
+                setMeetingStartTime( formattedWaktuMulai );
+
+                // Calculate duration in minutes
+                const waktuMulai = new Date( res.data.waktu_mulai );
+                const waktuSelesai = new Date( res.data.waktu_selesai );
+                const durationInMinutes = ( waktuSelesai - waktuMulai ) / ( 1000 * 60 ); // Calculate difference in minutes
+                setMeetingDuration( durationInMinutes );
+
                 setLoading( false ); 
                 // console.log( res.data );
             } ).catch( err =>
@@ -400,7 +414,6 @@ function MeetingDetail ()
     const [ selectedAccount, setSelectedAccount ] = useState( '' );
     const [ detailAkun, setDetailAkun ] = useState( {} );
     const [ fetching, setFetching ] = useState( false ); // To manage loading state
-    const [ meetingTopic, setMeetingTopic ] = useState( '' );
     const [ meetingStartTime, setMeetingStartTime ] = useState( '' );
     const [ meetingDuration, setMeetingDuration ] = useState( '' );
     const [ meetingAgenda, setMeetingAgenda ] = useState( '' );
@@ -1064,7 +1077,7 @@ function MeetingDetail ()
                                                             </Col>
                                                             <Col xs={ 12 } md={ 6 } lg={ 6 } className="mb-3">
                                                                 <Form.Group >
-                                                                    <Form.Label style={ formStyles.label } htmlFor='requestBy'>Request by</Form.Label>
+                                                                    <Form.Label style={ formStyles.label } htmlFor='requestBy'>Permintaan dari</Form.Label>
                                                                     <Form.Control
                                                                         id='requestBy'
                                                                         type="text"
@@ -1133,8 +1146,7 @@ function MeetingDetail ()
                                                                                             <Form.Control
                                                                                                 id='meetingTopic'
                                                                                                 type="text"
-                                                                                                onChange={ ( e ) => setMeetingTopic( e.target.value ) }
-                                                                                                value={ meetingTopic }
+                                                                                                value={ meetingTopic || '' }
                                                                                                 required
                                                                                                 placeholder="Masukkan topik meeting"
                                                                                                 style={ formStyles.input }
@@ -1152,15 +1164,14 @@ function MeetingDetail ()
                                                                                                 placeholder="Masukkan topik agenda"
                                                                                                 style={ formStyles.input }
                                                                                             />
-                                                                                            <small style={ { fontFamily: 'Poppins-Light', color: '#acacac' } }>Deskripsi meeting yang lebih detail</small>
+                                                                                            <small style={ { fontFamily: 'Poppins-Light', color: '#acacac' } }>Deskripsi meeting yang lebih detail (Opsional)</small>
                                                                                         </Form.Group>
                                                                                         <Form.Group className="mb-3">
                                                                                             <Form.Label style={ formStyles.label } htmlFor='startMeeting'>Mulai Meeting*</Form.Label>
                                                                                             <Form.Control
                                                                                                 id='startMeeting'
                                                                                                 type="datetime-local"
-                                                                                                onChange={ ( e ) => setMeetingStartTime( e.target.value ) }
-                                                                                                value={ meetingStartTime }
+                                                                                                value={ meetingStartTime || '' }
                                                                                                 min={ getTodayDate() }
                                                                                                 required
                                                                                                 style={ formStyles.input }
@@ -1171,8 +1182,7 @@ function MeetingDetail ()
                                                                                             <Form.Control
                                                                                                 id='meetingDuration'
                                                                                                 type="number"
-                                                                                                onChange={ ( e ) => setMeetingDuration( e.target.value ) }
-                                                                                                value={ meetingDuration }
+                                                                                                value={ meetingDuration || '' }
                                                                                                 required
                                                                                                 placeholder="Masukkan durasi meeting"
                                                                                                 style={ formStyles.input }
@@ -1184,7 +1194,7 @@ function MeetingDetail ()
                                                                                                 variant='btn'
                                                                                                 id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
                                                                                                 onClick={ handleSubmiNewToken }
-                                                                                                disabled={ disabled || !meetingTopic || !meetingStartTime || !meetingDuration }
+                                                                                                disabled={ disabled }
                                                                                             >
                                                                                                 Buat Meeting
                                                                                             </Button>

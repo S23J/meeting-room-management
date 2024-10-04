@@ -63,7 +63,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
     const columns = useMemo(
         () => [
             {
-                header: 'Nama User',
+                header: 'Nama',
                 id: 'nama_user',
                 accessorFn: row => (
                     <>
@@ -102,7 +102,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleShowEditAlat( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 24 } color='#0079FF' />&nbsp;
+                            &nbsp;<BsFillPencilFill size={ 20 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -119,7 +119,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<FaWindowClose size={ 24 } color='#FF0060' />&nbsp;
+                            &nbsp;<FaWindowClose size={ 20 } color='#FF0060' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -146,7 +146,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
             sorting: [
                 {
                     id: 'nama_user',
-                    desc: true,
+                    asc: true,
                 },
             ],
         },

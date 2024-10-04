@@ -13,7 +13,7 @@ import { PiUserCircleGearLight } from 'react-icons/pi'
 function SidebarComponent ()
 {
 
-    const { showSidebar, mobileSidebar, toggleSidebar, toggleMobileSidebar } = useContext( AuthContext );
+    const { userInfo, showSidebar, mobileSidebar, toggleSidebar, toggleMobileSidebar } = useContext( AuthContext );
     const { theme, setTheme } = useContext( ThemeContext );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const location = useLocation();
@@ -67,26 +67,36 @@ function SidebarComponent ()
                     collapsed={ showSidebar }
                     defaultCollapsed={ true }
                     onToggle={ toggleSidebar }
-                    style={ { display: 'flex', flexDirection: 'column', height: '100vh', border: 'none' } }
+                    style={ { display: 'flex', flexDirection: 'column', height: '100vh' } }
                 >
                     <Menu style={ { minHeight: '95%', overflowY: 'hidden' } }>
-                        <Container id='sidebarHeader' className='mx-auto mt-4'>
+                        <Container id='sidebarHeader' className='px-auto py-2 text-center'>
                             <Image
-                                className={ showSidebar ? 'collapsed' : 'expanded' }
+                                className={ showSidebar ? 'collapsed' : 'expanded pt-4' }
                                 src={ LogoFlashklikMrm }
                                 fluid
-                                width={ 300 }
+                                width={ 180 }
                                 style={ { position: showSidebar ? 'absolute' : 'relative' } }
                             />
                             <Image
-                                className={ showSidebar ? 'expanded' : 'collapsed' }
+                                className={ showSidebar ? 'expanded pt-4' : 'collapsed' }
                                 src={ LogoBundar }
                                 fluid
-                                width={ 300 }
+                                width={ 180 }
                                 style={ { position: showSidebar ? 'relative' : 'absolute', top: 0, left: 0 } }
                             />
                         </Container>
-                        <div style={ { minHeight: '9vh' } }></div>
+                        <div className='text-center mt-4' style={ { minHeight: '9vh' } } >
+                            {/* {
+                                showSidebar ?
+
+                                    <></>
+                                    :
+                                    <p style={ { fontFamily: 'Poppins-Medium', fontSize: '17px', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
+                                        { userInfo?.first_name } { userInfo?.last_name }
+                                    </p>
+                            } */}
+                        </div>
                         <div className='icon-box-sidebar'
                             onClick={ toggleSidebar }
                             style={ { left: showSidebar ? '70px' : '200px', cursor: 'pointer' } }
@@ -168,14 +178,14 @@ function SidebarComponent ()
                     </Menu>
                     <div className='mt-auto text-center' style={ { fontFamily: 'Poppins-Medium', fontSize: '13px' } }>
                         <span className="theme-toggle-container">
-                            <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#FFFFFF' } />
+                            <CiLight size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                             <Form.Check
                                 type="switch"
                                 className="custom-switch"
                                 checked={ theme === 'light' }
                                 onChange={ handleToggle }
                             />
-                            <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#FFFFFF' } />
+                            <CiDark size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                         </span>
 
                     </div>
@@ -184,7 +194,7 @@ function SidebarComponent ()
                 <>
                     <Sidebar
                             id={ theme === 'light' ? 'mySidebarDark' : 'mySidebarLight' }
-                            backgroundColor={ theme === 'light' ? '#222222' : '#000A2E' }
+                            backgroundColor={ theme === 'light' ? '#222222' : '#FFFFFF' }
                         width='210px'
                         onBackdropClick={ toggleMobileSidebar }
                         toggled={ mobileSidebar }
@@ -192,14 +202,24 @@ function SidebarComponent ()
                         style={ { display: 'flex', flexDirection: 'column', height: '100vh' } }
                     >
                         <Menu style={ { minHeight: '95%', overflowY: 'hidden' } }>
-                            <Container id='sidebarHeader' className='mx-auto mt-4'>
+                                <Container id='sidebarHeader' className='px-auto py-2'>
                                 <Image
                                     src={ LogoFlashklikMrm }
                                     fluid
                                     width={ 300 }
                                 />
                             </Container>
-                            <div style={ { minHeight: '9vh' } }></div>
+                                <div className='text-center mt-4' style={ { minHeight: '9vh' } } >
+                                    {
+                                        showSidebar ?
+
+                                            <></>
+                                            :
+                                            <p style={ { fontFamily: 'Poppins-Medium', fontSize: '17px', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
+                                                { userInfo?.first_name } { userInfo?.last_name }
+                                            </p>
+                                    }
+                                </div>
                             <div className='icon-box-sidebar'
                                 onClick={ toggleMobileSidebar }
                                 style={ { left: mobileSidebar ? '0px' : '0px', cursor: 'pointer' } }

@@ -7,6 +7,7 @@ import { CiRead } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import { IoMdEye } from 'react-icons/io';
+import { FaInfoCircle } from 'react-icons/fa';
 
 
 function TabsHistoryMeetingDark ()
@@ -141,11 +142,11 @@ function TabsHistoryMeetingDark ()
     const columns = useMemo(
         () => [
             {
-                header: 'Detail',
+                header: 'Info',
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<IoMdEye size={ 24 } color='#FFEB00' />&nbsp;
+                            &nbsp;<FaInfoCircle size={ 20 } color='#FFEB00' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -158,7 +159,7 @@ function TabsHistoryMeetingDark ()
                 },
             },
             {
-                header: 'Request by',
+                header: 'Permintaan dari',
                 accessorKey: 'user_name',
                 mantineTableHeadCellProps: {
                     align: 'center',
@@ -202,7 +203,18 @@ function TabsHistoryMeetingDark ()
                 accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { cell.getValue() === 'Online' ? 'Online' : 'Offline' }
+                        {/* { cell.getValue() === 'Online' ? 'Online' : 'Offline' } */ }
+                        { ( () =>
+                        {
+                            switch ( cell.getValue() ) {
+                                case 'Online':
+                                    return <span style={ { color: '#4158A6' } }>Online</span>;
+                                case 'Offline':
+                                    return <span >Offline</span>;
+                                default:
+                                    return null;
+                            }
+                        } )() }
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -223,7 +235,7 @@ function TabsHistoryMeetingDark ()
                                 case 'approved':
                                     return <span style={ { color: 'green' } }>Approved</span>;
                                 case 'denied':
-                                    return <span style={ { color: 'red' } }>Ditolak</span>;
+                                    return <span style={ { color: '#FF0060' } }>Ditolak</span>;
                                 default:
                                     return null;
                             }

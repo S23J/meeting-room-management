@@ -9,7 +9,7 @@ import axios from '../../../../api/axios';
 import { ModalAddRuangan, ModalEditRuangan } from '../../../Modal';
 import { IoMdEye } from 'react-icons/io';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { FaWindowClose } from 'react-icons/fa';
+import { FaInfoCircle, FaWindowClose } from 'react-icons/fa';
 
 
 function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
@@ -71,11 +71,11 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
     const columns = useMemo(
         () => [
             {
-                header: 'Detail',
+                header: 'Info',
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailRuangan( row.id ) }>
-                            &nbsp;<IoMdEye size={ 24 } color='#4158A6' />&nbsp;
+                            &nbsp;<FaInfoCircle size={ 20 } color='#4158A6' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -123,7 +123,7 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleShowEditRuangan( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 24 } color='#0079FF' />&nbsp;
+                            &nbsp;<BsFillPencilFill size={ 20 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -140,7 +140,7 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<FaWindowClose size={ 24 } color='#FF0060' />&nbsp;
+                            &nbsp;<FaWindowClose size={ 20 } color='#FF0060' />&nbsp;
                         </Button>
                     </div>
                 ),

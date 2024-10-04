@@ -135,7 +135,7 @@ function TabsRequestMeetingDark ()
     const columns = useMemo(
         () => [
             {
-                header: 'Request by',
+                header: 'Permintaan dari',
                 accessorKey: 'user_name',
                 mantineTableHeadCellProps: {
                     align: 'left',
@@ -179,7 +179,18 @@ function TabsRequestMeetingDark ()
                 accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { cell.getValue() === 'Online' ? 'Online' : 'Offline' }
+                        {/* { cell.getValue() === 'Online' ? 'Online' : 'Offline' } */ }
+                        { ( () =>
+                        {
+                            switch ( cell.getValue() ) {
+                                case 'Online':
+                                    return <span style={ { color: '#4158A6' } }>Online</span>;
+                                case 'Offline':
+                                    return <span >Offline</span>;
+                                default:
+                                    return null;
+                            }
+                        } )() }
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -204,11 +215,11 @@ function TabsRequestMeetingDark ()
                 },
             },
             {
-                header: 'Approval',
+                header: 'Proses',
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaPaperPlane size={ 24 } color='#0079FF' />&nbsp;
+                            &nbsp;<FaPaperPlane size={ 20 } color='#0079FF' />&nbsp;
                         </Button>
                     </div>
                 ),

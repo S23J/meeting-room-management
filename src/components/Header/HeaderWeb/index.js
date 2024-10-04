@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext, ThemeContext } from '../../../auth';
 import axios from '../../../api/axios';
+import { BsGearFill } from 'react-icons/bs';
+import { IoIosNotifications } from 'react-icons/io';
 
 
 
 function HeaderWeb ()
 {
-    const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
+    const { tokens, setTokens, setUserInfo } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
     const [ meetingList, setMeetingList ] = useState( [] );
@@ -145,20 +147,20 @@ function HeaderWeb ()
     return (
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
-                <Dropdown drop='start' style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '280px', top: '12px' } } >
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } >
-                        <CiBellOn size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                <Dropdown drop='start' style={ { marginRight: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px' } }>
+                        <IoIosNotifications size={ 22 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                         {
                             meetingList?.length === 0 ? (
                                 <></>
                             ) : (
-                                <Badge style={ { fontFamily: 'Poppins-Regular', position: 'absolute', right: '10px', top: '0px' } }>{ meetingList?.length }</Badge>
+                                    <Badge style={ { fontFamily: 'Poppins-Regular' } }>{ meetingList?.length }</Badge>
                             )
                         }
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                         id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }
-                        style={ { overflowY: 'auto', maxHeight: '200px', } }
+                        style={ { overflowY: 'auto', maxHeight: '200px' } }
                     >
                         {
                             meetingList.map( ( data, index ) =>
@@ -197,16 +199,10 @@ function HeaderWeb ()
                         }
                     </Dropdown.Menu>
                 </Dropdown>
-                {/* <div >
-                   
-                   
-                </div> */}
-                <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
-                    { userInfo?.first_name } { userInfo?.last_name }
-                </span>
-                <Dropdown className='ms-2'>
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                        <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+
+                <Dropdown drop='start' style={ { marginLeft: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px' } }>
+                        <BsGearFill size={ 18 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                         <Dropdown.Item
@@ -220,7 +216,6 @@ function HeaderWeb ()
                     </Dropdown.Menu>
                 </Dropdown>
             </span>
-
         </>
     )
 }

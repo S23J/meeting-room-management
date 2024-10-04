@@ -26,6 +26,7 @@ function ChartComponent ()
     const { tokens, userInfo } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
+    const isMobile = useMediaQuery( { maxWidth: 767 } );
     const [ historyMeeting, setHistoryMeeting ] = useState( [] );
     const today = new Date();
     const year = today.getFullYear();
@@ -81,42 +82,27 @@ function ChartComponent ()
 
     const data = {
         labels: [
-            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+            'Jul', 'Agust', 'Sept', 'Okt', 'Nov', 'Des'
         ],
         datasets: [
             {
                 label: `Jumlah Meeting`,
                 backgroundColor: [
-                    '#003f5c',
                     '#2f4b7c',
-                    '#665191',
-                    '#a05195',
-                    '#d45087',
-                    '#f95d6a',
-                    '#ff7c43',
-                    '#ffa600',
-                    '#FFE500',
-                    '#8FFF00',
-                    '#24FF00',
-                    '#00FF85'
                 ],
                 borderColor: [
-                    '#003f5c',
                     '#2f4b7c',
-                    '#665191',
-                    '#a05195',
-                    '#d45087',
-                    '#f95d6a',
-                    '#ff7c43',
-                    '#ffa600',
-                    '#FFE500',
-                    '#8FFF00',
-                    '#24FF00',
-                    '#00FF85'
                 ],
                 borderWidth: 1,
                 data: meetingsPerMonth,
+                barThickness: 15,
+                borderRadius: {
+                    topLeft: 10,
+                    topRight: 10,
+                    bottomLeft: 0,
+                    bottomRight: 0
+                },
             },
         ],
     };
@@ -137,27 +123,19 @@ function ChartComponent ()
                     display: false
                 },
                 border: {
-                    color: theme === 'light' ? 'white' : '#222',
+                    display: false
                 }
             },
             y: {
-                beginAtZero: true,
-                ticks: {
-                    color: theme === 'light' ? 'white' : '#222',
-                },
-                grid: {
-                    display: false
-                },
-                border: {
-                    color: theme === 'light' ? 'white' : '#222',
-                }
+                display: false,
             }
-        }
+        },
+        indexAxis: isMobile ? 'y' : 'x',
     };
 
     return (
 
-        <div className={ theme === 'light' ? 'card-chart-dark' : 'card-chart-light' }>
+        <div >
             <h5 className='text-center py-3' style={ { fontFamily: 'Poppins-Regular' } }>Jumlah Meeting per Tahun</h5>
             <div className='my-2 ms-2' style={ { maxWidth: '160px' } }>
                 <Form.Select
@@ -173,7 +151,7 @@ function ChartComponent ()
                     <option value={ year - 4 }>{ year - 4 }</option>
                 </Form.Select>
             </div>
-            <Bar data={ data } options={ options } id='myCanvas' height={ 90 } className='py-3 px-3' />
+            <Bar data={ data } options={ options } height={ isMobile ? 500 : 90 } className='py-3 px-3' />
         </div>
     )
 }

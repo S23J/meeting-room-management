@@ -397,16 +397,6 @@ function RuanganDetail ()
         };
     }, [] );
 
-    const [ isPasswordVisible, setPasswordVisible ] = useState( false );
-
-    // Function to toggle the visibility
-    const togglePasswordVisibility = () =>
-    {
-        setPasswordVisible( !isPasswordVisible );
-    };
-
-    const pin = detailRuangan?.pincode;
-
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
@@ -415,7 +405,7 @@ function RuanganDetail ()
                     <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
-                                Detail Ruangan
+                                Informasi Ruangan
                             </h3>
                         </Col>
                         <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
@@ -437,17 +427,10 @@ function RuanganDetail ()
                             <Card id={ theme === 'light' ? 'cardDetailRuanganDark' : 'cardDetailRuanganLight' }>
                                 <Card.Body>
                                     <Row>
-                                        <Col xs={ 6 } className='text-start'>
-                                            <p
-                                                className='head-content'
-                                            >
-                                                Detail Ruangan
-                                            </p>
-                                        </Col>
-                                        <Col xs={ 6 } className='text-end'>
+                                        <Col xs={ 12 } className='text-end'>
                                             <Dropdown drop='start'>
-                                                <Dropdown.Toggle variant="btn" >
-                                                    <BsGearFill size={ 30 } color='#44c251' />
+                                                <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
+                                                    <BsGearFill size={ 25 } color='#acacac' />
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                                                     {
@@ -488,7 +471,7 @@ function RuanganDetail ()
                                                         onClick={ handleShowAddUUID }
                                                         style={ { color: theme === 'light' ? '#FFFFFF' : '#222', fontFamily: 'Poppins-Regular' } }
                                                     >
-                                                        Setup UUID Ruangan
+                                                        Tambah UUID Ruangan
                                                     </Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
@@ -523,7 +506,7 @@ function RuanganDetail ()
                                         <p
                                             className='head-content text-center'
                                         >
-                                            Detail Akun
+                                            Info Akun
                                         </p>
                                         { loading ? (
                                             <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
@@ -558,7 +541,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleShowEditAkun( data ) }
                                                                             >
-                                                                                <BsFillPencilFill size={ 24 } color='#0079FF' />
+                                                                                <BsFillPencilFill size={ 20 } color='#0079FF' />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
@@ -566,7 +549,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleDeleteAkun( data.id ) }
                                                                             >
-                                                                                <FaWindowClose size={ 24 } color='#FF0060' />
+                                                                                <FaWindowClose size={ 20 } color='#FF0060' />
                                                                             </Button>
                                                                         </td>
                                                                     </tr>
@@ -585,7 +568,7 @@ function RuanganDetail ()
                                                 <p
                                                     className='head-content'
                                                 >
-                                                    Detail Perlengkapan
+                                                    Info Perlengkapan
                                                 </p>
                                             </Col>
                                             <Col className='text-end'>
@@ -627,7 +610,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleShowEditAlat( data ) }
                                                                             >
-                                                                                <BsFillPencilFill size={ 24 } color='#0079FF' />
+                                                                                <BsFillPencilFill size={ 20 } color='#0079FF' />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
@@ -635,7 +618,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleDelete( data.id ) }
                                                                             >
-                                                                                <FaWindowClose size={ 24 } color='#FF0060' />
+                                                                                <FaWindowClose size={ 20 } color='#FF0060' />
                                                                             </Button>
                                                                         </td>
                                                                     </tr>
@@ -656,7 +639,7 @@ function RuanganDetail ()
                                     <p
                                         className='head-content text-center'
                                     >
-                                        Upcoming Meeting
+                                        Meeting Yang Akan Datang
                                     </p>
                                     { loading ? (
                                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
@@ -669,7 +652,7 @@ function RuanganDetail ()
                                                         <tr style={ { fontFamily: 'Poppins-Regular', textAlign: 'center' } }>
                                                             <th>#</th>
                                                             <th>Nama Meeting</th>
-                                                            <th>Request by</th>
+                                                            <th>Permintaan dari</th>
                                                             <th>Tanggal</th>
                                                             <th>Mulai</th>
                                                             <th>Selesai</th>
