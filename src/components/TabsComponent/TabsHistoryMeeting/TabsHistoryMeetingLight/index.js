@@ -146,7 +146,7 @@ function TabsHistoryMeetingLight ()
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaInfoCircle size={ 20 } color='#4158A6' />&nbsp;
+                            &nbsp;<FaInfoCircle size={ 20 } color='#006CB8' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -208,7 +208,7 @@ function TabsHistoryMeetingLight ()
                         {
                             switch ( cell.getValue() ) {
                                 case 'Online':
-                                    return <span style={ { color: '#4158A6' } }>Online</span>;
+                                    return <span style={ { color: '#006CB8' } }>Online</span>;
                                 case 'Offline':
                                     return <span >Offline</span>;
                                 default:
@@ -233,9 +233,9 @@ function TabsHistoryMeetingLight ()
                         {
                             switch ( cell.getValue() ) {
                                 case 'approved':
-                                    return <span style={ { color: 'green' } }>Disetujui</span>;
+                                    return <span style={ { color: '#84C38A' } }>Disetujui</span>;
                                 case 'denied':
-                                    return <span style={ { color: 'red' } }>Ditolak</span>;
+                                    return <span style={ { color: '#FF0060' } }>Ditolak</span>;
                                 default:
                                     return null;
                             }
@@ -277,7 +277,7 @@ function TabsHistoryMeetingLight ()
         <>
             { loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                    <Spinner animation="border" variant="primary" />
+                    <Spinner animation='border' style={ { color: '#006CB8' } } />
                 </div>
             ) : (
                     <MantineReactTable

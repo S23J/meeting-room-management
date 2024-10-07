@@ -101,7 +101,7 @@ function TableUserDark ( { tokenUser, listUser, retrieveUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleShowEditAlat( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 20 } color='#0079FF' />&nbsp;
+                            &nbsp;<BsFillPencilFill size={ 20 } color='#FFF471' />&nbsp;
                         </Button>
                     </div>
                 ),

@@ -140,7 +140,7 @@ function TabsTodaysMeetingDark ()
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaInfoCircle size={ 20 } color='#FFEB00' />&nbsp;
+                            &nbsp;<FaInfoCircle size={ 20 } color='#FFF471' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -202,7 +202,7 @@ function TabsTodaysMeetingDark ()
                         {
                             switch ( cell.getValue() ) {
                                 case 'Online':
-                                    return <span style={ { color: '#4158A6' } }>Online</span>;
+                                    return <span style={ { color: '#FFF471' } }>Online</span>;
                                 case 'Offline':
                                     return <span >Offline</span>;
                                 default:
@@ -276,7 +276,7 @@ function TabsTodaysMeetingDark ()
         <>
             { loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                    <Spinner animation="border" variant="primary" />
+                    <Spinner animation='border' style={ { color: '#FFF471' } } />
                 </div>
             ) : (
                     <MantineReactTable

@@ -184,7 +184,7 @@ function TabsRequestMeetingDark ()
                         {
                             switch ( cell.getValue() ) {
                                 case 'Online':
-                                    return <span style={ { color: '#4158A6' } }>Online</span>;
+                                    return <span style={ { color: '#FFF471' } }>Online</span>;
                                 case 'Offline':
                                     return <span >Offline</span>;
                                 default:
@@ -219,7 +219,7 @@ function TabsRequestMeetingDark ()
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaPaperPlane size={ 20 } color='#0079FF' />&nbsp;
+                            &nbsp;<FaPaperPlane size={ 20 } color='#FFF471' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -261,7 +261,7 @@ function TabsRequestMeetingDark ()
         <>
             { loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                    <Spinner animation="border" variant="primary" />
+                    <Spinner animation='border' style={ { color: '#FFF471' } } />
                 </div>
             ) : (
                     <MantineReactTable

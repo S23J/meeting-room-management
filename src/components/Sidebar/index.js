@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Container, Form, Image } from 'react-bootstrap'
-import { LogoBundar, LogoFlashklikMrm } from '../../assets'
+import { LogoBundar, LogoBundarDark, LogoFlashklikMrm, LogoFlashklikMrmDark } from '../../assets'
 import { NavLink, useLocation } from 'react-router-dom'
 import { AuthContext, ThemeContext } from '../../auth'
 import { useMediaQuery } from 'react-responsive'
@@ -73,29 +73,20 @@ function SidebarComponent ()
                         <Container id='sidebarHeader' className='px-auto py-2 text-center'>
                             <Image
                                 className={ showSidebar ? 'collapsed' : 'expanded pt-4' }
-                                src={ LogoFlashklikMrm }
+                                src={ theme === 'light' ? LogoFlashklikMrmDark : LogoFlashklikMrm }
                                 fluid
-                                width={ 180 }
+                                width={ theme === 'light' ? 180 : 180 }
                                 style={ { position: showSidebar ? 'absolute' : 'relative' } }
                             />
                             <Image
                                 className={ showSidebar ? 'expanded pt-4' : 'collapsed' }
-                                src={ LogoBundar }
+                                src={ theme === 'light' ? LogoBundarDark : LogoBundar }
                                 fluid
-                                width={ 180 }
+                                width={ theme === 'light' ? 45 : 180 }
                                 style={ { position: showSidebar ? 'relative' : 'absolute', top: 0, left: 0 } }
                             />
                         </Container>
                         <div className='text-center mt-4' style={ { minHeight: '9vh' } } >
-                            {/* {
-                                showSidebar ?
-
-                                    <></>
-                                    :
-                                    <p style={ { fontFamily: 'Poppins-Medium', fontSize: '17px', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
-                                        { userInfo?.first_name } { userInfo?.last_name }
-                                    </p>
-                            } */}
                         </div>
                         <div className='icon-box-sidebar'
                             onClick={ toggleSidebar }
@@ -210,15 +201,6 @@ function SidebarComponent ()
                                 />
                             </Container>
                                 <div className='text-center mt-4' style={ { minHeight: '9vh' } } >
-                                    {
-                                        showSidebar ?
-
-                                            <></>
-                                            :
-                                            <p style={ { fontFamily: 'Poppins-Medium', fontSize: '17px', color: theme === 'light' ? '#FFFFFF' : '#222222' } }>
-                                                { userInfo?.first_name } { userInfo?.last_name }
-                                            </p>
-                                    }
                                 </div>
                             <div className='icon-box-sidebar'
                                 onClick={ toggleMobileSidebar }

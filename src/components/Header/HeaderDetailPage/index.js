@@ -64,7 +64,7 @@ function HeaderDetailPage ()
 
     return (
         <>
-            <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
+            {/* <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
                 <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
                     { userInfo?.first_name } { userInfo?.last_name }
                 </span>
@@ -83,7 +83,7 @@ function HeaderDetailPage ()
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-            </span>
+            </span> */}
 
         </>
     )

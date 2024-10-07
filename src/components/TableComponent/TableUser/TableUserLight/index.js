@@ -102,7 +102,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleShowEditAlat( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 20 } color='#0079FF' />&nbsp;
+                            &nbsp;<BsFillPencilFill size={ 20 } color='#006CB8' />&nbsp;
                         </Button>
                     </div>
                 ),

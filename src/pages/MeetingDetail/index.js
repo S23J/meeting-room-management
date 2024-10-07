@@ -945,7 +945,42 @@ function MeetingDetail ()
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div>
+                <div className='pt-4'>
+                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '83vw' } }>
+                        <Col xs={ 6 } lg={ 6 } className='text-start'>
+                            <h3 className='' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
+                                Informasi Meeting
+                            </h3>
+                        </Col>
+                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
+                            <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
+                                { meeting?.status === 'processing' ? (
+                                    <>
+                                        {
+                                            meeting?.online === true ?
+                                                (
+                                                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting.link_meeting }>Setuju</Button>
+                                                )
+                                                :
+                                                (
+                                                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
+                                                )
+                                        }
+                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
+                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
+                                    </>
+                                )
+                                    :
+                                    (
+                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } className='me-1' onClick={ buttonBack }>Kembali</Button>
+                                    )
+                                }
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+
+                {/* <div>
                     <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
                             {
@@ -971,8 +1006,8 @@ function MeetingDetail ()
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
+                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } /> */}
+                {/* <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     { meeting?.status === 'processing' ? (
                         <>
                             {
@@ -994,7 +1029,7 @@ function MeetingDetail ()
                             <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } className='me-1' onClick={ buttonBack }>Kembali</Button>
                         )
                     }
-                </div>
+                </div> */}
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <Row>
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='my-2'>
@@ -1017,9 +1052,9 @@ function MeetingDetail ()
                                                     {
                                                         switch ( meeting?.status ) {
                                                             case 'approved':
-                                                                return <span style={ { color: 'green' } }>Approved</span>;
+                                                                return <span style={ { color: '#84C38A' } }>Disetujui</span>;
                                                             case 'denied':
-                                                                return <span style={ { color: 'red' } }>Ditolak</span>;
+                                                                return <span style={ { color: '#FF0060' } }>Ditolak</span>;
                                                             default:
                                                                 return null;
                                                         }
@@ -1033,7 +1068,7 @@ function MeetingDetail ()
                                             <Row>
                                                 { loading ? (
                                                     <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                                        <Spinner animation="border" variant="primary" />
+                                                        <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                                     </div>
                                                 ) : (
                                                     <>
@@ -1252,7 +1287,7 @@ function MeetingDetail ()
                                     </p>
                                     { loading ? (
                                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                            <Spinner animation="border" variant="primary" />
+                                            <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                         </div>
                                     ) : (
                                             <div>
@@ -1311,7 +1346,7 @@ function MeetingDetail ()
                                     </p>
                                     { loading ? (
                                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                            <Spinner animation="border" variant="primary" />
+                                            <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                         </div>
                                     ) : (
                                             <div>

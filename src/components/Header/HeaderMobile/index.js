@@ -6,17 +6,23 @@ import Swal from 'sweetalert2';
 import axios from '../../../api/axios';
 import { Badge, Button, Dropdown } from 'react-bootstrap';
 import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
+import { BsGearFill } from 'react-icons/bs';
+import { IoIosNotifications } from 'react-icons/io';
 
 function HeaderMobile ()
 {
-    const { userInfo, tokens, setTokens, setUserInfo } = useContext( AuthContext );
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const { tokens, setTokens, setUserInfo } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
     const [ meetingList, setMeetingList ] = useState( [] );
     const [ previousFilteredData, setPreviousFilteredData ] = useState( [] );
+
     const navigate = useNavigate();
 
+    const handleMeetingPage = ( data ) =>
+    {
+        navigate( "/detail-meeting/" + data )
+    }
 
     const retrieveMeeting = () =>
     {
@@ -46,8 +52,10 @@ function HeaderMobile ()
 
     useEffect( () =>
     {
-        retrieveMeeting();
-        const interval = setInterval( retrieveMeeting, 60000 );
+        const interval = setInterval( () =>
+        {
+            if ( tokenUser !== undefined ) retrieveMeeting();
+        }, 5000 );
         return () => clearInterval( interval );
     }, [] );
 
@@ -75,6 +83,17 @@ function HeaderMobile ()
             } );
         }
     }, [ meetingList, previousFilteredData ] );
+
+    // console.log( meetingList )
+
+    const truncateText = ( text, maxLength ) =>
+    {
+        if ( text.length > maxLength ) {
+            return text.slice( 0, maxLength ) + '...';
+        }
+        return text;
+    };
+
 
     const LogoutSession = async () =>
     {
@@ -126,13 +145,91 @@ function HeaderMobile ()
 
     return (
         <>
-            <span className="container-logout-mobile" style={ { fontFamily: 'Poppins-Regular' } }>
-                <span style={ { color: theme === 'light' ? '#FFFFFF' : '' } }>
-                    { userInfo?.first_name } { userInfo?.last_name }
-                </span>
+
+            <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
+                <Dropdown drop='start' style={ { marginRight: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px' } }>
+                        <IoIosNotifications size={ 22 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
+                        {
+                            meetingList?.length === 0 ? (
+                                <></>
+                            ) : (
+                                <Badge
+                                    style={ {
+                                        fontFamily: 'Poppins-Regular',
+                                        position: 'absolute',
+                                        right: '5px',
+                                        top: '0px',
+                                        borderRadius: '50%'
+                                    } }
+                                >
+                                    { meetingList?.length }
+                                </Badge>
+                            )
+                        }
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                        id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }
+                        style={ { overflowY: 'auto', maxHeight: '200px' } }
+                    >
+                        {
+                            meetingList.map( ( data, index ) =>
+                            {
+
+                                return (
+                                    <Dropdown.Item
+                                        id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
+                                        className="d-flex align-items-center justify-content-center my-3"
+                                        key={ index }
+                                        style={ { cursor: 'default' } }
+                                    >
+                                        <div
+                                            style={ {
+                                                color: theme === 'light' ? '#FFFFFF' : '#707070',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                borderBottom: theme === 'light' ? '2px dashed #FFFFFF' : '2px dashed #000A2E'
+                                            } }
+                                        >
+                                            <p className="mb-3" style={ { margin: 0, marginRight: '10px' } }>
+                                                { truncateText( data?.nama_meeting, 15 ) }
+                                            </p>
+                                            <Button
+                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
+                                                variant="btn"
+                                                className="mb-3"
+                                                onClick={ () => handleMeetingPage( data.id ) }
+                                            >
+                                                Proses
+                                            </Button>
+                                        </div>
+                                    </Dropdown.Item>
+                                )
+                            } )
+                        }
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                <Dropdown drop='start' style={ { marginLeft: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px' } }>
+                        <BsGearFill size={ 18 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
+                        <Dropdown.Item
+                            id={ theme === 'light' ? 'dropdownItem1Dark' : 'dropdownItem1Light' }
+                            className="d-flex align-items-center justify-content-center my-3"
+                            onClick={ LogoutSession }
+                        >
+                            <CiLogout size={ 25 } className='me-2' color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                            <span style={ { fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070' } }>Keluar</span>
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </span>
+            {/* <span className="container-logout-mobile" style={ { fontFamily: 'Poppins-Regular' } }>
                 <Dropdown >
                     <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                        <CiUser size={ 30 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
+                        <BsGearFill size={ 18 } color={ theme === 'light' ? '#FFFFFF' : '#707070' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                         <Dropdown.Item
@@ -159,7 +256,7 @@ function HeaderMobile ()
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-            </span>
+            </span> */}
         </>
     )
 }

@@ -75,7 +75,7 @@ function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => detailRuangan( row.id ) }>
-                            &nbsp;<FaInfoCircle size={ 20 } color='#FFEB00' />&nbsp;
+                            &nbsp;<FaInfoCircle size={ 20 } color='#FFF471' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -123,7 +123,7 @@ function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )
                 accessorFn: row => (
                     <div >
                         <Button variant='btn' onClick={ () => handleShowEditRuangan( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 20 } color='#0079FF' />&nbsp;
+                            &nbsp;<BsFillPencilFill size={ 20 } color='#FFF471' />&nbsp;
                         </Button>
                     </div>
                 ),

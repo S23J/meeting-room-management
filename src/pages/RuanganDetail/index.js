@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { HeaderDetailPage, HeaderMobile2, ModalAddAkun, ModalAddPerlengkapan, ModalAddUUID, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalEditUUID, ModalSetupUUID, ModalTambahPin, SidebarComponent } from '../../components';
+import { ModalAddAkun, ModalAddPerlengkapan, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalSetupUUID, ModalTambahPin, SidebarComponent } from '../../components';
 import { Button, Card, Col, Container, Dropdown, Row, Spinner, Table } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
-import { CiEdit, CiTrash } from 'react-icons/ci';
-import { BsEye, BsEyeSlash, BsFillPencilFill, BsGear, BsGearFill, BsPencil } from 'react-icons/bs';
+import { BsFillPencilFill, BsGearFill } from 'react-icons/bs';
 import { FaWindowClose } from 'react-icons/fa';
 
 function RuanganDetail ()
@@ -401,25 +400,19 @@ function RuanganDetail ()
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
+                <div className='pt-4'>
+                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '83vw' } }>
                         <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
+                            <h3 className='' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Informasi Ruangan
                             </h3>
                         </Col>
                         <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            { isMobile === false ? (
-                                <HeaderDetailPage />
-                            ) : (
-                                    <HeaderMobile2 />
-                            ) }
+                            <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '83vw' } }>
+                                <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
+                            </div>
                         </Col>
                     </Row>
-                </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
-                <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
-                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
                 </div>
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
                     <Row>
@@ -430,7 +423,7 @@ function RuanganDetail ()
                                         <Col xs={ 12 } className='text-end'>
                                             <Dropdown drop='start'>
                                                 <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' }>
-                                                    <BsGearFill size={ 25 } color='#acacac' />
+                                                    <BsGearFill size={ 25 } color={ theme === 'light' ? '#FFF471' : '#006CB8' } />
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>
                                                     {
@@ -479,7 +472,7 @@ function RuanganDetail ()
                                     </Row>
                                     { loading ? (
                                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                            <Spinner animation="border" variant="primary" />
+                                            <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                         </div>
                                     ) : (
                                         <div>
@@ -510,7 +503,7 @@ function RuanganDetail ()
                                         </p>
                                         { loading ? (
                                             <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                                <Spinner animation="border" variant="primary" />
+                                                <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                             </div>
                                         ) : (
                                             <div>
@@ -541,7 +534,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleShowEditAkun( data ) }
                                                                             >
-                                                                                <BsFillPencilFill size={ 20 } color='#0079FF' />
+                                                                                <BsFillPencilFill size={ 20 } color={ theme === 'light' ? '#FFF471' : '#006CB8' } />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
@@ -583,7 +576,7 @@ function RuanganDetail ()
                                         </Row>
                                         { loading ? (
                                             <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                                <Spinner animation="border" variant="primary" />
+                                                <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                             </div>
                                         ) : (
                                             <div>
@@ -610,7 +603,7 @@ function RuanganDetail ()
                                                                                 variant='btn'
                                                                                 onClick={ () => handleShowEditAlat( data ) }
                                                                             >
-                                                                                <BsFillPencilFill size={ 20 } color='#0079FF' />
+                                                                                <BsFillPencilFill size={ 20 } color={ theme === 'light' ? '#FFF471' : '#006CB8' } />
                                                                             </Button>
                                                                         </td>
                                                                         <td className='text-center'>
@@ -643,7 +636,7 @@ function RuanganDetail ()
                                     </p>
                                     { loading ? (
                                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                                            <Spinner animation="border" variant="primary" />
+                                            <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                                         </div>
                                     ) : (
                                             <div>

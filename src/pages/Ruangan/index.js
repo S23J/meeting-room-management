@@ -70,25 +70,24 @@ function Ruangan ()
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
                 <div>
                     <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84vw' } }>
-                        <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
+                        <Col xs={ 12 } lg={ 6 } className='text-start'>
+                            <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar Ruangan
                             </h3>
                         </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
+                        <Col xs={ 12 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
                             { isMobile === false ? (
                                 <HeaderDetailPage />
                             ) : (
-                                    <HeaderMobile2 />
+                                    <></>
                             ) }
                         </Col>
                     </Row>
                 </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '81vw', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } />
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '81vw' } }>
                     { loading ? (
                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                            <Spinner animation="border" variant="primary" />
+                            <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
                         </div>
                     ) : (
                         theme === 'light' ? (

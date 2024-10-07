@@ -154,7 +154,17 @@ function HeaderWeb ()
                             meetingList?.length === 0 ? (
                                 <></>
                             ) : (
-                                    <Badge style={ { fontFamily: 'Poppins-Regular' } }>{ meetingList?.length }</Badge>
+                                    <Badge
+                                        style={ {
+                                            fontFamily: 'Poppins-Regular',
+                                            position: 'absolute',
+                                            right: '5px',
+                                            top: '0px',
+                                            borderRadius: '50%'
+                                        } }
+                                    >
+                                        { meetingList?.length }
+                                    </Badge>
                             )
                         }
                     </Dropdown.Toggle>

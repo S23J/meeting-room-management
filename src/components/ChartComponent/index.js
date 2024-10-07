@@ -27,58 +27,74 @@ function ChartComponent ()
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
     const isMobile = useMediaQuery( { maxWidth: 767 } );
-    const [ historyMeeting, setHistoryMeeting ] = useState( [] );
-    const today = new Date();
-    const year = today.getFullYear();
-    const [ selectedYear, setSelectedYear ] = useState( year );
+    const [ meetingData, setMeetingData ] = useState( [] );
+    const [ listRuangan, setListRuangan ] = useState( [] );
+    const [ selectedRuangan, setSelectedRuangan ] = useState( null ); // State for selected room
+    const [ dataChart, setDataChart ] = useState( [] );
 
     const retrieveMeeting = () =>
     {
-        axios.get( `/manage/requests/`,
-            {
-                headers:
-                {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    withCredentials: true,
-                    Authorization: `Token ` + tokenUser,
-                },
-
-            } )
+        axios.get( `/manage/requests/`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true,
+                Authorization: `Token ${tokenUser}`,
+            },
+        } )
             .then( res =>
             {
-
                 const historyFilter = res.data.filter( item => item.status === "approved" && item.finished === true );
-                setHistoryMeeting( historyFilter );
-
-                // console.log( res.data )
-            } ).catch( err =>
+                setMeetingData( historyFilter );
+            } )
+            .catch( err =>
             {
                 console.error( err );
+            } );
+    };
+
+    const retrieveMRuangan = () =>
+    {
+        axios.get( `/manage/ruangan/`, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true,
+                Authorization: `Token ${tokenUser}`,
+            },
+        } )
+            .then( res =>
+            {
+                setListRuangan( res.data );
             } )
+            .catch( err =>
+            {
+                console.error( err );
+            } );
     };
 
     useEffect( () =>
     {
-        if ( tokenUser !== undefined ) retrieveMeeting();
+        if ( tokenUser !== undefined ) {
+            retrieveMeeting();
+            retrieveMRuangan();
+        }
     }, [ tokenUser ] );
 
-    const handleYearChange = ( e ) =>
+    useEffect( () =>
     {
-        setSelectedYear( e.target.value );
-    };
+        const meetingsPerMonth = Array( 12 ).fill( 0 ); // Initialize an array for each month
 
-    const meetingsPerMonth = Array( 12 ).fill( 0 );
+        meetingData.forEach( meeting =>
+        {
+            const monthIndex = new Date( meeting.waktu_mulai ).getMonth(); // Get the month index (0-11)
+            if ( !selectedRuangan || meeting.ruangan === selectedRuangan ) {
+                meetingsPerMonth[ monthIndex ]++; // Increment count for the corresponding month
+            }
+        } );
 
-    historyMeeting.forEach( ( meeting ) =>
-    {
-        const meetingDate = new Date( meeting.waktu_mulai );
-        const meetingYear = meetingDate.getFullYear();
-        if ( meetingYear === parseInt( selectedYear ) ) {
-            const meetingMonth = meetingDate.getMonth(); // Get the month (0 = January, 11 = December)
-            meetingsPerMonth[ meetingMonth ] += 1; // Count meetings for the month
-        }
-    } );
+        setDataChart( meetingsPerMonth );
+    }, [ meetingData, selectedRuangan ] );
 
     const data = {
         labels: [
@@ -89,13 +105,13 @@ function ChartComponent ()
             {
                 label: `Jumlah Meeting`,
                 backgroundColor: [
-                    '#2f4b7c',
+                    theme === 'light' ? '#FFF471' : '#006CB8',
                 ],
                 borderColor: [
-                    '#2f4b7c',
+                    theme === 'light' ? '#FFF471' : '#006CB8',
                 ],
                 borderWidth: 1,
-                data: meetingsPerMonth,
+                data: dataChart,
                 barThickness: 15,
                 borderRadius: {
                     topLeft: 10,
@@ -135,20 +151,28 @@ function ChartComponent ()
 
     return (
 
-        <div >
-            <h5 className='text-center py-3' style={ { fontFamily: 'Poppins-Regular' } }>Jumlah Meeting per Tahun</h5>
-            <div className='my-2 ms-2' style={ { maxWidth: '160px' } }>
+        <div>
+            <h5 className='text-center py-3' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '#222' } }>Jumlah Meeting per Ruangan</h5>
+            <div className='my-2 d-flex justify-content-center'>
                 <Form.Select
-                    id={ theme === 'light' ? 'select-year-chart-dark' : 'select-year-chart-light' }
-                    aria-label="Select Year"
-                    onChange={ ( e ) => setSelectedYear( parseInt( e.target.value ) ) }
-                    value={ selectedYear }
+                    id={ theme === 'light' ? 'select-chart-dark' : 'select-chart-light' }
+                    onChange={ ( e ) => setSelectedRuangan( e.target.value ? parseInt( e.target.value ) : null ) }
+                    defaultValue=""
+                    style={ {
+                        width: 'auto',
+                        maxWidth: '160px',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        fontSize: '15px'
+                    } }
                 >
-                    <option value={ year }>{ year }</option>
-                    <option value={ year - 1 }>{ year - 1 }</option>
-                    <option value={ year - 2 }>{ year - 2 }</option>
-                    <option value={ year - 3 }>{ year - 3 }</option>
-                    <option value={ year - 4 }>{ year - 4 }</option>
+                    <option value="">Pilih Ruangan</option>
+                    { listRuangan.map( ( ruangan ) => (
+                        <option key={ ruangan.id } value={ ruangan.id }>
+                            { ruangan.nama_ruangan }
+                        </option>
+                    ) ) }
                 </Form.Select>
             </div>
             <Bar data={ data } options={ options } height={ isMobile ? 500 : 90 } className='py-3 px-3' />
