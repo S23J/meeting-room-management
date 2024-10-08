@@ -23,13 +23,13 @@ ChartJS.register( ArcElement, CategoryScale, LinearScale, BarElement, Title, Too
 
 function ChartComponent ()
 {
-    const { tokens, userInfo } = useContext( AuthContext );
+    const { tokens } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const [ meetingData, setMeetingData ] = useState( [] );
     const [ listRuangan, setListRuangan ] = useState( [] );
-    const [ selectedRuangan, setSelectedRuangan ] = useState( null ); // State for selected room
+    const [ selectedRuangan, setSelectedRuangan ] = useState( null );
     const [ dataChart, setDataChart ] = useState( [] );
 
     const retrieveMeeting = () =>
@@ -44,7 +44,15 @@ function ChartComponent ()
         } )
             .then( res =>
             {
-                const historyFilter = res.data.filter( item => item.status === "approved" && item.finished === true );
+                const currentYear = new Date().getFullYear();
+
+                const historyFilter = res.data.filter( item =>
+                {
+                    const meetingDate = new Date( item.waktu_selesai );
+                    const meetingYear = meetingDate.getFullYear();
+                    return item.status === "approved" && item.finished === true && meetingYear === currentYear;
+                } );
+
                 setMeetingData( historyFilter );
             } )
             .catch( err =>
