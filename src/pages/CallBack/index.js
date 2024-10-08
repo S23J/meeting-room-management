@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
-import { LogoBundar } from '../../assets';
-import Swal from 'sweetalert2';
 
 function Callback ()
 {

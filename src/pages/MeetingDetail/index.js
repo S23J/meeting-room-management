@@ -3,13 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext, ThemeContext } from '../../auth';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
-import
-{
-    HeaderDetailPage,
-    HeaderMobile2,
-    SidebarComponent,
-}
-    from '../../components';
+import { SidebarComponent } from '../../components';
 import { Button, Card, Col, Container, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 
@@ -64,18 +58,17 @@ function MeetingDetail ()
                 setStartTime( res?.data.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
                 setEndTime( res?.data.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) );
 
-                // Set start meeting time for the "Mulai Meeting" field
-                const formattedWaktuMulai = res.data.waktu_mulai.slice( 0, -1 ); // Remove the "Z" for compatibility with datetime-local
+
+                const formattedWaktuMulai = res.data.waktu_mulai.slice( 0, -1 );
                 setMeetingStartTime( formattedWaktuMulai );
 
-                // Calculate duration in minutes
                 const waktuMulai = new Date( res.data.waktu_mulai );
                 const waktuSelesai = new Date( res.data.waktu_selesai );
-                const durationInMinutes = ( waktuSelesai - waktuMulai ) / ( 1000 * 60 ); // Calculate difference in minutes
+                const durationInMinutes = ( waktuSelesai - waktuMulai ) / ( 1000 * 60 );
                 setMeetingDuration( durationInMinutes );
 
                 setLoading( false ); 
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -195,7 +188,7 @@ function MeetingDetail ()
 
                 setDetailRuangan( res.data );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -219,7 +212,7 @@ function MeetingDetail ()
             {
                 setDetailEquipment( res.data );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -235,7 +228,7 @@ function MeetingDetail ()
 
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
             backgroundColor: theme === 'light' ? '#222' : '#FFFFFF',
             color: theme === 'light' ? '#FFFFFF' : '#222'
         },
@@ -243,7 +236,7 @@ function MeetingDetail ()
 
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
             backgroundColor: theme === 'light' ? '#222' : '#FFFFFF',
             color: theme === 'light' ? '#FFFFFF' : '#222',
             textAlign: isMobile ? 'left' : 'center'
@@ -333,7 +326,7 @@ function MeetingDetail ()
 
             return;
         }
-        // console.log( data )
+
         try {
             const response = await axios.patch( `/manage/requests/${meetingid}/`, data,
                 {
@@ -344,7 +337,7 @@ function MeetingDetail ()
                     },
                 }
             );
-            // console.log( response );
+
             Swal.fire( {
                 icon: 'success',
                 title: 'Berhasil menyetujui meeting',
@@ -393,7 +386,7 @@ function MeetingDetail ()
                     },
                 }
             );
-            // console.log( response );
+
             Swal.fire( {
                 icon: 'success',
                 title: 'Berhasil menolak meeting',
@@ -413,7 +406,7 @@ function MeetingDetail ()
 
     const [ selectedAccount, setSelectedAccount ] = useState( '' );
     const [ detailAkun, setDetailAkun ] = useState( {} );
-    const [ fetching, setFetching ] = useState( false ); // To manage loading state
+    const [ fetching, setFetching ] = useState( false );
     const [ meetingStartTime, setMeetingStartTime ] = useState( '' );
     const [ meetingDuration, setMeetingDuration ] = useState( '' );
     const [ meetingAgenda, setMeetingAgenda ] = useState( '' );
@@ -545,7 +538,7 @@ function MeetingDetail ()
                 } else {
                     Swal.fire( 'Dibatalkan', 'Update Authentikasi dibatalkan', 'info' );
                 };
-                // setDisabled( false );
+
                 window.removeEventListener( "message", handleMessage );
 
             };
@@ -625,7 +618,7 @@ function MeetingDetail ()
                 } else {
                     Swal.fire( 'Dibatalkan', 'Update Authentikasi dibatalkan', 'info' );
                 };
-                // setDisabled( false );
+
                 window.removeEventListener( "message", handleMessage );
             };
 
@@ -882,7 +875,6 @@ function MeetingDetail ()
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                 } );
-                // console.log( response );
                 const winLocal = window.sessionStorage
                 winLocal.setItem( "zoom_new_access_token", JSON.stringify( response.data.access_token ) );
 
@@ -979,57 +971,6 @@ function MeetingDetail ()
                         </Col>
                     </Row>
                 </div>
-
-                {/* <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw' } }>
-                        <Col xs={ 6 } lg={ 6 } className='text-start'>
-                            {
-                                isMobile === false ? (
-                                    <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
-                                        Detail Meeting
-                                    </h3>
-                                )
-                                    :
-                                    (
-                                        <h3 className='pt-4' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '' } }>
-                                            Detail Meeting
-                                        </h3>
-                                    )
-                            }
-                        </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            { isMobile === false ? (
-                                <HeaderDetailPage />
-                            ) : (
-                                    <HeaderMobile2 />
-                            ) }
-                        </Col>
-                    </Row>
-                </div>
-                <hr className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '82vw', border: '1px solid', borderColor: theme === 'light' ? '#FFFFFF' : '#000A2E', marginTop: '5px' } } /> */}
-                {/* <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
-                    { meeting?.status === 'processing' ? (
-                        <>
-                            {
-                                meeting?.online === true ?
-                                    (
-                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting.link_meeting }>Setuju</Button>
-                                    )
-                                    :
-                                    (
-                                        <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
-                                    )
-                            }
-                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
-                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } onClick={ buttonBack }>Kembali</Button>
-                        </>
-                    )
-                        :
-                        (
-                            <Button variant='btn' id={ theme === 'light' ? 'actionButtonKembaliDark' : 'actionButtonKembaliLight' } className='me-1' onClick={ buttonBack }>Kembali</Button>
-                        )
-                    }
-                </div> */}
                 <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
                     <Row>
                         <Col xs={ 12 } md={ 5 } lg={ 5 } className='my-2'>

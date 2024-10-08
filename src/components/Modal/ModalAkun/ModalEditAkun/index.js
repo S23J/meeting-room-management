@@ -11,7 +11,6 @@ function ModalEditAkun ( {
     showEditAkun,
     setShowEditAkun,
     rowSelected,
-    ruangid,
     retrieveAkun,
     tokenUser
 } )
@@ -65,7 +64,6 @@ function ModalEditAkun ( {
             platform: selectedPlatform?.value,
         } );
 
-        // console.log( finalData );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/omplatform/${rowSelected.id}/`, finalData,
@@ -79,7 +77,7 @@ function ModalEditAkun ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -110,15 +108,14 @@ function ModalEditAkun ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 
-    // Custom styles for react-select
     const selectStyles = {
         control: ( provided, state ) => ( {
             ...provided,
-            minHeight: '50px', // Adjust the height as needed
+            minHeight: '50px',
             border: state.isFocused ? '1px solid #80bdff' : '1px solid #ced4da',
             background: theme === 'light' ? '#212529' : '#FFFFFF',
             boxShadow: state.isFocused ? '0 0 0 0.3rem rgba(0, 123, 255, 0.25)' : null,
@@ -129,7 +126,7 @@ function ModalEditAkun ( {
         } ),
         singleValue: ( provided, state ) => ( {
             ...provided,
-            color: theme === 'light' ? ( state.isFocused ? 'red' : 'white' ) : ( state.isFocused ? 'red' : '#222' ), // Conditional text color based on theme and focus
+            color: theme === 'light' ? ( state.isFocused ? 'red' : 'white' ) : ( state.isFocused ? 'red' : '#222' ),
         } ),
         option: ( provided, state ) => ( {
             ...provided,

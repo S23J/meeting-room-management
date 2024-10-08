@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
@@ -116,7 +116,6 @@ function ModalAddAkun ( {
             ruangan: ruangid,
             auth_code: refreshToken,
         };
-        // console.log( finalData );
 
         setDisabled( true );
         try {
@@ -129,7 +128,7 @@ function ModalAddAkun ( {
                 },
             }
             );
-            // console.log( response );
+
             window.sessionStorage.removeItem( 'data' );
             window.sessionStorage.removeItem( 'refresh_token' );
             handleClose();

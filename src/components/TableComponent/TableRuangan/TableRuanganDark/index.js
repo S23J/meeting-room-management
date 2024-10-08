@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import Swal from 'sweetalert2';
 import { Button } from 'react-bootstrap';
-import { CiEdit, CiRead, CiTrash } from 'react-icons/ci';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mantine/core';
@@ -9,7 +8,6 @@ import axios from '../../../../api/axios';
 import { ModalAddRuangan, ModalEditRuangan } from '../../../Modal';
 import { FaInfoCircle, FaWindowClose } from 'react-icons/fa';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { IoMdEye } from 'react-icons/io';
 
 
 function TableRuanganDark ( { listRuangan, retrieveRuangan, tokenUser } )

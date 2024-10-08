@@ -67,7 +67,7 @@ min-height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  /* Center the background image */
+
 }
 /* Chart styling */
 
@@ -79,7 +79,7 @@ min-height: 35px;
   border-radius: 20px;
 margin: 0px !important;
   display: inline-block;
-  /* Ensure the select element behaves like an inline-block */
+
 }
 
 #select-chart-dark {
@@ -94,11 +94,8 @@ min-height: 35px;
 /* For dark mode */
 #containerAppDark .form-select {
   color: white;
-  /* Make the text white */
   background-color: #121212;
-  /* Dark background for the select */
   border-color: #6c757d;
-  /* Optional: border color */
 }
 
 /* Invert the dropdown arrow in dark mode */
@@ -156,30 +153,19 @@ min-height: 45px;
 #actionButtonModalLight {
 font-family: 'Poppins-Regular';
 min-height: 45px;
-background-color: #FFFFFF;
-color: #000A2E;
-border: #000A2E 1px solid;
+background-color: #006CB8;
+  color: #FFFFFF;
   border-radius: 8px;
 
-/* Hover styles */
-&:hover {
-background-color: #000A2E;
-color: #FFFFFF;
-}
 }
 
 #actionButtonModalDark {
 font-family: 'Poppins-Regular';
 min-height: 45px;
-background-color: #FFFFFF;
+background-color: #FFF471;
 color: #222222;
 border-radius: 8px;
 
-/* Hover styles */
-&:hover {
-background-color: #515151;
-  color: #FFFFFF;
-}
 }
 
 #actionButtonKembaliLight {
@@ -288,9 +274,6 @@ opacity: 100%;
 }
 
 #sidebarHeader {
-/* background-color: #000A2E;
-border-bottom-right-radius: 20px;
-border-bottom-left-radius: 20px; */
   min-height: 80px;
 }
 #sidebarHeader img {
@@ -327,13 +310,10 @@ background-color: rgba(0, 0, 0, 0) !important;
 
 .menu-item-light {
 color: #707070;
-/* max-width: 185px; */
-
 }
 
 .menu-item-dark {
 color: #949494;
-  /* max-width: 185px; */
 }
 
 .ps-collapsed .active-menu-item-light {

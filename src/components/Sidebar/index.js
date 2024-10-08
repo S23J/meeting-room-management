@@ -13,7 +13,7 @@ import { PiUserCircleGearLight } from 'react-icons/pi'
 function SidebarComponent ()
 {
 
-    const { userInfo, showSidebar, mobileSidebar, toggleSidebar, toggleMobileSidebar } = useContext( AuthContext );
+    const { showSidebar, mobileSidebar, toggleSidebar, toggleMobileSidebar } = useContext( AuthContext );
     const { theme, setTheme } = useContext( ThemeContext );
     const isMobile = useMediaQuery( { maxWidth: 767 } );
     const location = useLocation();

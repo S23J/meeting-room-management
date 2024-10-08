@@ -2,7 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ModalAddAkun, ModalAddPerlengkapan, ModalEditAkun, ModalEditPerlengkapan, ModalEditPin, ModalSetupUUID, ModalTambahPin, SidebarComponent } from '../../components';
+import
+    {
+        ModalAddAkun,
+        ModalAddPerlengkapan,
+        ModalEditAkun,
+        ModalEditPerlengkapan,
+        ModalEditPin,
+        ModalSetupUUID,
+        ModalTambahPin,
+        SidebarComponent
+    } from '../../components';
 import { Button, Card, Col, Container, Dropdown, Row, Spinner, Table } from 'react-bootstrap';
 import axios from '../../api/axios';
 import Swal from 'sweetalert2';
@@ -90,7 +100,7 @@ function RuanganDetail ()
                 const filterData = res.data.filter( item => item.status === "approved" && item.finished === false && item.ruangan == ruangid );
                 setListMeeting( filterData );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -130,7 +140,7 @@ function RuanganDetail ()
 
                 setListAkun( res.data );
                 setLoading( false ); 
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -170,7 +180,7 @@ function RuanganDetail ()
 
                 setListUser( res.data );
                 setLoading( false ); 
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -384,7 +394,6 @@ function RuanganDetail ()
             if ( event.data && event.data.accessToken ) {
                 const accessToken = event.data.accessToken;
                 window.sessionStorage.setItem( "refresh_token", JSON.stringify( accessToken ) );
-                // Use the access token as needed
             }
         };
 
@@ -716,7 +725,6 @@ function RuanganDetail ()
                 showEditAkun={ showEditAkun }
                 setShowEditAkun={ setShowEditAkun }
                 rowSelected={ rowSelected }
-                ruangid={ ruangid }
                 retrieveAkun={ retrieveAkun }
                 tokenUser={ tokenUser }
             />

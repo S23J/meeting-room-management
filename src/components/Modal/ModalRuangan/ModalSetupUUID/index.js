@@ -32,7 +32,7 @@ function ModalSetupUUID ( {
             SERVICE_UUID: serviceUUID,
             CHARACTERISTIC_UUID: karakteristikUUID,
         };
-        // console.log( data );
+
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/ruangan/${ruangid}/`, data,
@@ -46,7 +46,7 @@ function ModalSetupUUID ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -77,7 +77,7 @@ function ModalSetupUUID ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

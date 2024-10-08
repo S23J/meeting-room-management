@@ -3,10 +3,8 @@ import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
 import { Button, Spinner } from 'react-bootstrap';
-import { CiRead } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
-import { IoMdEye } from 'react-icons/io';
 import { FaInfoCircle } from 'react-icons/fa';
 
 
@@ -43,7 +41,7 @@ function TabsTodaysMeetingLight ()
                 const filterData = res.data.filter( item => item.status === "approved" && item.finished === false );
                 setListMeeting( filterData );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -81,10 +79,8 @@ function TabsTodaysMeetingLight ()
             .then( res =>
             {
 
-                // const filterData = res.data.filter( item => item.status === "processing" );
                 setListUser( res.data );
-                setLoading( false ); 
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -195,10 +191,9 @@ function TabsTodaysMeetingLight ()
             },
             {
                 header: 'Tipe Meeting',
-                accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
+                accessorKey: 'meetingTypeRaw',
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        {/* { cell.getValue() === 'Online' ? 'Online' : 'Offline' } */ }
                         { ( () =>
                         {
                             switch ( cell.getValue() ) {
@@ -270,8 +265,6 @@ function TabsTodaysMeetingLight ()
         isMultiSortEvent: () => true,
         mantineTableProps: { highlightOnHover: false },
     } );
-
-    // console.log( dataTable )
 
     return (
         <>

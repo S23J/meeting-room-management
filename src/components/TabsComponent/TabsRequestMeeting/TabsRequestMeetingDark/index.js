@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
 import { Button, Spinner } from 'react-bootstrap';
-import { CiPaperplane } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import { FaPaperPlane } from 'react-icons/fa';
@@ -42,7 +41,7 @@ function TabsRequestMeetingDark ()
                 const filterData = res.data.filter( item => item.status === "processing" );
                 setListMeeting( filterData );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -80,10 +79,9 @@ function TabsRequestMeetingDark ()
             .then( res =>
             {
 
-                // const filterData = res.data.filter( item => item.status === "processing" );
                 setListUser( res.data );
                 setLoading( false ); 
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -176,10 +174,9 @@ function TabsRequestMeetingDark ()
             },
             {
                 header: 'Tipe Meeting',
-                accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
+                accessorKey: 'meetingTypeRaw',
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        {/* { cell.getValue() === 'Online' ? 'Online' : 'Offline' } */ }
                         { ( () =>
                         {
                             switch ( cell.getValue() ) {
@@ -254,8 +251,6 @@ function TabsRequestMeetingDark ()
         isMultiSortEvent: () => true,
         mantineTableProps: { highlightOnHover: false },
     } );
-
-    // console.log( dataTable )
 
     return (
         <>

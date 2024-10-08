@@ -34,7 +34,6 @@ function ModalEditRuangan ( {
     const handleSubmitRuangan = async ( values ) =>
     {
 
-        // console.log( values );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/ruangan/${rowSelected.id}/`, values,
@@ -48,7 +47,7 @@ function ModalEditRuangan ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -80,7 +79,7 @@ function ModalEditRuangan ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

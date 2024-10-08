@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react'
 import Swal from 'sweetalert2';
 import axios from '../../../../api/axios';
 import { Button } from 'react-bootstrap';
-import { CiEdit, CiTrash } from 'react-icons/ci';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { Box } from '@mantine/core';
 import { ModalAddUser, ModalEditUser } from '../../../Modal';

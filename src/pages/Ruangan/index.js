@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
-import { SidebarComponent, HeaderDetailPage, HeaderMobile2, TableRuanganDark, TableRuanganLight } from '../../components';
+import { SidebarComponent, TableRuanganDark, TableRuanganLight } from '../../components';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../../api/axios';
@@ -37,7 +37,7 @@ function Ruangan ()
 
                 setListRuangan( res.data );
                 setLoading( false ); 
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false ); 
@@ -74,13 +74,6 @@ function Ruangan ()
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar Ruangan
                             </h3>
-                        </Col>
-                        <Col xs={ 12 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            { isMobile === false ? (
-                                <HeaderDetailPage />
-                            ) : (
-                                    <></>
-                            ) }
                         </Col>
                     </Row>
                 </div>

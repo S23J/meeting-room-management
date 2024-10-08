@@ -125,7 +125,7 @@ function Dashboard ()
         } );
 
         if ( index > 2 ) {
-            return null; // Skip rendering for indices greater than 3
+            return null;
         }
 
         return (
@@ -193,7 +193,6 @@ function Dashboard ()
                         </p>
                     </Col>
                 </Row>
-                {/* Show "lihat selengkapnya" if index is 3 */ }
                 { index === 2 && (
                     <div className='text-center mt-2'>
                         <button
@@ -269,9 +268,15 @@ function Dashboard ()
                                 <Spinner animation='border' style={ { color: theme === 'light' ? '#F3C623' : '#2f4b7c' } } />
                             </div>
                         ) : (
-                                <div style={ { overflowY: 'hidden', overflowX: 'hidden', maxHeight: '340px' } }>
-                                { dataOngoingMeeting }
-                            </div>
+                                meetingToday.length === 0 ? (
+                                    <div className='d-flex justify-content-center align-items-center' style={ { minHeight: '350px' } }>
+                                        <p style={ { fontFamily: 'Poppins-Light', color: 'GrayText', fontStyle: 'italic' } }>Tidak ada meeting</p>
+                                    </div>
+                                ) : (
+                                        <div style={ { overflowY: 'hidden', overflowX: 'hidden', maxHeight: '340px' } }>
+                                            { dataOngoingMeeting }
+                                        </div>
+                                    )
                         ) }
                     </Col>
                 </Row>

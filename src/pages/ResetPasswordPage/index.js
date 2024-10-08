@@ -64,6 +64,7 @@ function ResetPasswordPage ()
                 text: `${response.data.message}`,
                 timer: 2500,
             } );
+            setDisabled( false );
             navigate( '/' );
         } catch ( err ) {
             console.error( err );
@@ -177,6 +178,7 @@ function ResetPasswordPage ()
                                     type="submit"
                                     id='actionButton'
                                     variant='btn'
+                                    disabled={ disabled }
                                 >
                                     Submit
                                 </Button>
@@ -200,6 +202,6 @@ const formStyles = {
         color: '#222',
         fontFamily: 'Poppins-Regular',
         minHeight: '50px',
-        borderColor: '#ced4da', // Initial border color
+        borderColor: '#ced4da',
     },
 };

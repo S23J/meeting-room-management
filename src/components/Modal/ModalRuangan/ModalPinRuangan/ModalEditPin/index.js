@@ -31,7 +31,6 @@ function ModalEditPin ( {
     const handleSubmitPin = async ( values ) =>
     {
 
-        // console.log( values );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/ruangan/${ruangid}/`, values,
@@ -45,7 +44,6 @@ function ModalEditPin ( {
                 }
 
             );
-            // console.log( response );
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -76,7 +74,7 @@ function ModalEditPin ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

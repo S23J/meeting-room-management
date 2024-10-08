@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { HeaderDetailPage, HeaderMobile2, SidebarComponent, TableUserDark, TableUserLight } from '../../components'
+import { SidebarComponent, TableUserDark, TableUserLight } from '../../components'
 import { Col, Container, Row, Spinner } from 'react-bootstrap'
 import { useMediaQuery } from 'react-responsive';
 import { AuthContext, ThemeContext } from '../../auth';
@@ -17,7 +17,6 @@ function User ()
     const [ loading, setLoading ] = useState( true );
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
-
 
     const retrieveUser = () =>
     {
@@ -38,7 +37,6 @@ function User ()
                 const validData = res.data.filter( item => item.is_superuser === false );
                 setListUser( validData );
                 setLoading( false ); 
-                // console.log( res.data );
 
             } ).catch( err =>
             {
@@ -76,13 +74,6 @@ function User ()
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar User
                             </h3>
-                        </Col>
-                        <Col xs={ 12 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            { isMobile === false ? (
-                                <HeaderDetailPage />
-                            ) : (
-                                    <></>
-                            ) }
                         </Col>
                     </Row>
                 </div>

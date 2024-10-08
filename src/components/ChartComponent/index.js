@@ -15,8 +15,8 @@ import { useMediaQuery } from 'react-responsive';
 import AuthContext from '../../auth/Context/AuthContext';
 import { ThemeContext } from '../../auth';
 import axios from '../../api/axios';
-import { Col, Form, Row } from 'react-bootstrap';
-import { color } from 'chart.js/helpers';
+import { Form } from 'react-bootstrap';
+
 
 
 ChartJS.register( ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend );
@@ -83,20 +83,74 @@ function ChartComponent ()
 
     useEffect( () =>
     {
-        const meetingsPerMonth = Array( 12 ).fill( 0 ); // Initialize an array for each month
+        const meetingsPerMonth = Array( 12 ).fill( 0 );
 
         meetingData.forEach( meeting =>
         {
-            const monthIndex = new Date( meeting.waktu_mulai ).getMonth(); // Get the month index (0-11)
+            const monthIndex = new Date( meeting.waktu_mulai ).getMonth();
             if ( !selectedRuangan || meeting.ruangan === selectedRuangan ) {
-                meetingsPerMonth[ monthIndex ]++; // Increment count for the corresponding month
+                meetingsPerMonth[ monthIndex ]++;
             }
         } );
 
         setDataChart( meetingsPerMonth );
     }, [ meetingData, selectedRuangan ] );
 
-    const data = {
+    const dataMobile = {
+        labels: [
+            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+            'Jul', 'Agust', 'Sept', 'Okt', 'Nov', 'Des'
+        ],
+        datasets: [
+            {
+                label: `Jumlah Meeting`,
+                backgroundColor: [
+                    theme === 'light' ? '#FFF471' : '#006CB8',
+                ],
+                borderColor: [
+                    theme === 'light' ? '#FFF471' : '#006CB8',
+                ],
+                borderWidth: 1,
+                data: dataChart,
+                barThickness: 15,
+                borderRadius: {
+                    topLeft: 0,
+                    topRight: 10,
+                    bottomLeft: 0,
+                    bottomRight: 10
+                },
+            },
+        ],
+    };
+
+    const optionsMobile = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            x: {
+                display: false,
+
+            },
+            y: {
+                ticks: {
+                    color: theme === 'light' ? 'white' : '#222',
+                },
+                grid: {
+                    display: false
+                },
+                border: {
+                    display: false
+                }
+            }
+        },
+        indexAxis: 'y'
+    };
+
+    const dataDekstop = {
         labels: [
             'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
             'Jul', 'Agust', 'Sept', 'Okt', 'Nov', 'Des'
@@ -123,7 +177,7 @@ function ChartComponent ()
         ],
     };
 
-    const options = {
+    const optionsDekstop = {
         responsive: true,
         plugins: {
             legend: {
@@ -175,7 +229,17 @@ function ChartComponent ()
                     ) ) }
                 </Form.Select>
             </div>
-            <Bar data={ data } options={ options } height={ isMobile ? 500 : 90 } className='py-3 px-3' />
+            {
+                isMobile ?
+                    (
+                        <Bar data={ dataMobile } options={ optionsMobile } height={ 500 } className='py-3 px-3' />
+                    )
+                    :
+                    (
+                        <Bar data={ dataDekstop } options={ optionsDekstop } height={ 90 } className='py-3 px-3' />
+                    )
+            }
+
         </div>
     )
 }

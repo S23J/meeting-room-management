@@ -1,13 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import Swal from 'sweetalert2';
 import { Button } from 'react-bootstrap';
-import { CiEdit, CiRead, CiTrash } from 'react-icons/ci';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mantine/core';
 import axios from '../../../../api/axios';
 import { ModalAddRuangan, ModalEditRuangan } from '../../../Modal';
-import { IoMdEye } from 'react-icons/io';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { FaInfoCircle, FaWindowClose } from 'react-icons/fa';
 
@@ -166,7 +164,7 @@ function TableRuanganLight ( { listRuangan, retrieveRuangan, tokenUser } )
             density: 'xs',
             sorting: [
                 {
-                    id: 'nama_gedung', //sort by age by default on page load
+                    id: 'nama_gedung',
                     asc: true,
                 },
             ],

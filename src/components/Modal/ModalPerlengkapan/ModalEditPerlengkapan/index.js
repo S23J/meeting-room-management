@@ -37,7 +37,6 @@ function ModalEditPerlengkapan ( {
             ruangan: ruangid,
         } );
 
-        // console.log( finalData );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/equipment/${rowSelected.id}/`, finalData,
@@ -51,7 +50,7 @@ function ModalEditPerlengkapan ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -82,7 +81,7 @@ function ModalEditPerlengkapan ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

@@ -33,7 +33,6 @@ function ModalEditUser ( {
     const handleSubmitUser = async ( values ) =>
     {
 
-        // console.log( values );
         setDisabled( true );
         try {
             const response = await axios.patch( `/auth/user-retrieve/${rowSelected.id}/`, values,
@@ -47,7 +46,7 @@ function ModalEditUser ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -77,7 +76,7 @@ function ModalEditUser ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

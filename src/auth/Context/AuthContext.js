@@ -50,8 +50,6 @@ export const AuthProvider = ( { children } ) =>
         isLoggedIn()
     }, [] );
 
-    // Check interval meeting
-
     const tokenUser = tokens?.token;
 
     const patchMeeting = ( meetingId, tokenUser ) =>
@@ -126,7 +124,7 @@ export const AuthProvider = ( { children } ) =>
             } )
             .catch( err =>
             {
-                // console.log( 'Error fetching meetings:', err );
+                console.error( err );
             } );
     };
 
@@ -135,15 +133,25 @@ export const AuthProvider = ( { children } ) =>
         const interval = setInterval( () =>
         {
             if ( tokenUser !== undefined ) retrieveMeeting();
-        }, 10000 ); // Interval set to 60 seconds
+        }, 10000 );
         return () => clearInterval( interval );
     }, [ tokenUser ] );
 
-    // Check interval meeting
-
-
     return (
-        <AuthContext.Provider value={ { userInfo, setUserInfo, tokens, setTokens, showSidebar, setShowSidebar, toggleSidebar, mobileSidebar, setMobileSidebar, toggleMobileSidebar } }>
+        <AuthContext.Provider
+            value={ {
+                userInfo,
+                setUserInfo,
+                tokens,
+                setTokens,
+                showSidebar,
+                setShowSidebar,
+                toggleSidebar,
+                mobileSidebar,
+                setMobileSidebar,
+                toggleMobileSidebar
+            } }
+        >
             { children }
         </AuthContext.Provider>
     )

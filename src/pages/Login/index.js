@@ -60,7 +60,7 @@ function Login ()
                 }
 
             );
-            // console.log( response )
+
             if ( response?.data.user_info.group_name === 'administrator' ) {
                 const userInfo = response?.data.user_info
                 const userToken = response?.data
@@ -87,7 +87,7 @@ function Login ()
                 setDisabled( false );
             }
         } catch ( err ) {
-            // console.error( err );
+
             if ( !err?.response ) {
                 Swal.fire( {
                     icon: 'error',

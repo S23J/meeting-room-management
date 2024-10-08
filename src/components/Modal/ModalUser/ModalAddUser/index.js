@@ -48,7 +48,6 @@ function ModalAddUser ( {
             email: email,
             password: password
         };
-        // console.log( data );
         setDisabled( true );
         try {
             const response = await axios.post( `/auth/register/`, data,
@@ -62,7 +61,7 @@ function ModalAddUser ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -92,7 +91,7 @@ function ModalAddUser ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

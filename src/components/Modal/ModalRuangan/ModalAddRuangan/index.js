@@ -39,7 +39,7 @@ function ModalAddRuangan ( {
             kapasitas: kapasitas,
             lantai: lantai
         };
-        // console.log( data );
+
         setDisabled( true );
         try {
             const response = await axios.post( `/manage/ruangan/`, data,
@@ -53,7 +53,7 @@ function ModalAddRuangan ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -85,7 +85,7 @@ function ModalAddRuangan ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

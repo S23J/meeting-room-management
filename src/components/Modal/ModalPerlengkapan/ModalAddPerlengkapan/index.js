@@ -29,7 +29,7 @@ function ModalAddPerlengkapan ( {
             nama_equipment: alat,
             ruangan: ruangid,
         };
-        // console.log( data );
+
         setDisabled( true );
         try {
             const response = await axios.post( `/manage/equipment/`, data,
@@ -43,7 +43,7 @@ function ModalAddPerlengkapan ( {
                 }
 
             );
-            // console.log( response );
+
             handleClose();
             Swal.fire( {
                 icon: 'success',
@@ -74,7 +74,7 @@ function ModalAddPerlengkapan ( {
             color: theme === 'light' ? '#FFFFFF' : '#222222',
             fontFamily: 'Poppins-Regular',
             minHeight: '50px',
-            borderColor: '#ced4da', // Initial border color
+            borderColor: '#ced4da',
         },
     };
 

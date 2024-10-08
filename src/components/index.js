@@ -9,17 +9,13 @@ import
         ModalEditUser,
         ModalAddPerlengkapan,
         ModalEditPerlengkapan,
-        ModalBuatMeeting,
-
         ModalTambahPin,
         ModalEditPin,
-        ModalTambahLink,
-        ModalEditLink,
         ModalSetupUUID
 } from "./Modal";
 import SidebarComponent from "./Sidebar";
 import ChartComponent from "./ChartComponent";
-import { HeaderWeb, HeaderMobile, HeaderMobile2, HeaderDetailPage } from "./Header";
+import { HeaderWeb, HeaderMobile } from "./Header";
 import { TableRuanganDark, TableRuanganLight, TableUserDark, TableUserLight } from "./TableComponent";
 import
 {
@@ -44,18 +40,11 @@ export
     ModalEditUser,
     ModalAddPerlengkapan,
     ModalEditPerlengkapan,
-    ModalBuatMeeting,
-
     ModalTambahPin,
     ModalEditPin,
-    ModalTambahLink,
-    ModalEditLink,
     ModalSetupUUID,
-
     HeaderWeb,
     HeaderMobile,
-    HeaderMobile2,
-    HeaderDetailPage,
     TableRuanganDark,
     TableRuanganLight,
     TableUserDark,

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { AuthContext, ThemeContext } from '../../auth';
-import { HeaderDetailPage, HeaderMobile2, SidebarComponent } from '../../components';
+import { SidebarComponent } from '../../components';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import
@@ -29,13 +29,6 @@ function Meeting ()
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar Meeting
                             </h3>
-                        </Col>
-                        <Col xs={ 12 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            { isMobile === false ? (
-                                <HeaderDetailPage />
-                            ) : (
-                                    <></>
-                            ) }
                         </Col>
                     </Row>
                 </div>

@@ -3,7 +3,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Login, Meeting, MeetingDetail, ResetPasswordPage, Ruangan, RuanganDetail, User, Callback, NotFound } from "./pages";
+import
+  {
+    Dashboard,
+    Login,
+    Meeting,
+    MeetingDetail,
+    ResetPasswordPage,
+    Ruangan,
+    RuanganDetail,
+    User,
+    Callback,
+    NotFound
+  } from "./pages";
 import { PrivateRouteComp, PublicRoute } from "./auth";
 
 
@@ -69,31 +81,6 @@ function App ()
             <NotFound />
           }
         />
-
-        {/* <Route path="/dashboard/"
-          element={ <Dashboard />
-          } />
-        <Route path="/callback/"
-          element={ <Callback />
-          } />
-        <Route path="/user/"
-          element={ <User />
-          } />
-        <Route path="/ruangan/"
-          element={ <Ruangan />
-          } />
-        <Route path="/detail-ruangan/:ruangid"
-          element={ <RuanganDetail />
-          } />
-        <Route path="/meeting/"
-          element={ <Meeting />
-          } />
-        <Route path="/detail-meeting/:meetingid"
-          element={ <MeetingDetail />
-          } />
-        <Route path="/reset-password/:userId/:token"
-          element={ <ResetPasswordPage />
-          } /> */}
       </Routes>
     </BrowserRouter>
   );

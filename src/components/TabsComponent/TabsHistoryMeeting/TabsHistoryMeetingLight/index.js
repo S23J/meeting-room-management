@@ -3,10 +3,8 @@ import Swal from 'sweetalert2';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import { useNavigate } from 'react-router-dom';
 import { Button, Spinner } from 'react-bootstrap';
-import { CiRead } from 'react-icons/ci';
 import { AuthContext } from '../../../../auth';
 import axios from '../../../../api/axios';
-import { IoMdEye } from 'react-icons/io';
 import { FaInfoCircle } from 'react-icons/fa';
 
 
@@ -42,13 +40,12 @@ function TabsHistoryMeetingLight ()
 
                 const filterData = res.data.filter( item =>
                 {
-                    // console.log( item.status, item.finished ); // Debugging line to check values
                     return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
                 } );
                 setLoading( false );
-                // console.log( filterData ); // Debugging line to check the filtered result
+
                 setListMeeting( filterData );
-                // console.log( res.data )
+
             } ).catch( err =>
             {
                 setLoading( false );
@@ -86,10 +83,9 @@ function TabsHistoryMeetingLight ()
             .then( res =>
             {
 
-                // const filterData = res.data.filter( item => item.status === "processing" );
                 setListUser( res.data );
                 setLoading( false );
-                // console.log( res.data );
+
             } ).catch( err =>
             {
                 setLoading( false );
@@ -132,8 +128,8 @@ function TabsHistoryMeetingLight ()
                 return {
                     ...data,
                     user_name: userName,
-                    statusRaw: data.status,  // Add raw status
-                    meetingTypeRaw: data.online === true ? 'Online' : 'Offline',  // Add raw meeting type
+                    statusRaw: data.status,
+                    meetingTypeRaw: data.online === true ? 'Online' : 'Offline',
                 };
             } )
         );
@@ -200,10 +196,9 @@ function TabsHistoryMeetingLight ()
             },
             {
                 header: 'Tipe Meeting',
-                accessorKey: 'meetingTypeRaw',  // Use raw data for filtering
+                accessorKey: 'meetingTypeRaw',
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        {/* { cell.getValue() === 'Online' ? 'Online' : 'Offline' } */ }
                         { ( () =>
                         {
                             switch ( cell.getValue() ) {
@@ -226,7 +221,7 @@ function TabsHistoryMeetingLight ()
             },
             {
                 header: 'Status',
-                accessorKey: 'statusRaw',  // Use raw data for filtering
+                accessorKey: 'statusRaw',
                 Cell: ( { cell } ) => (
                     <div style={ { marginBottom: '0px', marginTop: '0px' } }>
                         { ( () =>
