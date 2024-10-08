@@ -9,12 +9,8 @@ import
         ModalEditUser,
         ModalAddPerlengkapan,
         ModalEditPerlengkapan,
-        ModalBuatMeeting,
-
         ModalTambahPin,
         ModalEditPin,
-        ModalTambahLink,
-        ModalEditLink,
         ModalSetupUUID
 } from "./Modal";
 import SidebarComponent from "./Sidebar";
@@ -44,14 +40,9 @@ export
     ModalEditUser,
     ModalAddPerlengkapan,
     ModalEditPerlengkapan,
-    ModalBuatMeeting,
-
     ModalTambahPin,
     ModalEditPin,
-    ModalTambahLink,
-    ModalEditLink,
     ModalSetupUUID,
-
     HeaderWeb,
     HeaderMobile,
     HeaderMobile2,
