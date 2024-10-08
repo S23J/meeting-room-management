@@ -129,7 +129,7 @@ function Dashboard ()
         }
 
         return (
-            <div key={ index }>
+            <div className='pt-3' key={ index }>
                 <Row>
                     <Col xs={ 8 } className='text-start'>
                         <div style={ { display: 'flex', alignItems: 'flex-start' } }>
@@ -194,7 +194,7 @@ function Dashboard ()
                     </Col>
                 </Row>
                 { index === 2 && (
-                    <div className='text-center mt-2'>
+                    <div className='text-center mt-1'>
                         <button
                             onClick={ () => navigate( '/meeting/' ) }
                             style={ {
