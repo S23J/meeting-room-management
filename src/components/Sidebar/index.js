@@ -15,7 +15,7 @@ function SidebarComponent ()
 
     const { showSidebar, mobileSidebar, toggleSidebar, toggleMobileSidebar } = useContext( AuthContext );
     const { theme, setTheme } = useContext( ThemeContext );
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const location = useLocation();
 
     const menuItemClass = theme === 'light' ? 'menu-item-dark' : 'menu-item-light';

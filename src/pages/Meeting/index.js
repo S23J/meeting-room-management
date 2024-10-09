@@ -15,7 +15,7 @@ import
 
 function Meeting ()
 {
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const { showSidebar } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
 
@@ -23,8 +23,8 @@ function Meeting ()
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84vw' } }>
+                <div className='ms-3'>
+                    <Row style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '93.5vw' : '81vw' } }>
                         <Col xs={ 12 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar Meeting
@@ -32,7 +32,7 @@ function Meeting ()
                         </Col>
                     </Row>
                 </div>
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '81vw' } }>
+                <div className='ms-3 pt-4' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '90vw' : '81vw' } }>
                     <Tabs
                         id="controlled-tab-meeting"
                         defaultActiveKey="request"

@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard ()
 {
     const { theme } = useContext( ThemeContext );
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const { userInfo, showSidebar, tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
     const [ meetingToday, setMeetingToday ] = useState( [] );
@@ -214,22 +214,23 @@ function Dashboard ()
         );
     } );
 
+
     return (
         <div style={ { overflowX: 'hidden', maxWidth : '100vw' } }>
                 <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <Row className='mb-2 pt-2' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '93vw' : '84vw' } }>
-                    <Col xs={ 12 } md={ 6 } className='mt-3'>
+                <Row className='mb-2 pt-2 ms-1' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '84vw' } }>
+                    <Col xs={ 12 } md={ 12 } lg={ 6 } className='mt-3'>
                         <Row >
                             <Col xs={ 8 } lg={ 8 } className='text-start'>
                                 <h3 style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                     Dashboard
                                 </h3>
                                 <p style={ { fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070', marginTop: '0px', marginBottom: '0px' } }>
-                                    Welcome, { userInfo?.first_name }  { userInfo?.last_name }
+                                    Selamat datang, { userInfo?.first_name }  { userInfo?.last_name }
                                 </p>
                             </Col>
-                            <Col xs={ 4 } lg={ 4 } className={ isMobile === false ? 'text-end my-auto' : 'text-end my-auto' }>
+                            <Col xs={ 4 } lg={ 4 } className={ isMobile === false ? 'text-end my-auto' : 'text-end mt-1' }>
                                 { isMobile === false ? (
                                     <HeaderWeb />
                                 ) : (
@@ -237,7 +238,7 @@ function Dashboard ()
                                 ) }
                             </Col>
                         </Row>
-                        <div className='py-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '82vw' } }>
+                        <div className='py-4' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '82vw' } }>
                             <ChartComponent />
                         </div>
                     </Col>
@@ -253,7 +254,7 @@ function Dashboard ()
                                 </>
                             )
                     }
-                    <Col xs={ 12 } md={ 5 } className='mt-3'>
+                    <Col xs={ 12 } md={ 12 } lg={ 5 } className='mt-3'>
                         <h4
                             className='text-center'
                             style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '' } }
@@ -281,14 +282,14 @@ function Dashboard ()
                     </Col>
                 </Row>
 
-                <div className='mt-4' style={ {
+                <div className='ms-3 mt-4' style={ {
                     backgroundColor: theme === 'light' ? 'rgba(52,58,64, 0.4)' : 'rgba(52, 80, 133, 0.15)',
                     minHeight: '250px',
                     borderRadius: '30px',
-                    maxWidth: isMobile ? '100vw' : showSidebar ? '91.5vw' : '82.5vw'
+                    maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '82.5vw'
                 } }>
                     <Row className="justify-content-center align-items-center" style={ { minHeight: '250px' } }>
-                        <Col xs={ 12 } md={ 4 } className="my-auto text-center">
+                        <Col xs={ 12 } md={ 12 } lg={ 4 } className="my-auto text-center">
                             <h4 className={ isMobile ? 'mt-3' : 'pt-3' } style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFF471' : '#006CB8' } }>
                                 Meetings
                             </h4>
@@ -296,9 +297,9 @@ function Dashboard ()
                                 Informasi terkait meeting
                             </p>
                         </Col>
-                        <Col xs={ 12 } md={ 8 } className="d-flex justify-content-center my-3">
-                            <Row style={ { maxWidth: isMobile ? '200px' : '' } }>
-                                <Col xs={ 12 } md={ 3 } className='my-4'>
+                        <Col xs={ 12 } md={ 12 } lg={ 8 } className="d-flex justify-content-center my-3">
+                            <Row id='cardMeetinDashboard'>
+                                <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-4'>
                                     <Card
                                         id={ theme === 'light' ? 'cardDashboard1-Dark' : 'cardDashboard1-Light' }
                                         style={ { minHeight: '150px', minWidth: isMobile ? '80px' : '150px' } }
@@ -341,7 +342,7 @@ function Dashboard ()
                                         ) }
                                     </Card>
                                 </Col>
-                                <Col xs={ 12 } md={ 3 } className='my-4'>
+                                <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-4'>
                                     <Card
                                         id={ theme === 'light' ? 'cardDashboard2-Dark' : 'cardDashboard2-Light' }
                                         style={ { minHeight: '150px', minWidth: isMobile ? '80px' : '150px' } }
@@ -384,7 +385,7 @@ function Dashboard ()
 
                                     </Card>
                                 </Col>
-                                <Col xs={ 12 } md={ 3 } className='my-4'>
+                                <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-4'>
                                     <Card
                                         id={ theme === 'light' ? 'cardDashboard3-Dark' : 'cardDashboard3-Light' }
                                         style={ { minHeight: '150px', minWidth: isMobile ? '80px' : '150px' } }
@@ -427,7 +428,7 @@ function Dashboard ()
 
                                     </Card>
                                 </Col>
-                                <Col xs={ 12 } md={ 3 } className='my-4'>
+                                <Col xs={ 12 } md={ 6 } lg={ 3 } className='my-4'>
                                     <Card
                                         id={ theme === 'light' ? 'cardDashboard4-Dark' : 'cardDashboard4-Light' }
                                         style={ { minHeight: '150px', minWidth: isMobile ? '80px' : '150px' } }

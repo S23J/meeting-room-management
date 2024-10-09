@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
-import { Badge, Button, Dropdown, Row } from 'react-bootstrap';
+import { CiLogout } from 'react-icons/ci';
+import { Badge, Button, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext, ThemeContext } from '../../../auth';
@@ -85,8 +85,6 @@ function HeaderWeb ()
         }
     }, [ meetingList, previousFilteredData ] );
 
-    // console.log( meetingList )
-
     const truncateText = ( text, maxLength ) =>
     {
         if ( text.length > maxLength ) {
@@ -154,17 +152,16 @@ function HeaderWeb ()
                             meetingList?.length === 0 ? (
                                 <></>
                             ) : (
-                                    <Badge
+                                    <div
+                                        id='customBadge'
                                         style={ {
                                             fontFamily: 'Poppins-Regular',
-                                            position: 'absolute',
-                                            right: '5px',
-                                            top: '0px',
-                                            borderRadius: '50%'
+                                            backgroundColor: theme === 'light' ? '#F3C623' : '#2f4b7c',
+                                            color: theme === 'light' ? '#121212' : '#FFFFFF',
                                         } }
                                     >
-                                        { meetingList?.length }
-                                    </Badge>
+                                        { meetingList?.length || 0 }
+                                    </div>
                             )
                         }
                     </Dropdown.Toggle>

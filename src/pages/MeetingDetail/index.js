@@ -11,7 +11,7 @@ function MeetingDetail ()
 {
     const { meetingid } = useParams();
     const { tokens, showSidebar } = useContext( AuthContext );
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const { theme } = useContext( ThemeContext );
     const tokenUser = tokens?.token;
     const [ meeting, setMeeting ] = useState( null );
@@ -937,15 +937,15 @@ function MeetingDetail ()
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div className='pt-4'>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93vw' : '83vw' } }>
-                        <Col xs={ 6 } lg={ 6 } className='text-start'>
+                <div className='ms-3 pt-4'>
+                    <Row style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '91vw' : '81vw' } }>
+                        <Col xs={ 6 } md={ 6 } lg={ 6 } className='text-start'>
                             <h3 className='' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Informasi Meeting
                             </h3>
                         </Col>
-                        <Col xs={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
-                            <div className='text-end' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
+                        <Col xs={ 6 } md={ 6 } lg={ 6 } className={ isMobile === false ? 'text-end my-auto' : 'my-auto' }>
+                            <div className='text-end' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '91vw' : '81vw' } }>
                                 { meeting?.status === 'processing' ? (
                                     <>
                                         {
@@ -971,9 +971,9 @@ function MeetingDetail ()
                         </Col>
                     </Row>
                 </div>
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91.5vw' : '81.7vw' } }>
+                <div className='ms-3 pt-4' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '79vw' } }>
                     <Row>
-                        <Col xs={ 12 } md={ 5 } lg={ 5 } className='my-2'>
+                        <Col xs={ 12 } md={ 12 } lg={ 5 } className='my-2'>
                             <Card id={ theme === 'light' ? 'cardDetailMeetingDark' : 'cardDetailMeetingLight' } >
                                 <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '' } }>
                                     <>
@@ -1218,7 +1218,7 @@ function MeetingDetail ()
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col xs={ 12 } md={ 7 } lg={ 7 } className='my-2'>
+                        <Col xs={ 12 } md={ 12 } lg={ 7 } className='my-2'>
                             <Card id={ theme === 'light' ? 'cardDetailRuanganDark' : 'cardDetailRuanganLight' }>
                                 <Card.Body style={ { minHeight: '620px', maxHeight: isMobile ? 'none' : '620px' } }>
                                     <p

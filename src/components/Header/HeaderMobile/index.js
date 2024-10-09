@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext, ThemeContext } from '../../../auth';
-import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from '../../../api/axios';
 import { Badge, Button, Dropdown } from 'react-bootstrap';
-import { CiBellOn, CiLogout, CiUser } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci';
 import { BsGearFill } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 
@@ -154,17 +153,16 @@ function HeaderMobile ()
                             meetingList?.length === 0 ? (
                                 <></>
                             ) : (
-                                <Badge
-                                    style={ {
-                                        fontFamily: 'Poppins-Regular',
-                                        position: 'absolute',
-                                        right: '5px',
-                                        top: '0px',
-                                        borderRadius: '50%'
-                                    } }
-                                >
-                                    { meetingList?.length }
-                                </Badge>
+                                    <div
+                                        id='customBadge'
+                                        style={ {
+                                            fontFamily: 'Poppins-Regular',
+                                            backgroundColor: theme === 'light' ? '#F3C623' : '#2f4b7c',
+                                            color: theme === 'light' ? '#121212' : '#FFFFFF',
+                                        } }
+                                    >
+                                        { meetingList?.length || 0 }
+                                    </div>
                             )
                         }
                     </Dropdown.Toggle>

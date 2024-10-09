@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 function User ()
 {
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
+    const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const { showSidebar, tokens } = useContext( AuthContext );
     const { theme } = useContext( ThemeContext );
     const [ listUser, setListUser ] = useState( [] );
@@ -68,8 +68,8 @@ function User ()
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
             <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <div>
-                    <Row style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '93.5vw' : '84vw' } }>
+                <div className='ms-3'>
+                    <Row style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '93.5vw' : '83vw' } }>
                         <Col xs={ 12 } lg={ 6 } className='text-start'>
                             <h3 className='pt-4' style={ { fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' } }>
                                 Daftar User
@@ -77,7 +77,7 @@ function User ()
                         </Col>
                     </Row>
                 </div>
-                <div className='pt-4' style={ { maxWidth: isMobile ? '95vw' : showSidebar ? '91vw' : '81vw' } }>
+                <div className='ms-3 pt-4' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '91vw' : '81vw' } }>
                     { loading ? (
                         <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
                             <Spinner animation='border' style={ { color: theme === 'light' ? '#FFF471' : '#006CB8' } } />
