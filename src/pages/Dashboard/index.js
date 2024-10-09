@@ -219,7 +219,7 @@ function Dashboard ()
         <div style={ { overflowX: 'hidden', maxWidth : '100vw' } }>
                 <SidebarComponent />
             <Container fluid id={ theme === 'light' ? 'containerAppDark' : 'containerAppLight' } style={ { marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' } }>
-                <Row className='mb-2 pt-2 ms-1' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '84vw' } }>
+                <Row className='mb-2 pt-2 ms-1' style={ { maxWidth: isMobile ? '100vw' : showSidebar ? '90vw' : '82vw' } }>
                     <Col xs={ 12 } md={ 12 } lg={ 6 } className='mt-3'>
                         <Row >
                             <Col xs={ 8 } lg={ 8 } className='text-start'>
@@ -286,7 +286,7 @@ function Dashboard ()
                     backgroundColor: theme === 'light' ? 'rgba(52,58,64, 0.4)' : 'rgba(52, 80, 133, 0.15)',
                     minHeight: '250px',
                     borderRadius: '30px',
-                    maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '82.5vw'
+                    maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '81vw'
                 } }>
                     <Row className="justify-content-center align-items-center" style={ { minHeight: '250px' } }>
                         <Col xs={ 12 } md={ 12 } lg={ 4 } className="my-auto text-center">
