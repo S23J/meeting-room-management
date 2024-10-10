@@ -32,7 +32,7 @@ function ModalAddAkun ( {
     };
 
     const platformOptions = [
-        { value: 'Google Meeting', label: 'Google Meeting' },
+        { value: 'Google Meet', label: 'Google Meet' },
         { value: 'Zoom', label: 'Zoom' },
     ];
 
@@ -73,7 +73,7 @@ function ModalAddAkun ( {
             window.removeEventListener( "message", handleMessage );
         };
 
-        if ( selectedPlatform?.value === "Google Meeting" ) {
+        if ( selectedPlatform?.value === "Google Meet" ) {
             const getData = window.sessionStorage.getItem( "data" );
             const getDataParse = JSON.parse( getData );
 
@@ -250,7 +250,7 @@ function ModalAddAkun ( {
                             style={ formStyles.input }
                         />
                     </Form.Group>
-                    { selectedPlatform?.value === 'Google Meeting' && (
+                    { selectedPlatform?.value === 'Google Meet' && (
                         <Form.Group className="mb-3">
                             <Form.Label style={ formStyles.label } htmlFor='calendar_id'>Calendar ID*</Form.Label>
                             <Form.Control

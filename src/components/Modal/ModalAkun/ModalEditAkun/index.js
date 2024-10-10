@@ -41,7 +41,7 @@ function ModalEditAkun ( {
 
     const platformOptions = [
         { value: 'Zoom', label: 'Zoom' },
-        { value: 'Google Meeting', label: 'Google Meeting' },
+        { value: 'Google Meet', label: 'Google Meet' },
     ];
 
 

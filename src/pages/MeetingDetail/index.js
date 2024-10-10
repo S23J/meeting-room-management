@@ -474,7 +474,7 @@ function MeetingDetail ()
     const redirectAuth = () =>
     {
 
-        if ( detailAkun?.platform === "Google Meeting" ) {
+        if ( detailAkun?.platform === "Google Meet" ) {
 
             const handleMessage = async ( event ) =>
             {
@@ -658,7 +658,7 @@ function MeetingDetail ()
         };
 
         try {
-            if ( detailAkun?.platform === "Google Meeting" ) {
+            if ( detailAkun?.platform === "Google Meet" ) {
 
                 const localStartDate = new Date( meetingStartTime );
                 const endDate = calculateEndTime( localStartDate, meetingDuration );
@@ -811,7 +811,7 @@ function MeetingDetail ()
     const handleSubmiNewToken = async () =>
     {
 
-        if ( detailAkun?.platform === "Google Meeting" ) {
+        if ( detailAkun?.platform === "Google Meet" ) {
 
             const dataBody = new URLSearchParams( {
                 grant_type: 'refresh_token',

@@ -10,7 +10,7 @@ function Callback ()
         const getData = window.sessionStorage.getItem( "data" );
         const getDataParse = JSON.parse( getData );
 
-        if ( getDataParse?.platform === "Google Meeting" ) {
+        if ( getDataParse?.platform === "Google Meet" ) {
             const clientId = getDataParse?.client_id;
             const clientSecret = getDataParse?.client_secret;
             const redirectUri = `http://localhost:3000/callback`;
@@ -78,7 +78,7 @@ function Callback ()
         const getDataAkunMeeting = window.sessionStorage.getItem( "data-akun-meeting" );
         const getDataAkunMeetingParse = JSON.parse( getDataAkunMeeting );
 
-        if ( getDataAkunMeetingParse?.platform === "Google Meeting" ) {
+        if ( getDataAkunMeetingParse?.platform === "Google Meet" ) {
 
             const clientId = getDataAkunMeetingParse?.client_id;
             const clientSecret = getDataAkunMeetingParse?.client_secret;

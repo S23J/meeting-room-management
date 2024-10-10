@@ -16,6 +16,7 @@ function Dashboard ()
     const isMobile = useMediaQuery( { maxWidth: 1024 } );
     const { userInfo, showSidebar, tokens } = useContext( AuthContext );
     const [ listMeeting, setListMeeting ] = useState( [] );
+    const [ meetingIncoming, setMeetingIncoming ] = useState( [] );
     const [ meetingToday, setMeetingToday ] = useState( [] );
     const [ historyMeeting, setHistoryMeeting ] = useState( [] );
     const [ listRuangan, setListRuangan ] = useState( [] );
@@ -44,7 +45,22 @@ function Dashboard ()
                 const onGoingMeeting = res.data.filter(
                     ( item ) => item.status === 'approved' && item.finished === false
                 );
-                setMeetingToday( onGoingMeeting );
+                setMeetingIncoming( onGoingMeeting );
+
+
+                const today = new Date();
+                const filteredTodayMeetings = onGoingMeeting.filter( ( item ) =>
+                {
+                    const meetingStart = new Date( item.waktu_mulai );
+
+                    return (
+                        meetingStart.getFullYear() === today.getFullYear() &&
+                        meetingStart.getMonth() === today.getMonth() &&
+                        meetingStart.getDate() === today.getDate()
+                    );
+                } );
+
+                setMeetingToday( filteredTodayMeetings );
 
                 const currentDate = new Date();
                 const currentMonth = currentDate.getMonth();
@@ -72,6 +88,8 @@ function Dashboard ()
                 console.error( err );
             } );
     };
+
+    // console.log( meetingIncoming );
 
     const retrieveRuangan = () =>
     {
@@ -115,7 +133,7 @@ function Dashboard ()
         return () => clearInterval( interval ); 
     }, [ tokenUser ] );
 
-    const dataOngoingMeeting = meetingToday.map( ( data, index ) =>
+    const dataOngoingMeeting = meetingIncoming.map( ( data, index ) =>
     {
         const dateTime = new Date( data?.waktu_mulai );
         const formattedDate = dateTime.toLocaleDateString( 'en-GB', {
@@ -259,7 +277,7 @@ function Dashboard ()
                             className='text-center'
                             style={ { fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '' } }
                         >
-                            Meeting sedang berjalan
+                            Meeting yang akan datang
                         </h4>
                         { loading ? (
                             <div
@@ -269,7 +287,7 @@ function Dashboard ()
                                 <Spinner animation='border' style={ { color: theme === 'light' ? '#F3C623' : '#2f4b7c' } } />
                             </div>
                         ) : (
-                                meetingToday.length === 0 ? (
+                                meetingIncoming.length === 0 ? (
                                     <div className='d-flex justify-content-center align-items-center' style={ { minHeight: '350px' } }>
                                         <p style={ { fontFamily: 'Poppins-Light', color: 'GrayText', fontStyle: 'italic' } }>Tidak ada meeting</p>
                                     </div>
