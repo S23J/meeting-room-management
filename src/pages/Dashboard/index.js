@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ChartComponent, HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
-import { Card, Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Card, Col, Container, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
 import axios from '../../api/axios';
@@ -71,15 +71,19 @@ function Dashboard ()
                     const isApprovedAndFinished = item.status === 'approved' && item.finished === true;
 
                     if ( item.waktu_selesai && isApprovedAndFinished ) {
+                        // Parse waktu_selesai as a UTC date
                         const endDate = new Date( item.waktu_selesai );
-                        return (
-                            endDate.getMonth() === currentMonth && endDate.getFullYear() === currentYear
-                        );
+                        const endMonthUTC = endDate.getUTCMonth();
+                        const endYearUTC = endDate.getUTCFullYear();
+
+                        // Compare against current month and year in UTC
+                        return endMonthUTC === currentMonth && endYearUTC === currentYear;
                     }
                     return false;
                 } );
 
                 setHistoryMeeting( currentMonthMeetings );
+                // console.log( currentMonthMeetings );
                 if ( showLoading ) setLoading( false );
             } )
             .catch( ( err ) =>
@@ -123,31 +127,58 @@ function Dashboard ()
         if ( tokenUser !== undefined ) retrieveRuangan( true );
     }, [ tokenUser ] );
 
+    // useEffect( () =>
+    // {
+    //     const interval = setInterval( () =>
+    //     {
+    //         if ( tokenUser !== undefined ) retrieveMeeting( false ); 
+    //     }, 5000 );
+
+    //     return () => clearInterval( interval ); 
+    // }, [ tokenUser ] );
+
+    const intervalMinutes = 2;
+
     useEffect( () =>
     {
-        const interval = setInterval( () =>
+        const intervalId = setInterval( () =>
         {
-            if ( tokenUser !== undefined ) retrieveMeeting( false ); 
-        }, 5000 );
+            if ( tokenUser !== undefined ) {
+                retrieveMeeting( false );
+            }
+        }, intervalMinutes * 60000 );
 
-        return () => clearInterval( interval ); 
+        return () => clearInterval( intervalId );
     }, [ tokenUser ] );
+
+    const truncateText = ( text, maxLength ) =>
+    {
+        return text.length > maxLength ? `${text.slice( 0, maxLength )}...` : text;
+    };
+
+    const renderTooltip = ( props, fullName ) => (
+        <Tooltip id="button-tooltip" { ...props }>
+            { fullName }
+        </Tooltip>
+    );
+
+    function formatDate ( dateStr )
+    {
+        const [ year, month, day ] = dateStr.split( '-' );
+        return `${day}-${month}-${year}`;
+    }
+
 
     const dataOngoingMeeting = meetingIncoming.map( ( data, index ) =>
     {
-        const dateTime = new Date( data?.waktu_mulai );
-        const formattedDate = dateTime.toLocaleDateString( 'en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        } );
+
 
         if ( index > 2 ) {
             return null;
         }
 
         return (
-            <div className='pt-3' key={ index }>
+            <div className='pt-2' key={ index }>
                 <Row>
                     <Col xs={ 8 } className='text-start'>
                         <div style={ { display: 'flex', alignItems: 'flex-start' } }>
@@ -170,7 +201,7 @@ function Dashboard ()
                             >
                                 { index + 1 }
                             </div>
-                            <div className='pt-3'>
+                            <div className='pt-2'>
                                 <p
                                     style={ {
                                         fontFamily: 'Poppins-Regular',
@@ -179,7 +210,16 @@ function Dashboard ()
                                         color: theme === 'light' ? '#FFFFFF' : '#222'
                                     } }
                                 >
-                                    { data?.nama_meeting }
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={ { show: 250, hide: 400 } }
+                                        overlay={ renderTooltip( {}, data?.nama_meeting ) }
+                                    >
+                                        <p>
+                                            { truncateText( data?.nama_meeting || '', 25 ) }
+                                        </p>
+                                    </OverlayTrigger>
+                                    {/* { data?.nama_meeting } */ }
                                 </p>
                                 <p
                                     style={ {
@@ -189,7 +229,7 @@ function Dashboard ()
                                         marginTop: '0px',
                                     } }
                                 >
-                                    { formattedDate }
+                                    { formatDate( data?.waktu_mulai.split( 'T' )[ 0 ] ) }
                                 </p>
                             </div>
                         </div>
@@ -245,7 +285,8 @@ function Dashboard ()
                                     Dashboard
                                 </h3>
                                 <p style={ { fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070', marginTop: '0px', marginBottom: '0px' } }>
-                                    Selamat datang, { userInfo?.first_name }  { userInfo?.last_name }
+                                    {/* Selamat datang, Surya Juniawan */ }
+                                    Selamat datang, { userInfo?.first_name }  { userInfo?.last_name } 
                                 </p>
                             </Col>
                             <Col xs={ 4 } lg={ 4 } className={ isMobile === false ? 'text-end my-auto' : 'text-end mt-1' }>

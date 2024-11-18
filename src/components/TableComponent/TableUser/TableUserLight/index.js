@@ -143,7 +143,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
             density: 'xs',
             sorting: [
                 {
-                    id: 'nama_user',
+                    id: 'username',
                     asc: true,
                 },
             ],

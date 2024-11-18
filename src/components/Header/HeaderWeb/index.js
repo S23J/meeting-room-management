@@ -7,7 +7,8 @@ import { AuthContext, ThemeContext } from '../../../auth';
 import axios from '../../../api/axios';
 import { BsGearFill } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
-
+import useSound from 'use-sound'
+import mySound from '../../../assets/notificattion/notification.mp3'
 
 
 function HeaderWeb ()
@@ -17,6 +18,8 @@ function HeaderWeb ()
     const tokenUser = tokens?.token;
     const [ meetingList, setMeetingList ] = useState( [] );
     const [ previousFilteredData, setPreviousFilteredData ] = useState( [] );
+    const [ playSound ] = useSound( mySound );
+    const [ loading, setLoading ] = useState( true );
 
     const navigate = useNavigate();
 
@@ -25,8 +28,9 @@ function HeaderWeb ()
         navigate( "/detail-meeting/" + data )
     }
 
-    const retrieveMeeting = () =>
+    const retrieveMeeting = ( showLoading = true ) =>
     {
+        if ( showLoading ) setLoading( true );
         axios.get( `/manage/requests/`,
             {
                 headers:
@@ -43,27 +47,47 @@ function HeaderWeb ()
 
                 const filterData = res.data.filter( item => item.status === "processing" );
                 setMeetingList( filterData );
-
+                if ( showLoading ) setLoading( false );
             } ).catch( err =>
             {
-                console.error( err )
+                console.error( err );
+                if ( showLoading ) setLoading( false );
             } );
     };
 
 
+    // useEffect( () =>
+    // {
+    //     const interval = setInterval( () =>
+    //     {
+    //         if ( tokenUser !== undefined ) retrieveMeeting();
+    //     }, 5000 );
+    //     return () => clearInterval( interval );
+    // }, [] );
+
+
+    // useEffect( () =>
+    // {
+    //     if ( tokenUser !== undefined ) retrieveMeeting()
+    // }, [ tokenUser ] );
+
     useEffect( () =>
     {
-        const interval = setInterval( () =>
+        if ( tokenUser !== undefined ) retrieveMeeting( true );
+    }, [ tokenUser ] );
+
+    const intervalMinutes = 2;
+
+    useEffect( () =>
+    {
+        const intervalId = setInterval( () =>
         {
-            if ( tokenUser !== undefined ) retrieveMeeting();
-        }, 5000 );
-        return () => clearInterval( interval );
-    }, [] );
+            if ( tokenUser !== undefined ) {
+                retrieveMeeting( false );
+            }
+        }, intervalMinutes * 60000 );
 
-
-    useEffect( () =>
-    {
-        if ( tokenUser !== undefined ) retrieveMeeting()
+        return () => clearInterval( intervalId );
     }, [ tokenUser ] );
 
 
@@ -71,6 +95,8 @@ function HeaderWeb ()
     {
 
         if ( JSON.stringify( meetingList ) !== JSON.stringify( previousFilteredData ) ) {
+
+            playSound();
 
             Swal.fire( {
                 icon: 'info',
@@ -146,7 +172,7 @@ function HeaderWeb ()
         <>
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
                 <Dropdown drop='start' style={ { marginRight: '0px' } }>
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px', border: 'none', boxShadow: 'none' } }>
                         <IoIosNotifications size={ 22 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                         {
                             meetingList?.length === 0 ? (
@@ -208,7 +234,7 @@ function HeaderWeb ()
                 </Dropdown>
 
                 <Dropdown drop='start' style={ { marginLeft: '0px' } }>
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px', border: 'none', boxShadow: 'none' } }>
                         <BsGearFill size={ 18 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>

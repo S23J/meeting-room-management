@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { SidebarComponent } from '../../components';
 import { Button, Card, Col, Container, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
+import { FaWindowClose } from 'react-icons/fa';
 
 function MeetingDetail ()
 {
@@ -932,6 +933,41 @@ function MeetingDetail ()
         };
     }, [] );
 
+    const handleDelete = async ( dataId ) =>
+    {
+
+        const result = await Swal.fire( {
+            title: 'Hapus peserta meeting?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus peserta!',
+            cancelButtonText: 'Batalkan',
+        } );
+
+        if ( result.isConfirmed ) {
+            try {
+
+                const responseDelete = await axios.delete( `/manage/peserta/${dataId}/`, {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        withCredentials: true,
+                        Authorization: `Token ` + tokenUser,
+                    },
+                } );
+                Swal.fire( 'Terhapus!', 'Peserta berhasil dihapus', 'success' );
+                retrievePeserta();
+            } catch ( err ) {
+                console.error( err );
+                Swal.fire( 'Error', 'Terjadi kesalahan saat menghapus peserta!', 'error' );
+
+            }
+        } else {
+
+            Swal.fire( 'Dibatalkan', 'Data kamu tidak terhapus', 'info' );
+        }
+    };
+
+    // console.log( dataPeserta )
 
     return (
         <div style={ { overflowX: 'hidden', maxWidth: '100vw' } }>
@@ -1297,6 +1333,16 @@ function MeetingDetail ()
                                                             <th>#</th>
                                                             <th>Nama Peserta</th>
                                                             <th>Status Kehadiran</th>
+                                                            { meeting?.finished === true ?
+                                                                (
+                                                                    <>
+                                                                    </>
+                                                                )
+                                                                :
+                                                                (
+                                                                    <th>Hapus</th>
+                                                                )
+                                                            }
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1321,6 +1367,25 @@ function MeetingDetail ()
                                                                                 }
                                                                             } )() }
                                                                         </td>
+                                                                        { meeting?.finished === true ?
+                                                                            (
+                                                                                <>
+                                                                                </>
+                                                                            )
+                                                                            :
+                                                                            (
+                                                                                <td className='text-center'>
+                                                                                    <Button
+                                                                                        variant='btn'
+                                                                                        onClick={ () => handleDelete( data.id ) }
+                                                                                        style={ { border: 'none' } }
+                                                                                        disabled={ index === 0 }
+                                                                                    >
+                                                                                        <FaWindowClose size={ 20 } color='#FF0060' />
+                                                                                    </Button>
+                                                                                </td>
+                                                                            )
+                                                                        }
                                                                     </tr>
                                                                 )
                                                             } )

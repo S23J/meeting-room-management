@@ -147,7 +147,7 @@ function HeaderMobile ()
 
             <span className="container-logout-web" style={ { fontFamily: 'Poppins-Regular' } }>
                 <Dropdown drop='start' style={ { marginRight: '0px' } }>
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRight: theme === 'light' ? '1px solid #FFFFFF' : '1px solid #acacac', borderRadius: '0px', border: 'none', boxShadow: 'none' } }>
                         <IoIosNotifications size={ 22 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                         {
                             meetingList?.length === 0 ? (
@@ -209,7 +209,7 @@ function HeaderMobile ()
                 </Dropdown>
 
                 <Dropdown drop='start' style={ { marginLeft: '0px' } }>
-                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px' } }>
+                    <Dropdown.Toggle variant="btn" data-bs-theme={ theme === 'light' ? 'dark' : '' } style={ { borderRadius: '0px', border: 'none', boxShadow: 'none' } }>
                         <BsGearFill size={ 18 } color={ theme === 'light' ? '#FFFFFF' : '#222222' } />
                     </Dropdown.Toggle>
                     <Dropdown.Menu id={ theme === 'light' ? 'dropdownMenuDark' : 'dropdownMenuLight' }>

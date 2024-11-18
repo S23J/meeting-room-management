@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Button, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap'
-import { LoginImages, LogoBundar } from '../../assets';
+import { LoginImages, LogoBundarDark } from '../../assets';
 import { useMediaQuery } from 'react-responsive';
 import Icon from '@mdi/react';
 import { mdiEye, mdiEyeOff } from '@mdi/js';
@@ -127,14 +127,14 @@ function Login ()
             >
                 <Row>
                     <Col xs={ 12 } md={ 12 } lg={ 6 } className='text-center'>
-                        <div className='text-start'>
+                        <div className='text-start mt-3 ms-3'>
                             <Image
-                                src={ LogoBundar }
+                                src={ LogoBundarDark }
                                 fluid
-                                width={ 100 }
+                                width={ 70 }
                             />
                         </div>
-                        <h4 className='my-4 mx-4' style={ { fontFamily: 'Poppins-Medium' } }>Selamat datang di Aplikasi Meeting Room Management</h4>
+                        <h4 className='my-4 mx-4' style={ { fontFamily: 'Poppins-Medium' } }>Selamat datang di Aplikasi RoomFlow</h4>
                         <div className='mb-5 text-center mx-4'>
                             <Image
                                 src={ LoginImages }
