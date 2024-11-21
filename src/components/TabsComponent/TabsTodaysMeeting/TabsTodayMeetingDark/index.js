@@ -190,23 +190,18 @@ function TabsTodaysMeetingDark ()
                 },
             },
             {
-                header: 'Tipe Meeting',
-                accessorKey: 'meetingTypeRaw',
-                Cell: ( { cell } ) => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( cell.getValue() ) {
-                                case 'Online':
-                                    return <span style={ { color: '#FFF471' } }>Online</span>;
-                                case 'Offline':
-                                    return <span >Offline</span>;
-                                default:
-                                    return null;
-                            }
-                        } )() }
-                    </div>
-                ),
+                header: 'Tanggal',
+                accessorFn: ( row ) => new Date( row.waktu_mulai ),
+                id: 'tanggal',
+                filterVariant: 'date-range',
+                Cell: ( { cell } ) =>
+                {
+                    const date = cell.getValue();
+                    const day = String( date.getUTCDate() ).padStart( 2, '0' );
+                    const month = String( date.getUTCMonth() + 1 ).padStart( 2, '0' );
+                    const year = date.getUTCFullYear();
+                    return `${day}/${month}/${year}`;
+                },
                 mantineTableHeadCellProps: {
                     align: 'center',
                 },
