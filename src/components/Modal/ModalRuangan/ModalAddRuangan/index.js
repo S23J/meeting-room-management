@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
 import { ThemeContext } from '../../../../auth';
@@ -18,6 +18,7 @@ function ModalAddRuangan ( {
     const [ kapasitas, setKapasitas ] = useState( '' );
     const [ lantai, setLantai ] = useState( '' );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleClose = () =>
     {
@@ -32,6 +33,7 @@ function ModalAddRuangan ( {
     const handleSubmitRuangan = async ( event ) =>
     {
         event.preventDefault();
+        setIsSubmitting( true );
         const data = {
             gedung: gedung,
             nama_ruangan: namaRuangan,
@@ -61,6 +63,7 @@ function ModalAddRuangan ( {
                 showConfirmButton: true,
             } );
             retrieveRuangan();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err )
@@ -70,11 +73,11 @@ function ModalAddRuangan ( {
                 title: 'Oops...',
                 text: 'Terjadi kesalahan menambahkan ruangan',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
 
-    }
-
+    };
 
     const formStyles = {
         label: {
@@ -166,14 +169,27 @@ function ModalAddRuangan ( {
                         />
                     </Form.Group>
                     <div className="d-grid gap-2 mt-4">
-                        <Button
-                            type="submit"
-                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                            variant='btn'
-                            disabled={ disabled || !gedung || !namaRuangan || !noRuangan || !kapasitas || !lantai }
-                        >
-                            Simpan
-                        </Button>
+                        { isSubmitting ? (
+                            <Button
+                                id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                variant='btn'
+                                disabled
+                            >
+                                <Spinner
+                                    animation="border"
+                                    size='sm'
+                                />
+                            </Button>
+                        ) : (
+                                <Button
+                                    type="submit"
+                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                    variant='btn'
+                                    disabled={ disabled || !gedung || !namaRuangan || !noRuangan || !kapasitas || !lantai }
+                                >
+                                    Simpan
+                                </Button>
+                        ) }
                     </div>
                 </Form>
             </Modal.Body>

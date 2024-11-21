@@ -177,26 +177,6 @@ function TabsTodaysMeetingDark ()
                 Cell: ( { cell } ) =>
                 {
                     const date = cell.getValue();
-                    const day = String( date.getDate() ).padStart( 2, '0' );
-                    const month = String( date.getMonth() + 1 ).padStart( 2, '0' );
-                    const year = date.getFullYear();
-                    return `${day}/${month}/${year}`;
-                },
-                mantineTableHeadCellProps: {
-                    align: 'center',
-                },
-                mantineTableBodyCellProps: {
-                    align: 'center',
-                },
-            },
-            {
-                header: 'Tanggal',
-                accessorFn: ( row ) => new Date( row.waktu_mulai ),
-                id: 'tanggal',
-                filterVariant: 'date-range',
-                Cell: ( { cell } ) =>
-                {
-                    const date = cell.getValue();
                     const day = String( date.getUTCDate() ).padStart( 2, '0' );
                     const month = String( date.getUTCMonth() + 1 ).padStart( 2, '0' );
                     const year = date.getUTCFullYear();

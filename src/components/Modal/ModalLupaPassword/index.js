@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import Swal from 'sweetalert2';
 import axios from '../../../api/axios';
 
@@ -10,6 +10,7 @@ function ModalLupaPassword ( {
 {
     const [ email, setEmail ] = useState( "" );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleCloseLupaPassword = () =>
     {
@@ -20,10 +21,11 @@ function ModalLupaPassword ( {
     const handleSubmitEmail = async ( event ) =>
     {
         event.preventDefault();
-        setDisabled( true );
+        setIsSubmitting( true );
         const data = {
             email: email,
         }
+        setDisabled( true );
         try {
             const response = await axios.post( `auth/request-reset-password/`, data,
                 {
@@ -42,6 +44,7 @@ function ModalLupaPassword ( {
                 text: `${response.data.message}`,
                 showConfirmButton: true,
             } )
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err )
@@ -50,14 +53,16 @@ function ModalLupaPassword ( {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Terjadi kesalahan pada server',
-                } )
+                } );
+                setIsSubmitting( false );
                 setDisabled( false )
             } else if ( err?.response.status === 400 ) {
                 Swal.fire( {
                     icon: 'error',
                     title: 'Oops...',
                     text: `${err.response?.data.email[ 0 ]}`,
-                } )
+                } );
+                setIsSubmitting( false );
                 setDisabled( false );
             }
 
@@ -93,14 +98,28 @@ function ModalLupaPassword ( {
                         />
                     </Form.Group>
                     <div className="d-grid gap-2 my-4">
-                        <Button
-                            type="submit"
-                            id='actionButton'
-                            variant='btn'
-                            disabled={ disabled || !email }
-                        >
-                            Submit
-                        </Button>
+                        { isSubmitting ? (
+                            <Button
+                                id='actionButton'
+                                variant='btn'
+                                className='mb-4'
+                                disabled
+                            >
+                                <Spinner
+                                    animation="border"
+                                    size='sm'
+                                />
+                            </Button>
+                        ) : (
+                                <Button
+                                    type="submit"
+                                    id='actionButton'
+                                    variant='btn'
+                                    disabled={ disabled || !email }
+                                >
+                                    Submit
+                                </Button>
+                        ) }
                     </div>
                 </Form>
             </Modal.Body>

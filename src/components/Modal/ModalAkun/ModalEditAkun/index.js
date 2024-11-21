@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { Button, Form, InputGroup, Modal, Spinner } from 'react-bootstrap';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
 import { Formik } from 'formik';
@@ -19,6 +19,8 @@ function ModalEditAkun ( {
     const { theme } = useContext( ThemeContext );
     const [ disabled, setDisabled ] = useState( false );
     const [ selectedPlatform, setSelectedPlatform ] = useState( null );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
+
 
     const handleClose = () =>
     {
@@ -64,6 +66,7 @@ function ModalEditAkun ( {
             platform: selectedPlatform?.value,
         } );
 
+        setIsSubmitting( true );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/omplatform/${rowSelected.id}/`, finalData,
@@ -85,6 +88,7 @@ function ModalEditAkun ( {
                 showConfirmButton: true,
             } )
             retrieveAkun();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err )
@@ -94,6 +98,7 @@ function ModalEditAkun ( {
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat mengubah akun',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
 
@@ -233,14 +238,27 @@ function ModalEditAkun ( {
                                 </Form.Group>
                             ) }
                             <div className="d-grid gap-2 mt-4">
-                                <Button
-                                    type="submit"
-                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                                    variant='btn'
-                                    disabled={ disabled }
-                                >
-                                    Simpan
-                                </Button>
+                                { isSubmitting ? (
+                                    <Button
+                                        id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                        variant='btn'
+                                        disabled
+                                    >
+                                        <Spinner
+                                            animation="border"
+                                            size='sm'
+                                        />
+                                    </Button>
+                                ) : (
+                                        <Button
+                                            type="submit"
+                                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                            variant='btn'
+                                            disabled={ disabled }
+                                        >
+                                            Simpan
+                                        </Button>
+                                ) }
                             </div>
                         </Form>
                     ) }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import axios from '../../../../../api/axios';
 import Swal from 'sweetalert2';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 import { ThemeContext } from '../../../../../auth';
 
 function ModalEditPin ( {
@@ -17,6 +17,7 @@ function ModalEditPin ( {
 
     const { theme } = useContext( ThemeContext );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleClose = () =>
     {
@@ -30,7 +31,7 @@ function ModalEditPin ( {
 
     const handleSubmitPin = async ( values ) =>
     {
-
+        setIsSubmitting( true );
         setDisabled( true );
         try {
             const response = await axios.patch( `/manage/ruangan/${ruangid}/`, values,
@@ -51,6 +52,7 @@ function ModalEditPin ( {
                 showConfirmButton: true,
             } )
             retrieveDetailRuangan();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err );
@@ -60,6 +62,7 @@ function ModalEditPin ( {
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat mengubah kode pin',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
 
@@ -119,14 +122,27 @@ function ModalEditPin ( {
                                 />
                             </Form.Group>
                             <div className="d-grid gap-2 mt-4">
-                                <Button
-                                    type="submit"
-                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                                    variant='btn'
-                                    disabled={ disabled }
-                                >
-                                    Simpan
-                                </Button>
+                                { isSubmitting ? (
+                                    <Button
+                                        id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                        variant='btn'
+                                        disabled
+                                    >
+                                        <Spinner
+                                            animation="border"
+                                            size='sm'
+                                        />
+                                    </Button>
+                                ) : (
+                                        <Button
+                                            type="submit"
+                                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                            variant='btn'
+                                            disabled={ disabled }
+                                        >
+                                            Simpan
+                                        </Button>
+                                ) }
                             </div>
                         </Form>
                     ) }

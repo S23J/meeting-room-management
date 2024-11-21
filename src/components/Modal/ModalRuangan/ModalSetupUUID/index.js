@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
@@ -17,6 +17,7 @@ function ModalSetupUUID ( {
     const [ serviceUUID, setServiceUUID ] = useState( '' );
     const [ karakteristikUUID, setKarakteristikUUID ] = useState( '' );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleClose = () =>
     {
@@ -28,6 +29,7 @@ function ModalSetupUUID ( {
     const handleSubmitUUID = async ( event ) =>
     {
         event.preventDefault();
+        setIsSubmitting( true );
         const data = {
             SERVICE_UUID: serviceUUID,
             CHARACTERISTIC_UUID: karakteristikUUID,
@@ -54,6 +56,7 @@ function ModalSetupUUID ( {
                 showConfirmButton: true,
             } )
             retrieveDetailRuangan();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err );
@@ -61,8 +64,9 @@ function ModalSetupUUID ( {
             Swal.fire( {
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Terjadi kesalahan saat setup UUID',
+                text: 'Terjadi kesalahan saat melakukan setup UUID',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
 
@@ -122,14 +126,27 @@ function ModalSetupUUID ( {
                         />
                     </Form.Group>
                     <div className="d-grid gap-2 mt-4">
-                        <Button
-                            type="submit"
-                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                            variant='btn'
-                            disabled={ disabled || !serviceUUID || !karakteristikUUID }
-                        >
-                            Simpan
-                        </Button>
+                        { isSubmitting ? (
+                            <Button
+                                id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                variant='btn'
+                                disabled
+                            >
+                                <Spinner
+                                    animation="border"
+                                    size='sm'
+                                />
+                            </Button>
+                        ) : (
+                                <Button
+                                    type="submit"
+                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                    variant='btn'
+                                    disabled={ disabled || !serviceUUID || !karakteristikUUID }
+                                >
+                                    Simpan
+                                </Button>
+                        ) }
                     </div>
                 </Form>
             </Modal.Body>

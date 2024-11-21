@@ -31,6 +31,8 @@ function MeetingDetail ()
 
     const [ meetingTopic, setMeetingTopic ] = useState( '' );
 
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
+
     const buttonBack = () =>
     {
         navigate( -1 )
@@ -322,7 +324,7 @@ function MeetingDetail ()
         const data = {
             status: "approved",
         };
-
+        setIsSubmitting( true );
         if ( !confirmApprove.isConfirmed ) {
 
             return;
@@ -353,6 +355,7 @@ function MeetingDetail ()
                 title: 'Warning!',
                 text: 'Gagal menyetujui meeting',
             } );
+            setIsSubmitting( false );
         }
     };
 
@@ -372,6 +375,8 @@ function MeetingDetail ()
             status: "denied",
             finished: true,
         };
+
+        setIsSubmitting( true );
 
         if ( !confirmDenied.isConfirmed ) {
 
@@ -402,6 +407,7 @@ function MeetingDetail ()
                 title: 'Warning!',
                 text: 'Gagal menolak meeting',
             } );
+            setIsSubmitting( false );
         }
     };
 
@@ -650,6 +656,7 @@ function MeetingDetail ()
     {
 
         setDisabled( true );
+        setIsSubmitting( true );
         const calculateEndTime = ( startTime, duration ) =>
         {
             const startDate = new Date( startTime );
@@ -718,11 +725,12 @@ function MeetingDetail ()
                             title: 'Berhasil membuat Meeting',
                             showConfirmButton: true
                         } );
+                        setIsSubmitting( false );
                         setDisabled( false );
                         retrieveDetailMeeting();
-
                     } catch ( err ) {
                         console.error( err.response );
+                        setIsSubmitting( false );
                         setDisabled( false );
                     }
                 } catch ( err ) {
@@ -733,6 +741,7 @@ function MeetingDetail ()
                         text: 'Terjadi kesalahan saat membuat Meeting',
                         showConfirmButton: true
                     } );
+                    setIsSubmitting( false );
                     setDisabled( false );
                 }
 
@@ -752,6 +761,8 @@ function MeetingDetail ()
                     timezone: 'Asia/Jakarta',
                     agenda: meetingAgenda
                 };
+
+                setIsSubmitting( true );
 
                 try {
                     const getAccessToken = window.sessionStorage.getItem( "zoom_new_access_token" );
@@ -784,11 +795,13 @@ function MeetingDetail ()
                             title: 'Berhasil membuat Meeting',
                             showConfirmButton: true
                         } );
+                        setIsSubmitting( false );
                         setDisabled( false );
                         retrieveDetailMeeting();
 
                     } catch ( err ) {
                         console.error( err.response );
+                        setIsSubmitting( false );
                         setDisabled( false );
                     }
                 } catch ( err ) {
@@ -799,11 +812,13 @@ function MeetingDetail ()
                         text: 'Terjadi kesalahan saat membuat Meeting',
                         showConfirmButton: true
                     } );
+                    setIsSubmitting( false );
                     setDisabled( false );
                 }
             }
         } catch ( error ) {
             console.error( "An error occurred:", error );
+            setIsSubmitting( false );
             setDisabled( false );
         }
     };
@@ -987,11 +1002,61 @@ function MeetingDetail ()
                                         {
                                             meeting?.online === true ?
                                                 (
-                                                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } disabled={ !meeting.link_meeting }>Setuju</Button>
+                                                    <>
+                                                        { isSubmitting ? (
+                                                            <Button
+                                                                id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' }
+                                                                variant='btn'
+                                                                className='me-3'
+                                                                disabled
+                                                                style={ { minWidth: '75px' } }
+                                                            >
+                                                                <Spinner
+                                                                    animation="border"
+                                                                    size='sm'
+                                                                />
+                                                            </Button>
+                                                        ) : (
+                                                            <Button
+                                                                variant='btn'
+                                                                id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' }
+                                                                className='me-3'
+                                                                onClick={ handleApprove }
+                                                                disabled={ !meeting.link_meeting }
+                                                            >
+                                                                Setuju
+                                                            </Button>
+                                                        ) }
+                                                    </>
                                                 )
                                                 :
                                                 (
-                                                    <Button variant='btn' id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' } className='me-3' onClick={ handleApprove } >Setuju</Button>
+                                                    <>
+                                                        { isSubmitting ? (
+                                                            <Button
+                                                                id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' }
+                                                                variant='btn'
+                                                                className='me-3'
+                                                                disabled
+                                                                style={ { minWidth: '75px' } }
+                                                            >
+                                                                <Spinner
+                                                                    animation="border"
+                                                                    size='sm'
+                                                                />
+                                                            </Button>
+                                                        ) : (
+                                                            <Button
+                                                                variant='btn'
+                                                                id={ theme === 'light' ? 'actionButtonApproveDark' : 'actionButtonApproveLight' }
+                                                                className='me-3'
+                                                                onClick={ handleApprove } >
+                                                                Setuju
+                                                            </Button>
+
+                                                        ) }
+                                                    </>
+
                                                 )
                                         }
                                         <Button variant='btn' id={ theme === 'light' ? 'actionButtonDeniedDark' : 'actionButtonDeniedLight' } className='me-3' onClick={ handleDenied }>Tolak</Button>
@@ -1201,15 +1266,28 @@ function MeetingDetail ()
                                                                                             />
                                                                                             <small style={ { fontFamily: 'Poppins-Light', color: '#acacac' } }>Durasi menggunakan hitungan menit</small>
                                                                                         </Form.Group>
-                                                                                        <div>
-                                                                                            <Button
-                                                                                                variant='btn'
-                                                                                                id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
-                                                                                                onClick={ handleSubmiNewToken }
-                                                                                                disabled={ disabled }
-                                                                                            >
-                                                                                                Buat Meeting
-                                                                                            </Button>
+                                                                                        <div className="d-grid gap-2 mt-4">
+                                                                                            { isSubmitting ? (
+                                                                                                <Button
+                                                                                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                                                                                    variant='btn'
+                                                                                                    disabled
+                                                                                                >
+                                                                                                    <Spinner
+                                                                                                        animation="border"
+                                                                                                        size='sm'
+                                                                                                    />
+                                                                                                </Button>
+                                                                                            ) : (
+                                                                                                <Button
+                                                                                                    variant='btn'
+                                                                                                    id={ theme === 'light' ? 'buttonTambahTableDark' : 'buttonTambahTableLight' }
+                                                                                                    onClick={ handleSubmiNewToken }
+                                                                                                    disabled={ disabled }
+                                                                                                >
+                                                                                                    Buat Meeting
+                                                                                                </Button>
+                                                                                            ) }
                                                                                         </div>
                                                                                     </>
                                                                             }

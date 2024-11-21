@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
@@ -21,6 +21,7 @@ function ModalAddUser ( {
     const [ email, setEmail ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleClose = () =>
     {
@@ -41,6 +42,7 @@ function ModalAddUser ( {
     const handleSubmitUser = async ( event ) =>
     {
         event.preventDefault();
+        setIsSubmitting( true );
         const data = {
             first_name: firstName,
             last_name: lastName,
@@ -69,6 +71,7 @@ function ModalAddUser ( {
                 showConfirmButton: true,
             } )
             retrieveUser();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err );
@@ -78,6 +81,7 @@ function ModalAddUser ( {
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat menambahkan user',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
     };
@@ -177,14 +181,27 @@ function ModalAddUser ( {
                             { passwordShown ? "Hide" : "Show" } password <span >{ passwordShown ? <Icon path={ mdiEyeOff } size={ 0.8 } /> : <Icon path={ mdiEye } size={ 0.8 } /> } </span></p>
                     </Form.Group>
                     <div className="d-grid gap-2 mt-4">
-                        <Button
-                            type="submit"
-                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                            variant='btn'
-                            disabled={ disabled || !firstName || !lastName || !email || !userName || !password }
-                        >
-                            Simpan
-                        </Button>
+                        { isSubmitting ? (
+                            <Button
+                                id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                variant='btn'
+                                disabled
+                            >
+                                <Spinner
+                                    animation="border"
+                                    size='sm'
+                                />
+                            </Button>
+                        ) : (
+                                <Button
+                                    type="submit"
+                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                    variant='btn'
+                                    disabled={ disabled || !firstName || !lastName || !email || !userName || !password }
+                                >
+                                    Simpan
+                                </Button>
+                        ) }
                     </div>
                 </Form>
             </Modal.Body>

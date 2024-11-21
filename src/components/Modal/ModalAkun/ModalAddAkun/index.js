@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../../../auth';
 import axios from '../../../../api/axios';
 import Swal from 'sweetalert2';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 import Select from 'react-select';
 
 function ModalAddAkun ( {
@@ -20,6 +20,7 @@ function ModalAddAkun ( {
     const [ clientSecret, setClientSecret ] = useState( '' );
     const [ calendarID, setCalendarID ] = useState( '' );
     const [ disabled, setDisabled ] = useState( false );
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
     const handleClose = () =>
     {
@@ -45,7 +46,7 @@ function ModalAddAkun ( {
     const redirectAuth = ( event ) =>
     {
         event.preventDefault();
-
+        setIsSubmitting( true );
         const data = {
             account: accountEmail,
             client_id: clientID,
@@ -68,7 +69,7 @@ function ModalAddAkun ( {
 
                 submitData();
             }
-
+            setIsSubmitting( false );
             setDisabled( false );
             window.removeEventListener( "message", handleMessage );
         };
@@ -116,7 +117,7 @@ function ModalAddAkun ( {
             ruangan: ruangid,
             auth_code: refreshToken,
         };
-
+        setIsSubmitting( true );
         setDisabled( true );
         try {
             const response = await axios.post( `/manage/omplatform/`, finalData, {
@@ -138,6 +139,7 @@ function ModalAddAkun ( {
                 showConfirmButton: true,
             } )
             retrieveAkun();
+            setIsSubmitting( false );
             setDisabled( false );
         } catch ( err ) {
             console.error( err )
@@ -146,6 +148,7 @@ function ModalAddAkun ( {
                 title: 'Oops...',
                 text: 'Terjadi kesalahan saat menambahkan Akun',
             } );
+            setIsSubmitting( false );
             setDisabled( false );
         }
 
@@ -265,14 +268,27 @@ function ModalAddAkun ( {
                         </Form.Group>
                     ) }
                     <div className="d-grid gap-2 mt-4">
-                        <Button
-                            onClick={ redirectAuth }
-                            id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
-                            disabled={ disabled || !accountEmail || !selectedPlatform?.value || !clientID || !clientSecret }
-                            variant='btn'
-                        >
-                            Simpan
-                        </Button>
+                        { isSubmitting ? (
+                            <Button
+                                id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                variant='btn'
+                                disabled
+                            >
+                                <Spinner
+                                    animation="border"
+                                    size='sm'
+                                />
+                            </Button>
+                        ) : (
+                                <Button
+                                    onClick={ redirectAuth }
+                                    id={ theme === 'light' ? 'actionButtonModalDark' : 'actionButtonModalLight' }
+                                    disabled={ disabled || !accountEmail || !selectedPlatform?.value || !clientID || !clientSecret }
+                                    variant='btn'
+                                >
+                                    Simpan
+                                </Button>
+                        ) }
                     </div>
                 </Form>
             </Modal.Body>
