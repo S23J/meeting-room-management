@@ -10,9 +10,10 @@ import ModalEditUser from "./ModalUser/ModalEditUser"
 import ModalAddPerlengkapan from "./ModalPerlengkapan/ModalAddPerlengkapan"
 import ModalEditPerlengkapan from "./ModalPerlengkapan/ModalEditPerlengkapan"
 import ModalSetupUUID from "./ModalRuangan/ModalSetupUUID"
+import ModalAddMakanan from "./ModalMakanan/ModalAddMakanan"
+import ModalUbahMakanan from "./ModalMakanan/ModalUbahMakanan"
 
-export
-{
+export {
     ModalLupaPassword,
     ModalAddRuangan,
     ModalEditRuangan,
@@ -24,5 +25,7 @@ export
     ModalEditPerlengkapan,
     ModalTambahPin,
     ModalEditPin,
-    ModalSetupUUID
+    ModalSetupUUID,
+    ModalAddMakanan,
+    ModalUbahMakanan
 }

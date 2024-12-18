@@ -1,6 +1,7 @@
 import Login from "./Login"
 import Dashboard from "./Dashboard"
 import User from "./User"
+import Food from "./Food"
 import Ruangan from "./Ruangan"
 import RuanganDetail from "./RuanganDetail"
 import Meeting from "./Meeting"
@@ -10,11 +11,11 @@ import NotFound from "./NotFound"
 
 import Callback from "./CallBack"
 
-export
-{
+export {
     Login,
     Dashboard,
     User,
+    Food,
     Ruangan,
     RuanganDetail,
     Meeting,

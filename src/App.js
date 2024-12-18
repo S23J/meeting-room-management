@@ -3,24 +3,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import
-  {
-    Dashboard,
-    Login,
-    Meeting,
-    MeetingDetail,
-    ResetPasswordPage,
-    Ruangan,
-    RuanganDetail,
-    User,
-    Callback,
-    NotFound
-  } from "./pages";
+import {
+  Dashboard,
+  Login,
+  Meeting,
+  MeetingDetail,
+  ResetPasswordPage,
+  Ruangan,
+  RuanganDetail,
+  User,
+  Callback,
+  NotFound,
+  Food
+} from "./pages";
 import { PrivateRouteComp, PublicRoute } from "./auth";
 
 
-function App ()
-{
+function App() {
 
   return (
     <BrowserRouter>
@@ -38,12 +37,18 @@ function App ()
             </PrivateRouteComp>
           } />
         <Route path="/callback"
-          element={ <Callback />
+          element={<Callback />
           } />
         <Route path="/user/"
           element={
             <PrivateRouteComp >
               <User />
+            </PrivateRouteComp>
+          } />
+        <Route path="/makanan/"
+          element={
+            <PrivateRouteComp >
+              <Food />
             </PrivateRouteComp>
           } />
         <Route path="/ruangan/"

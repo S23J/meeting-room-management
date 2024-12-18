@@ -1,34 +1,38 @@
-import
-    {
-        ModalLupaPassword,
-        ModalAddRuangan,
-        ModalEditRuangan,
-        ModalAddAkun,
-        ModalEditAkun,
-        ModalAddUser,
-        ModalEditUser,
-        ModalAddPerlengkapan,
-        ModalEditPerlengkapan,
-        ModalTambahPin,
-        ModalEditPin,
-        ModalSetupUUID
+import {
+ModalLupaPassword,
+ModalAddRuangan,
+ModalEditRuangan,
+ModalAddAkun,
+ModalEditAkun,
+ModalAddUser,
+ModalEditUser,
+ModalAddPerlengkapan,
+ModalEditPerlengkapan,
+ModalTambahPin,
+ModalEditPin,
+ModalSetupUUID
 } from "./Modal";
 import SidebarComponent from "./Sidebar";
 import ChartComponent from "./ChartComponent";
 import { HeaderWeb, HeaderMobile } from "./Header";
-import { TableRuanganDark, TableRuanganLight, TableUserDark, TableUserLight } from "./TableComponent";
-import
-{
-    TabsRequestMeetingDark,
-    TabsRequestMeetingLight,
-    TabsTodaysMeetingDark,
-    TabsTodaysMeetingLight,
-    TabsHistoryMeetingDark,
-    TabsHistoryMeetingLight
+import {
+TableRuanganDark,
+TableRuanganLight,
+TableUserDark,
+TableUserLight,
+TableFoodDark,
+TableFoodLight
+} from "./TableComponent";
+import {
+TabsRequestMeetingDark,
+TabsRequestMeetingLight,
+TabsTodaysMeetingDark,
+TabsTodaysMeetingLight,
+TabsHistoryMeetingDark,
+TabsHistoryMeetingLight
 } from "./TabsComponent";
 
-export
-{
+export {
     SidebarComponent,
     ModalLupaPassword,
     ChartComponent,
@@ -49,6 +53,8 @@ export
     TableRuanganLight,
     TableUserDark,
     TableUserLight,
+    TableFoodDark,
+    TableFoodLight,
     TabsRequestMeetingDark,
     TabsRequestMeetingLight,
     TabsTodaysMeetingDark,
