@@ -14,7 +14,8 @@ import {
   User,
   Callback,
   NotFound,
-  Food
+  Food,
+  PrintMeetingDivisiPage
 } from "./pages";
 import { PrivateRouteComp, PublicRoute } from "./auth";
 
@@ -34,6 +35,12 @@ function App() {
           element={
             <PrivateRouteComp >
               <Dashboard />
+            </PrivateRouteComp>
+          } />
+        <Route path="/print-meeting-divisi/"
+          element={
+            <PrivateRouteComp >
+              <PrintMeetingDivisiPage />
             </PrivateRouteComp>
           } />
         <Route path="/callback"

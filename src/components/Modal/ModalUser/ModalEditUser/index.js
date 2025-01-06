@@ -31,6 +31,8 @@ function ModalEditUser({
         division: rowSelected?.profile ? rowSelected.profile.division || "" : "",
     };
 
+    // console.log(rowSelected)
+
     const handleSubmitUser = async (values) => {
         setIsSubmitting(true);
         setDisabled(true);
@@ -47,7 +49,7 @@ function ModalEditUser({
         try {
             // Execute both patch requests in parallel
             await Promise.all([
-                axios.patch(`/auth/user-retrieve/${rowSelected.id}/`, dataUser, {
+                axios.patch(`/user-retrieve/${rowSelected.id}/`, dataUser, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ function ModalEditUser({
                         Authorization: `Token ${tokenUser}`,
                     },
                 }),
-                axios.patch(`/auth/profile-retrieve/${rowSelected.id}/`, dataProfile, {
+                axios.patch(`/profile-retrieve/${rowSelected.id}/`, dataProfile, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json',

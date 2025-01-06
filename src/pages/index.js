@@ -8,6 +8,7 @@ import Meeting from "./Meeting"
 import MeetingDetail from "./MeetingDetail"
 import ResetPasswordPage from "./ResetPasswordPage"
 import NotFound from "./NotFound"
+import PrintMeetingDivisiPage from "./PrintMeetingDivisiPage"
 
 import Callback from "./CallBack"
 
@@ -22,5 +23,6 @@ export {
     MeetingDetail,
     ResetPasswordPage,
     Callback,
-    NotFound
+    NotFound,
+    PrintMeetingDivisiPage
 }

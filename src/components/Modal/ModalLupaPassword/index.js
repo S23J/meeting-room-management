@@ -3,31 +3,28 @@ import { Button, Form, Modal, Spinner } from 'react-bootstrap'
 import Swal from 'sweetalert2';
 import axios from '../../../api/axios';
 
-function ModalLupaPassword ( {
+function ModalLupaPassword({
     showLupaPassword,
     setShowLupaPassword
-} )
-{
-    const [ email, setEmail ] = useState( "" );
-    const [ disabled, setDisabled ] = useState( false );
-    const [ isSubmitting, setIsSubmitting ] = useState( false );
+}) {
+    const [email, setEmail] = useState("");
+    const [disabled, setDisabled] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleCloseLupaPassword = () =>
-    {
-        setShowLupaPassword( false );
-        setEmail( '' );
+    const handleCloseLupaPassword = () => {
+        setShowLupaPassword(false);
+        setEmail('');
     };
 
-    const handleSubmitEmail = async ( event ) =>
-    {
+    const handleSubmitEmail = async (event) => {
         event.preventDefault();
-        setIsSubmitting( true );
+        setIsSubmitting(true);
         const data = {
             email: email,
         }
-        setDisabled( true );
+        setDisabled(true);
         try {
-            const response = await axios.post( `auth/request-reset-password/`, data,
+            const response = await axios.post(`account/request-reset-password/`, data,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -38,32 +35,32 @@ function ModalLupaPassword ( {
 
             );
             handleCloseLupaPassword();
-            Swal.fire( {
+            Swal.fire({
                 icon: 'success',
                 title: 'Reset password diterima',
                 text: `${response.data.message}`,
                 showConfirmButton: true,
-            } )
-            setIsSubmitting( false );
-            setDisabled( false );
-        } catch ( err ) {
-            console.error( err )
-            if ( err ) {
-                Swal.fire( {
+            })
+            setIsSubmitting(false);
+            setDisabled(false);
+        } catch (err) {
+            console.error(err)
+            if (err) {
+                Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Terjadi kesalahan pada server',
-                } );
-                setIsSubmitting( false );
-                setDisabled( false )
-            } else if ( err?.response.status === 400 ) {
-                Swal.fire( {
+                });
+                setIsSubmitting(false);
+                setDisabled(false)
+            } else if (err?.response.status === 400) {
+                Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: `${err.response?.data.email[ 0 ]}`,
-                } );
-                setIsSubmitting( false );
-                setDisabled( false );
+                    text: `${err.response?.data.email[0]}`,
+                });
+                setIsSubmitting(false);
+                setDisabled(false);
             }
 
 
@@ -72,33 +69,33 @@ function ModalLupaPassword ( {
 
     return (
         <Modal
-            show={ showLupaPassword }
-            onHide={ handleCloseLupaPassword }
+            show={showLupaPassword}
+            onHide={handleCloseLupaPassword}
             backdrop="static"
-            keyboard={ false }
+            keyboard={false}
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title style={ { fontFamily: 'Poppins-Medium' } }>
+                <Modal.Title style={{ fontFamily: 'Poppins-Medium' }}>
                     Lupa Password
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={ handleSubmitEmail }>
+                <Form onSubmit={handleSubmitEmail}>
                     <Form.Group className="mb-3">
-                        <Form.Label style={ formStyles.label } htmlFor='emailRecovery'>Email*</Form.Label>
+                        <Form.Label style={formStyles.label} htmlFor='emailRecovery'>Email*</Form.Label>
                         <Form.Control
                             id='email'
                             type="email"
-                            onChange={ ( e ) => setEmail( e.target.value ) }
-                            value={ email }
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
                             required
                             placeholder="Masukkan email anda"
-                            style={ formStyles.input }
+                            style={formStyles.input}
                         />
                     </Form.Group>
                     <div className="d-grid gap-2 my-4">
-                        { isSubmitting ? (
+                        {isSubmitting ? (
                             <Button
                                 id='actionButton'
                                 variant='btn'
@@ -111,15 +108,15 @@ function ModalLupaPassword ( {
                                 />
                             </Button>
                         ) : (
-                                <Button
-                                    type="submit"
-                                    id='actionButton'
-                                    variant='btn'
-                                    disabled={ disabled || !email }
-                                >
-                                    Submit
-                                </Button>
-                        ) }
+                            <Button
+                                type="submit"
+                                id='actionButton'
+                                variant='btn'
+                                disabled={disabled || !email}
+                            >
+                                Submit
+                            </Button>
+                        )}
                     </div>
                 </Form>
             </Modal.Body>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ChartComponent, HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
+import { ChartComponent, ChartDivisi, HeaderMobile, HeaderWeb, SidebarComponent } from '../../components'
 import { Card, Col, Container, OverlayTrigger, Row, Spinner, Tooltip } from 'react-bootstrap'
 import { AuthContext, ThemeContext } from '../../auth';
 import { useMediaQuery } from 'react-responsive';
@@ -263,15 +263,15 @@ function Dashboard() {
             <SidebarComponent />
             <Container fluid id={theme === 'light' ? 'containerAppDark' : 'containerAppLight'} style={{ marginLeft: isMobile ? '0px' : showSidebar ? '80px' : '210px' }}>
                 <Row className='mb-2 pt-2 ms-1' style={{ maxWidth: isMobile ? '100vw' : showSidebar ? '90vw' : '82vw' }}>
-                    <Col xs={12} md={12} lg={6} className='mt-3'>
+                    <Col xs={12} md={12} lg={12} className='mt-3'>
                         <Row >
                             <Col xs={8} lg={8} className='text-start'>
                                 <h3 style={{ fontFamily: 'Poppins-Medium', fontSize: '38px', color: theme === 'light' ? '#FFFFFF' : '', marginBottom: '0px' }}>
                                     Dashboard
                                 </h3>
                                 <p style={{ fontFamily: 'Poppins-Light', color: theme === 'light' ? '#FFFFFF' : '#707070', marginTop: '0px', marginBottom: '0px' }}>
-                                    Selamat datang, Surya Juniawan
-                                    {/* Selamat datang, { userInfo?.first_name }  { userInfo?.last_name }  */}
+                                    {/* Selamat datang, Surya Juniawan */}
+                                    Selamat datang, {userInfo?.first_name}  {userInfo?.last_name}
                                 </p>
                             </Col>
                             <Col xs={4} lg={4} className={isMobile === false ? 'text-end my-auto' : 'text-end mt-1'}>
@@ -282,51 +282,21 @@ function Dashboard() {
                                 )}
                             </Col>
                         </Row>
-                        <div className='py-4' style={{ maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '82vw' }}>
-                            <ChartComponent />
-                        </div>
                     </Col>
-                    {
-                        isMobile ?
-                            (
-                                <></>
-                            )
-                            :
-                            (
-                                <>
-                                    <Col xs={12} md={1} className='mt-3'></Col>
-                                </>
-                            )
-                    }
-                    <Col xs={12} md={12} lg={5} className='mt-3'>
-                        <h4
-                            className='text-center'
-                            style={{ fontFamily: 'Poppins-Medium', color: theme === 'light' ? '#FFFFFF' : '' }}
-                        >
-                            Meeting yang akan datang
-                        </h4>
-                        {loading ? (
-                            <div
-                                className='d-flex justify-content-center align-items-center'
-                                style={{ height: '200px' }}
-                            >
-                                <Spinner animation='border' style={{ color: theme === 'light' ? '#F3C623' : '#2f4b7c' }} />
+                    <Row>
+                        <Col xs={12} lg={6}>
+                            <div className='py-4' style={{ maxWidth: isMobile ? '100vw' : showSidebar ? '89vw' : '82vw' }}>
+                                <ChartComponent />
                             </div>
-                        ) : (
-                            meetingIncoming.length === 0 ? (
-                                <div className='d-flex justify-content-center align-items-center' style={{ minHeight: '350px' }}>
-                                    <p style={{ fontFamily: 'Poppins-Light', color: 'GrayText', fontStyle: 'italic' }}>Tidak ada meeting</p>
-                                </div>
-                            ) : (
-                                <div style={{ overflowY: 'hidden', overflowX: 'hidden', maxHeight: '340px' }}>
-                                    {dataOngoingMeeting}
-                                </div>
-                            )
-                        )}
-                    </Col>
+                        </Col>
+                        <Col xs={12} lg={6}>
+                            <div className='py-4'>
+                                <ChartDivisi />
+                            </div>
+                        </Col>
+                    </Row>
                 </Row>
-
-                <div className='ms-3 mt-4' style={{
+                <div className='ms-3 mt-5' style={{
                     backgroundColor: theme === 'light' ? 'rgba(52,58,64, 0.4)' : 'rgba(52, 80, 133, 0.15)',
                     minHeight: '250px',
                     borderRadius: '30px',

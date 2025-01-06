@@ -8,23 +8,20 @@ import axios from '../../../../api/axios';
 import { FaInfoCircle } from 'react-icons/fa';
 
 
-function TabsTodaysMeetingLight ()
-{
-    const { tokens } = useContext( AuthContext );
-    const [ listMeeting, setListMeeting ] = useState( [] );
-    const [ listUser, setListUser ] = useState( [] );
-    const [ loading, setLoading ] = useState( true );
+function TabsTodaysMeetingLight() {
+    const { tokens } = useContext(AuthContext);
+    const [listMeeting, setListMeeting] = useState([]);
+    const [listUser, setListUser] = useState([]);
+    const [loading, setLoading] = useState(true);
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
-    const detailMeeting = ( row ) =>
-    {
-        navigate( "/detail-meeting/" + row )
+    const detailMeeting = (row) => {
+        navigate("/detail-meeting/" + row)
     }
 
-    const retrieveMeeting = () =>
-    {
-        setLoading( true );
-        axios.get( `/manage/requests/`,
+    const retrieveMeeting = () => {
+        setLoading(true);
+        axios.get(`/manage/requests/`,
             {
                 headers:
                 {
@@ -34,38 +31,34 @@ function TabsTodaysMeetingLight ()
                     Authorization: `Token ` + tokenUser,
                 },
 
-            } )
-            .then( res =>
-            {
+            })
+            .then(res => {
 
-                const filterData = res.data.filter( item => item.status === "approved" && item.finished === false );
-                setListMeeting( filterData );
-                setLoading( false ); 
+                const filterData = res.data.filter(item => item.status === "approved" && item.finished === false);
+                setListMeeting(filterData);
+                setLoading(false);
 
-            } ).catch( err =>
-            {
-                setLoading( false ); 
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
+            }).catch(err => {
+                setLoading(false);
+                if (err.response?.status === 401) {
+                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
                         confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/');
                         }
-                    } );
+                    });
 
-                } else ( console.error( err ) )
-            } )
+                } else (console.error(err))
+            })
     }
 
-    const retrieveUser = () =>
-    {
-        setLoading( true );
-        axios.get( `/auth/users/`,
+    const retrieveUser = () => {
+        setLoading(true);
+        axios.get(`/users/`,
             {
                 headers:
                 {
@@ -75,50 +68,44 @@ function TabsTodaysMeetingLight ()
                     Authorization: `Token ` + tokenUser,
                 },
 
-            } )
-            .then( res =>
-            {
+            })
+            .then(res => {
 
-                setListUser( res.data );
+                setListUser(res.data);
 
-            } ).catch( err =>
-            {
-                setLoading( false ); 
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
+            }).catch(err => {
+                setLoading(false);
+                if (err.response?.status === 401) {
+                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
                         confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/');
                         }
-                    } );
+                    });
 
-                } else ( console.error( err ) )
-            } )
+                } else (console.error(err))
+            })
     }
 
 
-    useEffect( () =>
-    {
-        if ( tokenUser !== undefined ) retrieveMeeting()
-        if ( tokenUser !== undefined ) retrieveUser()
-    }, [ tokenUser ] );
+    useEffect(() => {
+        if (tokenUser !== undefined) retrieveMeeting()
+        if (tokenUser !== undefined) retrieveUser()
+    }, [tokenUser]);
 
-    const [ dataTable, setDataTable ] = useState( [] );
+    const [dataTable, setDataTable] = useState([]);
 
 
-    useEffect( () =>
-    {
-        const dataTableFilter = listMeeting.map( ( { ...rest } ) => rest );
+    useEffect(() => {
+        const dataTableFilter = listMeeting.map(({ ...rest }) => rest);
 
         setDataTable(
-            dataTableFilter.map( ( data ) =>
-            {
-                const user = listUser.find( ( user ) => user.id === data.user );
+            dataTableFilter.map((data) => {
+                const user = listUser.find((user) => user.id === data.user);
                 const userName = user ? user.first_name + ' ' + user.last_name : '';
 
                 return {
@@ -126,9 +113,9 @@ function TabsTodaysMeetingLight ()
                     user_name: userName,
                     meetingTypeRaw: data.online === true ? 'Online' : 'Offline',
                 };
-            } )
+            })
         );
-    }, [ listMeeting, listUser ] );
+    }, [listMeeting, listUser]);
 
     const columns = useMemo(
         () => [
@@ -136,8 +123,8 @@ function TabsTodaysMeetingLight ()
                 header: 'Info',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaInfoCircle size={ 20 } color='#006CB8' />&nbsp;
+                        <Button variant='btn' onClick={() => detailMeeting(row.id)}>
+                            &nbsp;<FaInfoCircle size={20} color='#006CB8' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -171,14 +158,13 @@ function TabsTodaysMeetingLight ()
             },
             {
                 header: 'Tanggal',
-                accessorFn: ( row ) => new Date( row.waktu_mulai ),
+                accessorFn: (row) => new Date(row.waktu_mulai),
                 id: 'tanggal',
                 filterVariant: 'date-range',
-                Cell: ( { cell } ) =>
-                {
+                Cell: ({ cell }) => {
                     const date = cell.getValue();
-                    const day = String( date.getUTCDate() ).padStart( 2, '0' );
-                    const month = String( date.getUTCMonth() + 1 ).padStart( 2, '0' );
+                    const day = String(date.getUTCDate()).padStart(2, '0');
+                    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
                     const year = date.getUTCFullYear();
                     return `${day}/${month}/${year}`;
                 },
@@ -192,19 +178,18 @@ function TabsTodaysMeetingLight ()
             {
                 header: 'Tipe Meeting',
                 accessorKey: 'meetingTypeRaw',
-                Cell: ( { cell } ) => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( cell.getValue() ) {
+                Cell: ({ cell }) => (
+                    <div style={{ marginBottom: '0px', marginTop: '0px' }}>
+                        {(() => {
+                            switch (cell.getValue()) {
                                 case 'Online':
-                                    return <span style={ { color: '#006CB8' } }>Online</span>;
+                                    return <span style={{ color: '#006CB8' }}>Online</span>;
                                 case 'Offline':
                                     return <span >Offline</span>;
                                 default:
                                     return null;
                             }
-                        } )() }
+                        })()}
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -217,8 +202,8 @@ function TabsTodaysMeetingLight ()
             {
                 header: 'Waktu Mulai',
                 accessorFn: row => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { row.waktu_mulai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }
+                    <div style={{ marginBottom: '0px', marginTop: '0px' }}>
+                        {row.waktu_mulai.split('T')[1].split('Z')[0].slice(0, 5)}
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -231,8 +216,8 @@ function TabsTodaysMeetingLight ()
             {
                 header: 'Waktu Selesai',
                 accessorFn: row => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { row.waktu_selesai.split( 'T' )[ 1 ].split( 'Z' )[ 0 ].slice( 0, 5 ) }
+                    <div style={{ marginBottom: '0px', marginTop: '0px' }}>
+                        {row.waktu_selesai.split('T')[1].split('Z')[0].slice(0, 5)}
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -246,7 +231,7 @@ function TabsTodaysMeetingLight ()
         [],
     );
 
-    const tableTodayMeeting = useMantineReactTable( {
+    const tableTodayMeeting = useMantineReactTable({
         columns,
         enableDensityToggle: false,
         enableFullScreenToggle: false,
@@ -264,19 +249,19 @@ function TabsTodaysMeetingLight ()
         rowNumberMode: 'static',
         isMultiSortEvent: () => true,
         mantineTableProps: { highlightOnHover: false },
-    } );
+    });
 
     return (
         <>
-            { loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                    <Spinner animation='border' style={ { color: '#006CB8' } } />
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                    <Spinner animation='border' style={{ color: '#006CB8' }} />
                 </div>
             ) : (
-                    <MantineReactTable
-                        table={ tableTodayMeeting }
-                    />
-            ) }
+                <MantineReactTable
+                    table={tableTodayMeeting}
+                />
+            )}
         </>
     )
 }

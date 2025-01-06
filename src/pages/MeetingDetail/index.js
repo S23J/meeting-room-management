@@ -134,7 +134,7 @@ function MeetingDetail() {
 
     const retrieveUser = () => {
         setLoading(true);
-        axios.get(`/auth/users/`,
+        axios.get(`/users/`,
             {
                 headers:
                 {
@@ -224,6 +224,7 @@ function MeetingDetail() {
             })
             .then(res => {
 
+                // console.log(res.data)
                 setDetailPeserta(res.data);
                 setLoading(false);
             }).catch(err => {
@@ -451,6 +452,35 @@ function MeetingDetail() {
                 showConfirmButton: false,
                 timer: 3000,
             });
+
+            detailPeserta.forEach((peserta) => {
+                try {
+                    const dataNotification = {
+                        "user_id": peserta.user,
+                        "title": 'Pemberitahuan Meeting',
+                        "body": `${peserta.nama_meeting} \nTanggal: ${peserta.waktu_mulai.split('T')[0]} \nWaktu: ${peserta.waktu_mulai.split('T')[1].split(':').slice(0, 2).join(':')}`,
+                        "sound": "default",
+                        "data": {
+                            "type": "reminder"
+                        }
+                    }
+
+                    const responseNotif = axios.post(`/send-notification/`, dataNotification,
+                        {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                withCredentials: true,
+                                Authorization: `Token ${tokens.token}`,
+                            },
+                        }
+                    );
+                    // console.log(responseNotif)
+                } catch (error) {
+                    console.error(error);
+                }
+
+            })
+
             navigate('/meeting/');
         } catch (error) {
             console.error(error);

@@ -8,23 +8,20 @@ import axios from '../../../../api/axios';
 import { FaInfoCircle } from 'react-icons/fa';
 
 
-function TabsHistoryMeetingLight ()
-{
-    const { tokens } = useContext( AuthContext );
-    const [ listMeeting, setListMeeting ] = useState( [] );
-    const [ listUser, setListUser ] = useState( [] );
-    const [ loading, setLoading ] = useState( true );
+function TabsHistoryMeetingLight() {
+    const { tokens } = useContext(AuthContext);
+    const [listMeeting, setListMeeting] = useState([]);
+    const [listUser, setListUser] = useState([]);
+    const [loading, setLoading] = useState(true);
     const tokenUser = tokens?.token;
     const navigate = useNavigate();
-    const detailMeeting = ( row ) =>
-    {
-        navigate( "/detail-meeting/" + row )
+    const detailMeeting = (row) => {
+        navigate("/detail-meeting/" + row)
     }
 
-    const retrieveMeeting = () =>
-    {
-        setLoading( true );
-        axios.get( `/manage/requests/`,
+    const retrieveMeeting = () => {
+        setLoading(true);
+        axios.get(`/manage/requests/`,
             {
                 headers:
                 {
@@ -34,42 +31,37 @@ function TabsHistoryMeetingLight ()
                     Authorization: `Token ` + tokenUser,
                 },
 
-            } )
-            .then( res =>
-            {
+            })
+            .then(res => {
 
-                const filterData = res.data.filter( item =>
-                {
-                    return ( item.status === "approved" || item.status === "denied" ) && item.finished === true;
-                } );
-                setLoading( false );
+                const filterData = res.data.filter(item => {
+                    return (item.status === "approved" || item.status === "denied") && item.finished === true;
+                });
+                setLoading(false);
 
-                setListMeeting( filterData );
+                setListMeeting(filterData);
 
-            } ).catch( err =>
-            {
-                setLoading( false );
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
+            }).catch(err => {
+                setLoading(false);
+                if (err.response?.status === 401) {
+                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
                         confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/');
                         }
-                    } );
+                    });
 
-                } else ( console.error( err ) )
-            } )
+                } else (console.error(err))
+            })
     }
 
-    const retrieveUser = () =>
-    {
-        setLoading( true );
-        axios.get( `/auth/users/`,
+    const retrieveUser = () => {
+        setLoading(true);
+        axios.get(`/users/`,
             {
                 headers:
                 {
@@ -79,50 +71,44 @@ function TabsHistoryMeetingLight ()
                     Authorization: `Token ` + tokenUser,
                 },
 
-            } )
-            .then( res =>
-            {
+            })
+            .then(res => {
 
-                setListUser( res.data );
-                setLoading( false );
+                setListUser(res.data);
+                setLoading(false);
 
-            } ).catch( err =>
-            {
-                setLoading( false );
-                if ( err.response?.status === 401 ) {
-                    Swal.fire( {
+            }).catch(err => {
+                setLoading(false);
+                if (err.response?.status === 401) {
+                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Sesi Anda telah berakhir. Silahkan Login kembali.',
                         confirmButtonText: 'Login',
-                    } ).then( ( result ) =>
-                    {
-                        if ( result.isConfirmed ) {
-                            navigate( '/' );
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/');
                         }
-                    } );
+                    });
 
-                } else ( console.error( err ) )
-            } )
+                } else (console.error(err))
+            })
     }
 
 
-    useEffect( () =>
-    {
-        if ( tokenUser !== undefined ) retrieveMeeting()
-        if ( tokenUser !== undefined ) retrieveUser()
-    }, [ tokenUser ] );
+    useEffect(() => {
+        if (tokenUser !== undefined) retrieveMeeting()
+        if (tokenUser !== undefined) retrieveUser()
+    }, [tokenUser]);
 
-    const [ dataTable, setDataTable ] = useState( [] );
+    const [dataTable, setDataTable] = useState([]);
 
-    useEffect( () =>
-    {
-        const dataTableFilter = listMeeting.map( ( { ...rest } ) => rest );
+    useEffect(() => {
+        const dataTableFilter = listMeeting.map(({ ...rest }) => rest);
 
         setDataTable(
-            dataTableFilter.map( ( data ) =>
-            {
-                const user = listUser.find( ( user ) => user.id === data.user );
+            dataTableFilter.map((data) => {
+                const user = listUser.find((user) => user.id === data.user);
                 const userName = user ? user.first_name + ' ' + user.last_name : '';
 
                 return {
@@ -131,9 +117,9 @@ function TabsHistoryMeetingLight ()
                     statusRaw: data.status,
                     meetingTypeRaw: data.online === true ? 'Online' : 'Offline',
                 };
-            } )
+            })
         );
-    }, [ listMeeting, listUser ] );
+    }, [listMeeting, listUser]);
 
     const columns = useMemo(
         () => [
@@ -141,8 +127,8 @@ function TabsHistoryMeetingLight ()
                 header: 'Info',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' onClick={ () => detailMeeting( row.id ) }>
-                            &nbsp;<FaInfoCircle size={ 20 } color='#006CB8' />&nbsp;
+                        <Button variant='btn' onClick={() => detailMeeting(row.id)}>
+                            &nbsp;<FaInfoCircle size={20} color='#006CB8' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -176,14 +162,13 @@ function TabsHistoryMeetingLight ()
             },
             {
                 header: 'Tanggal',
-                accessorFn: ( row ) => new Date( row.waktu_mulai ),
+                accessorFn: (row) => new Date(row.waktu_mulai),
                 id: 'tanggal',
                 filterVariant: 'date-range',
-                Cell: ( { cell } ) =>
-                {
+                Cell: ({ cell }) => {
                     const date = cell.getValue();
-                    const day = String( date.getUTCDate() ).padStart( 2, '0' );
-                    const month = String( date.getUTCMonth() + 1 ).padStart( 2, '0' );
+                    const day = String(date.getUTCDate()).padStart(2, '0');
+                    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
                     const year = date.getUTCFullYear();
                     return `${day}/${month}/${year}`;
                 },
@@ -197,19 +182,18 @@ function TabsHistoryMeetingLight ()
             {
                 header: 'Tipe Meeting',
                 accessorKey: 'meetingTypeRaw',
-                Cell: ( { cell } ) => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( cell.getValue() ) {
+                Cell: ({ cell }) => (
+                    <div style={{ marginBottom: '0px', marginTop: '0px' }}>
+                        {(() => {
+                            switch (cell.getValue()) {
                                 case 'Online':
-                                    return <span style={ { color: '#006CB8' } }>Online</span>;
+                                    return <span style={{ color: '#006CB8' }}>Online</span>;
                                 case 'Offline':
                                     return <span >Offline</span>;
                                 default:
                                     return null;
                             }
-                        } )() }
+                        })()}
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -222,19 +206,18 @@ function TabsHistoryMeetingLight ()
             {
                 header: 'Status',
                 accessorKey: 'statusRaw',
-                Cell: ( { cell } ) => (
-                    <div style={ { marginBottom: '0px', marginTop: '0px' } }>
-                        { ( () =>
-                        {
-                            switch ( cell.getValue() ) {
+                Cell: ({ cell }) => (
+                    <div style={{ marginBottom: '0px', marginTop: '0px' }}>
+                        {(() => {
+                            switch (cell.getValue()) {
                                 case 'approved':
-                                    return <span style={ { color: '#84C38A' } }>Disetujui</span>;
+                                    return <span style={{ color: '#84C38A' }}>Disetujui</span>;
                                 case 'denied':
-                                    return <span style={ { color: '#FF0060' } }>Ditolak</span>;
+                                    return <span style={{ color: '#FF0060' }}>Ditolak</span>;
                                 default:
                                     return null;
                             }
-                        } )() }
+                        })()}
                     </div>
                 ),
                 mantineTableHeadCellProps: {
@@ -248,7 +231,7 @@ function TabsHistoryMeetingLight ()
         [],
     );
 
-    const tableHistoryMeeting = useMantineReactTable( {
+    const tableHistoryMeeting = useMantineReactTable({
         columns,
         enableDensityToggle: false,
         enableFullScreenToggle: false,
@@ -266,19 +249,19 @@ function TabsHistoryMeetingLight ()
         rowNumberMode: 'static',
         isMultiSortEvent: () => true,
         mantineTableProps: { highlightOnHover: false },
-    } );
+    });
 
     return (
         <>
-            { loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={ { height: '200px' } }>
-                    <Spinner animation='border' style={ { color: '#006CB8' } } />
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                    <Spinner animation='border' style={{ color: '#006CB8' }} />
                 </div>
             ) : (
-                    <MantineReactTable
-                        table={ tableHistoryMeeting }
-                    />
-            ) }
+                <MantineReactTable
+                    table={tableHistoryMeeting}
+                />
+            )}
         </>
     )
 }

@@ -8,53 +8,49 @@ import { ModalAddUser, ModalEditUser } from '../../../Modal';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { FaWindowClose } from 'react-icons/fa';
 
-function TableUserLight ( { tokenUser, listUser, retrieveUser } )
-{
+function TableUserLight({ tokenUser, listUser, retrieveUser }) {
 
-    const [ showAddUser, setShowAddUser ] = useState( false );
-    const handleShowAddUser = () =>
-    {
-        setShowAddUser( true );
+    const [showAddUser, setShowAddUser] = useState(false);
+    const handleShowAddUser = () => {
+        setShowAddUser(true);
     };
-    const [ rowSelected, setRowSelected ] = useState();
-    const [ showEditUser, setShowEditUser ] = useState( false );
-    const handleShowEditAlat = ( row ) =>
-    {
-        setShowEditUser( true );
-        setRowSelected( row )
+    const [rowSelected, setRowSelected] = useState();
+    const [showEditUser, setShowEditUser] = useState(false);
+    const handleShowEditAlat = (row) => {
+        setShowEditUser(true);
+        setRowSelected(row)
     };
 
-    const handleDelete = async ( rowId ) =>
-    {
+    const handleDelete = async (rowId) => {
 
-        const result = await Swal.fire( {
+        const result = await Swal.fire({
             title: 'Apakah anda yakin ingin menghapus user ini?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya, hapus user ini!',
             cancelButtonText: 'Batalkan',
-        } );
+        });
 
-        if ( result.isConfirmed ) {
+        if (result.isConfirmed) {
             try {
 
-                const responseDelete = await axios.delete( `/auth/user-retrieve/${rowId}/`, {
+                const responseDelete = await axios.delete(`/user-retrieve/${rowId}/`, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         withCredentials: true,
                         Authorization: `Token ` + tokenUser,
                     },
-                } );
-                Swal.fire( 'Terhapus!', 'User berhasil dihapus', 'success' );
+                });
+                Swal.fire('Terhapus!', 'User berhasil dihapus', 'success');
                 retrieveUser();
-            } catch ( err ) {
-                console.error( err )
-                Swal.fire( 'Error', 'Terjadi kesalahan saat menghapus!', 'error' );
+            } catch (err) {
+                console.error(err)
+                Swal.fire('Error', 'Terjadi kesalahan saat menghapus!', 'error');
 
             }
         } else {
 
-            Swal.fire( 'Dibatalkan', '', 'info' );
+            <></>
         }
     };
 
@@ -65,7 +61,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 id: 'nama_user',
                 accessorFn: row => (
                     <>
-                        { row.first_name } { row.last_name }
+                        {row.first_name} {row.last_name}
                     </>
                 ),
                 mantineTableHeadCellProps: {
@@ -99,8 +95,8 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 header: 'Ubah',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' onClick={ () => handleShowEditAlat( row ) }>
-                            &nbsp;<BsFillPencilFill size={ 20 } color='#006CB8' />&nbsp;
+                        <Button variant='btn' onClick={() => handleShowEditAlat(row)}>
+                            &nbsp;<BsFillPencilFill size={20} color='#006CB8' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -116,8 +112,8 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
                 header: 'Hapus',
                 accessorFn: row => (
                     <div >
-                        <Button variant='btn' onClick={ () => handleDelete( row.id ) }>
-                            &nbsp;<FaWindowClose size={ 20 } color='#FF0060' />&nbsp;
+                        <Button variant='btn' onClick={() => handleDelete(row.id)}>
+                            &nbsp;<FaWindowClose size={20} color='#FF0060' />&nbsp;
                         </Button>
                     </div>
                 ),
@@ -135,7 +131,7 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
         [],
     );
 
-    const table = useMantineReactTable( {
+    const table = useMantineReactTable({
         columns,
         enableDensityToggle: false,
         enableFullScreenToggle: false,
@@ -153,45 +149,45 @@ function TableUserLight ( { tokenUser, listUser, retrieveUser } )
         rowNumberMode: 'static',
         isMultiSortEvent: () => true,
         mantineTableProps: { highlightOnHover: false },
-        renderTopToolbarCustomActions: ( { table } ) => (
+        renderTopToolbarCustomActions: ({ table }) => (
             <Box
-                sx={ {
+                sx={{
                     display: 'flex',
                     gap: '16px',
                     padding: '8px',
                     flexWrap: 'wrap',
-                } }
+                }}
             >
                 <Button
                     id='buttonTambahTableLight'
                     variant="btn"
-                    onClick={ handleShowAddUser }
+                    onClick={handleShowAddUser}
                 >
                     Tambah
 
                 </Button>
             </Box>
         ),
-    } );
+    });
 
 
     return (
         <div>
             <MantineReactTable
-                table={ table }
+                table={table}
             />
             <ModalAddUser
-                showAddUser={ showAddUser }
-                setShowAddUser={ setShowAddUser }
-                retrieveUser={ retrieveUser }
-                tokenUser={ tokenUser }
+                showAddUser={showAddUser}
+                setShowAddUser={setShowAddUser}
+                retrieveUser={retrieveUser}
+                tokenUser={tokenUser}
             />
             <ModalEditUser
-                showEditUser={ showEditUser }
-                setShowEditUser={ setShowEditUser }
-                rowSelected={ rowSelected }
-                retrieveUser={ retrieveUser }
-                tokenUser={ tokenUser }
+                showEditUser={showEditUser}
+                setShowEditUser={setShowEditUser}
+                rowSelected={rowSelected}
+                retrieveUser={retrieveUser}
+                tokenUser={tokenUser}
             />
         </div>
     )

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Bar } from 'react-chartjs-2';
-import
-{
+import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
@@ -19,90 +18,49 @@ import { Form } from 'react-bootstrap';
 
 
 
-ChartJS.register( ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend );
+ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function ChartComponent ()
-{
-    const { tokens } = useContext( AuthContext );
-    const { theme } = useContext( ThemeContext );
+function ChartComponent() {
+    const { tokens } = useContext(AuthContext);
+    const { theme } = useContext(ThemeContext);
     const tokenUser = tokens?.token;
-    const isMobile = useMediaQuery( { maxWidth: 767 } );
-    const [ meetingData, setMeetingData ] = useState( [] );
-    const [ listRuangan, setListRuangan ] = useState( [] );
-    const [ selectedRuangan, setSelectedRuangan ] = useState( null );
-    const [ dataChart, setDataChart ] = useState( [] );
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+    const [dataChart, setDataChart] = useState([]);
 
-    const retrieveMeeting = () =>
-    {
-        axios.get( `/manage/requests/`, {
+    const today = new Date();
+    const year = today.getFullYear();
+    const [selectedYear, setSelectedYear] = useState(year);
+
+    const retrieveMeetingCostYear = () => {
+        axios.get(`/manage/requests/bar_chart/?year=${selectedYear}`, {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 withCredentials: true,
                 Authorization: `Token ${tokenUser}`,
             },
-        } )
-            .then( res =>
-            {
-                const currentYear = new Date().getFullYear();
+        })
+            .then(res => {
 
-                const historyFilter = res.data.filter( item =>
-                {
-                    const meetingDate = new Date( item.waktu_selesai );
-                    const meetingYear = meetingDate.getFullYear();
-                    return item.status === "approved" && item.finished === true && meetingYear === currentYear;
-                } );
-
-                setMeetingData( historyFilter );
-            } )
-            .catch( err =>
-            {
-                console.error( err );
-            } );
+                const processedData = res.data.map(item => item.total_cost);
+                setDataChart(processedData);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
-    const retrieveMRuangan = () =>
-    {
-        axios.get( `/manage/ruangan/`, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true,
-                Authorization: `Token ${tokenUser}`,
-            },
-        } )
-            .then( res =>
-            {
-                setListRuangan( res.data );
-            } )
-            .catch( err =>
-            {
-                console.error( err );
-            } );
-    };
-
-    useEffect( () =>
-    {
-        if ( tokenUser !== undefined ) {
-            retrieveMeeting();
-            retrieveMRuangan();
+    useEffect(() => {
+        if (selectedYear && tokenUser) {
+            retrieveMeetingCostYear();
         }
-    }, [ tokenUser ] );
+    }, [selectedYear, tokenUser]);
 
-    useEffect( () =>
-    {
-        const meetingsPerMonth = Array( 12 ).fill( 0 );
-
-        meetingData.forEach( meeting =>
-        {
-            const monthIndex = new Date( meeting.waktu_mulai ).getMonth();
-            if ( !selectedRuangan || meeting.ruangan === selectedRuangan ) {
-                meetingsPerMonth[ monthIndex ]++;
-            }
-        } );
-
-        setDataChart( meetingsPerMonth );
-    }, [ meetingData, selectedRuangan ] );
+    const numberFormat = (value) =>
+        new Intl.NumberFormat('IN-ID', {
+            style: 'currency',
+            currency: 'IDR'
+        }).format(value);
 
     const dataMobile = {
         labels: [
@@ -111,7 +69,7 @@ function ChartComponent ()
         ],
         datasets: [
             {
-                label: `Jumlah Meeting`,
+                // label: `Meeting Cost:`,
                 backgroundColor: [
                     theme === 'light' ? '#FFF471' : '#006CB8',
                 ],
@@ -136,6 +94,16 @@ function ChartComponent ()
         plugins: {
             legend: {
                 display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    callbacks: {
+                        label: function (context) {
+                            // Combine label and formatted currency value
+                            return `Total Biaya: ${numberFormat(context.raw)}`;
+                        },
+                    },
+                },
             },
         },
         scales: {
@@ -165,7 +133,7 @@ function ChartComponent ()
         ],
         datasets: [
             {
-                label: `Jumlah Meeting`,
+                // label: `Meeting Cost:`,
                 backgroundColor: [
                     theme === 'light' ? '#FFF471' : '#006CB8',
                 ],
@@ -191,6 +159,14 @@ function ChartComponent ()
             legend: {
                 display: false,
             },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        // Combine label and formatted currency value
+                        return `Total Biaya: ${numberFormat(context.raw)}`;
+                    },
+                },
+            },
         },
         scales: {
             x: {
@@ -212,39 +188,43 @@ function ChartComponent ()
     };
 
     return (
+        // onChange={(e) => setSelectedRuangan(e.target.value ? parseInt(e.target.value) : null)}
 
         <div>
-            <h5 className='text-center py-3' style={ { fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '#222' } }>Jumlah Meeting per Ruangan</h5>
+            <h5 className='text-center py-3' style={{ fontFamily: 'Poppins-Regular', color: theme === 'light' ? '#FFFFFF' : '#222' }}>Total biaya Meeting</h5>
             <div className='my-2 d-flex justify-content-center'>
                 <Form.Select
-                    id={ theme === 'light' ? 'select-chart-dark' : 'select-chart-light' }
-                    onChange={ ( e ) => setSelectedRuangan( e.target.value ? parseInt( e.target.value ) : null ) }
+                    id={theme === 'light' ? 'select-chart-dark' : 'select-chart-light'}
+                    onChange={(e) => {
+                        const year = parseInt(e.target.value, 10);
+                        setSelectedYear(year); // Trigger useEffect when this changes
+                    }}
                     defaultValue=""
-                    style={ {
+                    style={{
                         width: 'auto',
                         maxWidth: '160px',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         fontSize: '15px'
-                    } }
+                    }}
                 >
-                    <option value="">Pilih Ruangan</option>
-                    { listRuangan.map( ( ruangan ) => (
-                        <option key={ ruangan.id } value={ ruangan.id }>
-                            { ruangan.nama_ruangan }
-                        </option>
-                    ) ) }
+                    <option value="">Pilih Tahun</option>
+                    <option value={year}>{year}</option>
+                    <option value={year - 1}>{year - 1}</option>
+                    <option value={year - 2}>{year - 2}</option>
+                    <option value={year - 3}>{year - 3}</option>
+                    <option value={year - 4}>{year - 4}</option>
                 </Form.Select>
             </div>
             {
                 isMobile ?
                     (
-                        <Bar data={ dataMobile } options={ optionsMobile } height={ 500 } className='py-3 px-3' />
+                        <Bar data={dataMobile} options={optionsMobile} height={500} className='py-3 px-3' />
                     )
                     :
                     (
-                        <Bar data={ dataDekstop } options={ optionsDekstop } height={ 90 } className='py-3 px-3' />
+                        <Bar data={dataDekstop} options={optionsDekstop} height={140} className='py-3 px-3' />
                     )
             }
 

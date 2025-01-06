@@ -51,7 +51,7 @@ function ModalAddUser({
         };
         setDisabled(true);
         try {
-            const response = await axios.post(`/auth/register/`, data,
+            const response = await axios.post(`/register/`, data,
                 {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
